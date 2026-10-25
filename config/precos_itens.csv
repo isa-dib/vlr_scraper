@@ -1,0 +1,23 @@
+item,tipo,categoria,preco,fonte
+Classic,arma,pistola,0,valorant_wiki_credits
+Shorty,arma,pistola,300,valorant_wiki_credits
+Frenzy,arma,pistola,450,valorant_wiki_credits
+Ghost,arma,pistola,500,valorant_wiki_credits
+Bandit,arma,pistola,600,valorant_wiki_credits
+Sheriff,arma,pistola,800,valorant_wiki_credits
+Stinger,arma,smg,1100,valorant_wiki_credits
+Spectre,arma,smg,1600,valorant_wiki_credits;mibr_economia
+Bucky,arma,escopeta,850,valorant_wiki_credits
+Judge,arma,escopeta,1850,valorant_wiki_credits
+Bulldog,arma,rifle,2050,valorant_wiki_credits;mibr_economia
+Guardian,arma,rifle,2250,valorant_wiki_credits
+Phantom,arma,rifle,2900,valorant_wiki_credits;mibr_economia
+Vandal,arma,rifle,2900,valorant_wiki_credits;mibr_economia
+Marshal,arma,sniper,950,valorant_wiki_credits
+Outlaw,arma,sniper,2400,valorant_wiki_credits
+Operator,arma,sniper,4700,valorant_wiki_credits
+Ares,arma,metralhadora,1600,valorant_wiki_credits
+Odin,arma,metralhadora,3200,valorant_wiki_credits
+Light armor,armadura,armadura,400,valorant_wiki_credits;mibr_economia
+Regen Shield,armadura,armadura,650,valorant_wiki_credits
+Heavy armor,armadura,armadura,1000,valorant_wiki_credits;mibr_economia

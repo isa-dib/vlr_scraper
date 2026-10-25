@@ -1,0 +1,266 @@
+event_id,pagina,evento,datas,partidas_concluidas,primeira_partida_mapa1,ultima_partida_mapa1,replay
+2766,1,Valorant Champions 2026,Sep 24—Oct 18,34,ok,ok,sim
+3105,1,China Evolution Series 2026: Act 3,Sep 3—13,16,sem_replay,sem_replay,nao
+2977,1,VCT 2026: Americas Stage 2,Jul 16—Sep 7,60,ok,ok,sim
+2776,1,VCT 2026: Pacific Stage 2,Jul 16—Sep 6,60,ok,ok,sim
+2976,1,VCT 2026: EMEA Stage 2,Jul 15—Aug 30,60,ok,ok,sim
+2978,1,VCT 2026: China Stage 2,Jul 9—Aug 23,66,ok,ok,sim
+2765,1,Valorant Masters London 2026,Jun 5—21,24,ok,ok,sim
+2988,1,China Evolution Series 2026: Act 2,May 21—31,16,sem_replay,sem_replay,nao
+2860,1,VCT 2026: Americas Stage 1,Apr 10—May 25,42,ok,ok,sim
+2863,1,VCT 2026: EMEA Stage 1,Apr 1—May 17,42,ok,ok,sim
+2775,1,VCT 2026: Pacific Stage 1,Apr 3—May 17,42,ok,ok,sim
+2864,1,VCT 2026: China Stage 1,Mar 31—May 10,48,ok,ok,sim
+2894,1,China Evolution Series 2026: Act 1,Mar 16—22,12,sem_replay,sem_replay,nao
+2760,1,Valorant Masters Santiago 2026,Feb 28—Mar 15,24,ok,ok,sim
+2682,1,VCT 2026: Americas Kickoff,Jan 15—Feb 16,30,ok,ok,sim
+2684,1,VCT 2026: EMEA Kickoff,Jan 20—Feb 15,30,ok,ok,sim
+2683,1,VCT 2026: Pacific Kickoff,Jan 22—Feb 15,30,ok,ok,sim
+2685,1,VCT 2026: China Kickoff,Jan 22—Feb 9,30,sem_replay,ok,parcial
+2720,1,China Evolution Series: Epilogue,Nov 12—16,8,sem_replay,sem_replay,nao
+2283,1,Valorant Champions 2025,Sep 12—Oct 5,34,ok,ok,sim
+2590,1,China Evolution Series: Act 3,Aug 28—Sep 7,12,sem_replay,sem_replay,nao
+2501,1,VCT 2025: Americas Stage 2,Jul 18—Sep 1,43,ok,ok,sim
+2498,1,VCT 2025: EMEA Stage 2,Jul 16—Aug 31,43,ok,ok,sim
+2500,1,VCT 2025: Pacific Stage 2,Jul 15—Aug 31,43,ok,ok,sim
+2499,1,VCT 2025: China Stage 2,Jul 3—Aug 24,43,ok,ok,sim
+2282,1,Valorant Masters Toronto 2025,Jun 7—22,25,ok,ok,sim
+2380,1,VCT 2025: EMEA Stage 1,Mar 26—May 18,42,ok,ok,sim
+2379,1,VCT 2025: Pacific Stage 1,Mar 21—May 11,42,ok,ok,sim
+2450,1,China Evolution Series: Act 2 X Asian Champions League,May 8—10,12,sem_replay,sem_replay,nao
+2359,1,VCT 2025: China Stage 1,Mar 13—May 4,42,sem_replay,ok,parcial
+2347,1,VCT 2025: Americas Stage 1,Mar 21—May 4,42,ok,ok,sim
+2281,1,Valorant Masters Bangkok 2025,Feb 20—Mar 2,17,ok,ok,sim
+2339,1,China Evolution Series: Act 1,Feb 8—16,12,sem_replay,sem_replay,nao
+2276,1,VCT 2025: EMEA Kickoff,Jan 14—Feb 10,22,ok,ok,sim
+2277,1,VCT 2025: Pacific Kickoff,Jan 18—Feb 9,22,ok,ok,sim
+2274,1,VCT 2025: Americas Kickoff,Jan 16—Feb 9,22,ok,ok,sim
+2275,1,VCT 2025: China Kickoff,Jan 11—25,22,sem_replay,sem_replay,nao
+2097,1,Valorant Champions 2024,Aug 1—25,34,ok,ok,sim
+2095,1,Champions Tour 2024: Americas Stage 2,Jun 22—Jul 21,33,ok,ok,sim
+2096,1,Champions Tour 2024: China Stage 2,Jun 15—Jul 21,33,sem_replay,sem_replay,nao
+2005,1,Champions Tour 2024: Pacific Stage 2,Jun 15—Jul 21,33,ok,ok,sim
+2094,1,Champions Tour 2024: EMEA Stage 2,Jun 18—Jul 19,33,ok,ok,sim
+1999,1,Champions Tour 2024: Masters Shanghai,May 23—Jun 9,25,sem_replay,sem_replay,nao
+2006,1,Champions Tour 2024: China Stage 1,Apr 5—May 13,38,sem_replay,sem_replay,nao
+2004,1,Champions Tour 2024: Americas Stage 1,Apr 6—May 12,38,ok,ok,sim
+1998,1,Champions Tour 2024: EMEA Stage 1,Apr 3—May 12,38,ok,ok,sim
+2002,1,Champions Tour 2024: Pacific Stage 1,Apr 6—May 12,38,ok,ok,sim
+1921,1,Champions Tour 2024: Masters Madrid,Mar 14—24,17,ok,ok,sim
+1923,1,Champions Tour 2024: Americas Kickoff,Feb 16—Mar 3,19,ok,ok,sim
+1926,1,Champions Tour 2024: China Kickoff,Feb 22—Mar 2,19,sem_replay,sem_replay,nao
+1925,2,Champions Tour 2024: EMEA Kickoff,Feb 20—Mar 1,19,ok,ok,sim
+1924,2,Champions Tour 2024: Pacific Kickoff,Feb 17—25,19,ok,ok,sim
+1880,2,China Evolution Series Act 3: Heritability,Nov 2—26,72,sem_replay,sem_replay,nao
+1825,2,China Evolution Series Act 2: Selection,Oct 5—29,70,sem_replay,sem_replay,nao
+1747,2,China Evolution Series Act 1: Variation,Sep 7—Oct 1,65,sem_replay,sem_replay,nao
+1657,2,Valorant Champions 2023,Aug 6—27,34,ok,ok,sim
+1658,2,Champions Tour 2023: Americas Last Chance Qualifier,Jul 15—24,9,ok,ok,sim
+1659,2,Champions Tour 2023: EMEA Last Chance Qualifier,Jul 19—23,8,ok,ok,sim
+1660,2,Champions Tour 2023: Pacific Last Chance Qualifier,Jul 18—23,9,ok,ok,sim
+1664,2,Champions Tour 2023: Champions China Qualifier,Jun 1—Jul 16,51,ok,sem_replay,parcial
+1494,2,Champions Tour 2023: Masters Tokyo,Jun 11—25,24,ok,ok,sim
+1191,2,Champions Tour 2023: Pacific League,Mar 25—May 28,56,ok,ok,sim
+1190,2,Champions Tour 2023: EMEA League,Mar 27—May 28,55,ok,ok,sim
+1189,2,Champions Tour 2023: Americas League,Apr 1—May 28,55,ok,ok,sim
+1188,2,Champions Tour 2023: LOCK//IN São Paulo,Feb 13—Mar 5,32,ok,ok,sim
+1015,2,Valorant Champions 2022,Aug 31—Sep 19,34,ok,ok,sim
+1111,2,Champions Tour South America: Last Chance Qualifier,Aug 6—14,13,ok,ok,sim
+1130,2,Champions Tour North America: Last Chance Qualifier,Aug 4—14,14,ok,ok,sim
+1117,2,Champions Tour EMEA: Last Chance Qualifier,Aug 7—14,14,ok,ok,sim
+1083,2,Champions Tour East Asia: Last Chance Qualifier,Aug 8—14,14,ok,ok,sim
+1084,2,Champions Tour Asia-Pacific: Last Chance Qualifier,Aug 1—7,18,ok,ok,sim
+1014,2,Valorant Champions Tour Stage 2: Masters Copenhagen,Jul 10—24,24,ok,ok,sim
+1113,2,Oceania Tour: Championship,Jul 6—10,8,ok,ok,sim
+1085,2,Champions Tour LATAM/BR Stage 2: Last Chance Qualifier,Jun 30,1,ok,ok,sim
+1086,2,Champions Tour Latin America Stage 2: Playoffs,Jun 23—27,6,ok,ok,sim
+800,2,Champions Tour North America Stage 2: Challengers,Apr 28—Jun 26,302,ok,ok,sim
+911,2,Champions Tour Brazil Stage 2: Challengers,Mar 7—Jun 26,180,ok,ok,sim
+984,2,Champions Tour EMEA Stage 2: Challengers,May 13—Jun 26,40,ok,ok,sim
+1063,2,Champions Tour Asia-Pacific Stage 2: Challengers Playoffs,Jun 9—26,44,ok,ok,sim
+998,2,Champions Tour Korea Stage 2: Challengers,May 6—Jun 26,117,ok,ok,sim
+1013,2,Champions Tour Japan Stage 2: Challengers Playoffs,Jun 10—26,14,ok,ok,sim
+988,2,Champions Tour Latin America South Stage 2: Challengers,Apr 29—Jun 11,23,ok,ok,sim
+983,2,Champions Tour Latin America North Stage 2: Challengers,Apr 25—Jun 10,23,ok,ok,sim
+996,2,Skyesports Champions Series,May 9—Jun 5,70,ok,ok,sim
+1012,2,Champions Tour Japan Stage 2: Challengers Week 2,May 25—Jun 5,34,ok,ok,sim
+882,2,Champions Tour Philippines Stage 2: Challengers,Apr 30—May 29,88,ok,ok,sim
+991,2,Champions Tour Vietnam Stage 2: Challengers,Apr 29—May 29,62,ok,ok,sim
+977,2,Champions Tour Hong Kong & Taiwan Stage 2: Challengers,Apr 30—May 29,42,ok,ok,sim
+972,2,Champions Tour Thailand Stage 2: Challengers,Apr 29—May 29,80,ok,ok,sim
+965,2,Champions Tour Indonesia Stage 2: Challengers,Apr 27—May 29,64,ok,ok,sim
+963,2,Champions Tour Malaysia & Singapore Stage 2: Challengers,Apr 29—May 29,126,sem_replay,ok,parcial
+960,2,Oceania Tour: Stage 2,Apr 13—May 22,46,ok,ok,sim
+997,2,Champions Tour Japan Stage 2: Challengers Week 1,May 11—22,55,ok,ok,sim
+926,2,Valorant Champions Tour Stage 1: Masters Reykjavík,Apr 10—24,24,ok,ok,sim
+955,2,Road to VCT 2022: Stage 2,Apr 7—19,12,ok,ok,sim
+885,2,Champions Tour Stage 1: EMEA Promotion,Apr 1—9,18,ok,ok,sim
+948,2,Champions Tour LATAM/BR Stage 1: Last Chance Qualifier,Apr 1,1,ok,ok,sim
+829,2,Champions Tour Brazil Stage 1: Challengers 1,Jan 13—Mar 27,167,ok,ok,sim
+925,2,Champions Tour Latin America Stage 1: Playoffs,Mar 24—27,6,ok,ok,sim
+799,2,Champions Tour North America Stage 1: Challengers,Jan 27—Mar 27,352,ok,ok,sim
+854,3,Champions Tour Stage 1: EMEA Challengers,Feb 11—Mar 27,40,ok,ok,sim
+853,3,Champions Tour Japan Stage 1: Challengers Playoffs,Mar 24—27,14,ok,ok,sim
+850,3,Champions Tour Korea Stage 1: Challengers,Feb 4—Mar 27,142,ok,ok,sim
+884,3,Champions Tour Asia-Pacific Stage 1: Challengers Playoffs,Mar 10—27,44,ok,ok,sim
+845,3,Champions Tour Latin America South Stage 1: Challengers,Jan 20—Mar 13,36,ok,ok,sim
+852,3,Champions Tour Japan Stage 1: Challengers Week 2,Mar 1—13,18,ok,ok,sim
+844,3,Champions Tour Latin America North Stage 1: Challengers,Jan 23—Mar 11,36,ok,ok,sim
+842,3,Champions Tour Thailand Stage 1: Challengers,Jan 21—Feb 27,84,ok,ok,sim
+851,3,Champions Tour Japan Stage 1: Challengers Week 1,Feb 15—27,30,ok,ok,sim
+883,3,Champions Tour Vietnam Stage 1: Challengers,Feb 10—27,34,ok,ok,sim
+841,3,Champions Tour Philippines Stage 1: Challengers,Jan 29—Feb 27,48,ok,ok,sim
+840,3,Valorant Conquerors Championship,Jan 22—Feb 27,84,ok,ok,sim
+823,3,Champions Tour Indonesia Stage 1: Challengers,Jan 20—Feb 27,135,ok,ok,sim
+858,3,Champions Tour Malaysia & Singapore Stage 1: Challengers,Jan 28—Feb 27,96,ok,ok,sim
+879,3,Champions Tour Hong Kong & Taiwan Stage 1: Challengers,Jan 22—Feb 26,24,ok,ok,sim
+830,3,Oceania Tour: Stage 1,Jan 12—Feb 20,46,ok,ok,sim
+812,3,Road to VCT 2022,Dec 23—Jan 25,77,ok,ok,sim
+795,3,Champions Tour Europe Stage 1: Challengers 2,Jan 17—23,265,ok,ok,sim
+796,3,Champions Tour CIS Stage 1: Challengers 2,Jan 17—23,75,ok,ok,sim
+797,3,Champions Tour Turkey Stage 1: Challengers 2,Jan 17—23,75,ok,ok,sim
+792,3,Champions Tour Europe Stage 1: Challengers 1,Jan 10—16,265,ok,ok,sim
+793,3,Champions Tour Turkey Stage 1: Challengers 1,Jan 10—16,75,ok,ok,sim
+794,3,Champions Tour CIS Stage 1: Challengers 1,Jan 10—16,75,ok,ok,sim
+449,3,Valorant Champions 2021,Dec 1—12,27,ok,ok,sim
+558,3,Champions Tour North America: Last Chance Qualifier,Oct 12—31,14,ok,ok,sim
+561,3,Champions Tour South America: Last Chance Qualifier,Oct 11—17,13,ok,ok,sim
+559,3,Champions Tour EMEA: Last Chance Qualifier,Oct 10—17,14,ok,ok,sim
+560,3,Champions Tour Asia-Pacific: Last Chance Qualifier,Oct 11—17,18,sem_replay,ok,parcial
+450,3,Strike Arabia Championship: Finals,Sep 22—25,14,sem_replay,ok,parcial
+466,3,Valorant Champions Tour Stage 3: Masters Berlin,Sep 10—19,28,ok,ok,sim
+649,3,Oceania Tour: Championship,Sep 8—12,14,ok,ok,sim
+664,3,Strike Arabia League: Season 3,Sep 1—7,56,ok,sem_mapas,parcial
+557,3,Valorant Conquerors Championship,Jun 30—Aug 29,96,ok,ok,sim
+570,3,Champions Tour SEA Stage 3: Challengers Playoffs,Aug 12—23,38,ok,ok,sim
+536,3,Champions Tour Brazil Stage 3: Challengers Playoffs,Aug 12—22,14,ok,ok,sim
+547,3,Champions Tour Stage 3: EMEA Challengers Playoffs,Aug 12—22,22,ok,ok,sim
+621,3,Champions Tour LATAM Stage 3: Challengers Playoffs,Aug 3—20,16,ok,ok,sim
+578,3,Champions Tour North America Stage 3: Challengers Playoffs,Aug 11—15,14,ok,ok,sim
+594,3,Oceania Tour: Stage 03,Jun 23—Aug 15,70,ok,ok,sim
+595,3,Champions Tour Korea Stage 3: Challengers,Jul 2—Aug 15,87,ok,ok,sim
+540,3,Champions Tour Japan Stage 3: Challengers Playoffs,Aug 11—15,14,ok,ok,sim
+535,3,Champions Tour Brazil Stage 3: Challengers 3,Jul 26—Aug 9,22,ok,ok,sim
+625,3,Champions Tour Indonesia Stage 3: Challengers 3,Jul 30—Aug 8,29,ok,ok,sim
+567,3,Champions Tour Thailand Stage 3: Challengers 3,Jul 31—Aug 8,25,ok,ok,sim
+569,3,Champions Tour Malaysia & Singapore Stage 3: Challengers 3,Jul 30—Aug 8,29,ok,ok,sim
+574,3,Champions Tour Hong Kong & Taiwan Stage 3: Challengers 3,Aug 1—8,13,ok,sem_mapas,parcial
+581,3,Champions Tour Philippines Stage 3: Challengers 3,Jul 29—Aug 8,51,ok,ok,sim
+604,3,Champions Tour Vietnam Stage 3: Challengers 3,Jul 30—Aug 8,31,ok,ok,sim
+517,3,Champions Tour LATAM Stage 3: Challengers 2,Jul 20—Aug 2,50,ok,ok,sim
+576,3,Champions Tour North America Stage 3: Challengers 2,Jul 22—Aug 1,138,ok,ok,sim
+544,4,Champions Tour Europe Stage 3: Challengers 2,Jul 20—Aug 1,276,ok,ok,sim
+545,4,Champions Tour Turkey Stage 3: Challengers 2,Jul 20—31,96,ok,ok,sim
+546,4,Champions Tour CIS Stage 3: Challengers 2,Jul 20—31,95,ok,ok,sim
+534,4,Champions Tour Brazil Stage 3: Challengers 2,Jul 12—26,22,ok,ok,sim
+611,4,Champions Tour Indonesia Stage 3: Challengers 2,Jul 16—25,23,ok,ok,sim
+566,4,Champions Tour Thailand Stage 3: Challengers 2,Jul 17—25,25,ok,ok,sim
+568,4,Champions Tour Malaysia & Singapore Stage 3: Challengers 2,Jul 16—25,26,ok,ok,sim
+573,4,Champions Tour Hong Kong & Taiwan Stage 3: Challengers 2,Jul 16—25,12,sem_mapas,ok,parcial
+580,4,Champions Tour Philippines Stage 3: Challengers 2,Jul 15—25,51,ok,ok,sim
+603,4,Champions Tour Vietnam Stage 3: Challengers 2,Jul 16—25,29,sem_replay,ok,parcial
+539,4,Champions Tour Japan Stage 3: Challengers 2,Jul 17—23,93,ok,ok,sim
+533,4,Champions Tour Brazil Stage 3: Challengers 1,Jun 28—Jul 12,34,ok,ok,sim
+516,4,Champions Tour LATAM Stage 3: Challengers 1,Jun 21—Jul 12,42,ok,ok,sim
+520,4,Champions Tour North America Stage 3: Challengers 1,Jul 1—11,128,ok,ok,sim
+541,4,Champions Tour Europe Stage 3: Challengers 1,Jun 28—Jul 11,282,ok,ok,sim
+555,4,Champions Tour Indonesia Stage 3: Challengers 1,Jul 2—11,59,ok,ok,sim
+600,4,Champions Tour Vietnam Stage 3: Challengers 1,Jul 1—11,33,ok,ok,sim
+564,4,Champions Tour Thailand Stage 3: Challengers 1,Jul 3—11,36,ok,ok,sim
+565,4,Champions Tour Malaysia & Singapore Stage 3: Challengers 1,Jul 2—11,32,ok,ok,sim
+572,4,Champions Tour Hong Kong & Taiwan Stage 3: Challengers 1,Jul 3—11,15,ok,sem_mapas,parcial
+579,4,Champions Tour Philippines Stage 3: Challengers 1,Jul 1—11,50,ok,ok,sim
+538,4,Champions Tour Japan Stage 3: Challengers 1,Jul 4—11,177,ok,ok,sim
+469,4,Strike Arabia Championship: Season 2,Jun 30—Jul 10,42,ok,ok,sim
+542,4,Champions Tour Turkey Stage 3: Challengers 1,Jun 28—Jul 10,90,ok,ok,sim
+543,4,Champions Tour CIS Stage 3: Challengers 1,Jun 28—Jul 10,90,ok,ok,sim
+403,4,Oceania Tour: Stage 02,Apr 6—Jun 6,74,ok,ok,sim
+353,4,Valorant Champions Tour Stage 2: Masters Reykjavík,May 24—30,18,ok,ok,sim
+477,4,Strike Arabia League: Season 1,May 6—23,109,ok,ok,sim
+398,4,Champions Tour LATAM Stage 2: Challengers Finals,Apr 27—May 12,13,ok,ok,sim
+366,4,Champions Tour Brazil Stage 2: Challengers Finals,Apr 30—May 9,14,ok,ok,sim
+372,4,Champions Tour North America Stage 2: Challengers Finals,Apr 29—May 2,14,ok,ok,sim
+376,4,Champions Tour Stage 2: EMEA Challengers Playoffs,Apr 23—May 2,13,ok,ok,sim
+426,4,Champions Tour Korea Stage 2: Challengers,Apr 3—May 2,63,ok,ok,sim
+429,4,Champions Tour SEA Stage 2: Challengers Finals,Apr 28—May 2,18,ok,ok,sim
+441,4,Champions Tour Japan Stage 2: Challengers Finals,Apr 29—May 2,14,ok,ok,sim
+423,4,Strike Arabia Championship: Season 1,Apr 15—26,42,ok,ok,sim
+365,4,Champions Tour Brazil Stage 2: Challengers 3,Apr 12—26,22,ok,ok,sim
+371,4,Champions Tour North America Stage 2: Challengers 2,Apr 15—25,138,ok,ok,sim
+397,4,Champions Tour LATAM Stage 2: Challengers 2,Apr 15—25,59,ok,ok,sim
+395,4,Champions Tour Vietnam Stage 2: Challengers,Apr 8—25,22,ok,ok,sim
+421,4,Champions Tour Indonesia Stage 2: Challengers 3,Apr 22—25,8,ok,ok,sim
+422,4,Champions Tour Thailand Stage 2: Challengers 2,Apr 9—25,21,ok,ok,sim
+432,4,Champions Tour Philippines Stage 2: Challengers 3,Apr 23—25,7,ok,ok,sim
+452,4,Champions Tour Hong Kong & Taiwan Stage 2: Challengers 3,Apr 23—25,8,ok,ok,sim
+440,4,Champions Tour Japan Stage 2: Challengers 2,Apr 18—25,68,ok,ok,sim
+399,4,Champions Tour Malaysia & Singapore Stage 2: Challengers 3,Apr 22—25,10,ok,ok,sim
+364,4,Champions Tour Brazil Stage 2: Challengers 2,Apr 5—19,22,ok,ok,sim
+375,4,Champions Tour Europe Stage 2: Challengers 2,Apr 10—18,259,sem_mapas,ok,parcial
+392,4,Champions Tour Turkey Stage 2: Challengers 2,Apr 10—18,67,ok,ok,sim
+420,4,Champions Tour Indonesia Stage 2: Challengers 2,Apr 9—18,58,ok,ok,sim
+431,5,Champions Tour Philippines Stage 2: Challengers 2,Apr 10—18,36,ok,ok,sim
+433,5,Champions Tour Hong Kong & Taiwan Stage 2: Challengers 2,Apr 10—18,20,sem_mapas,ok,parcial
+383,5,Champions Tour Malaysia & Singapore Stage 2: Challengers 2,Apr 9—18,49,ok,ok,sim
+370,5,Champions Tour North America Stage 2: Challengers 1,Apr 1—11,134,ok,ok,sim
+396,5,Champions Tour LATAM Stage 2: Challengers 1,Mar 30—Apr 11,58,ok,ok,sim
+377,5,Champions Tour Japan Stage 2: Challengers 1,Apr 3—11,84,ok,ok,sim
+374,5,Champions Tour Europe Stage 2: Challengers 1,Mar 30—Apr 9,258,sem_replay,ok,parcial
+387,5,Champions Tour CIS Stage 2: Challengers 1,Mar 30—Apr 9,67,sem_mapas,ok,parcial
+388,5,Champions Tour Turkey Stage 2: Challengers 1,Mar 30—Apr 9,67,sem_replay,ok,parcial
+385,5,Champions Tour Philippines Stage 2: Challengers 1,Mar 26—Apr 6,34,sem_replay,ok,parcial
+363,5,Champions Tour Brazil Stage 2: Challengers 1,Mar 23—Apr 5,34,sem_replay,ok,parcial
+386,5,Champions Tour Thailand Stage 2: Challengers 1,Mar 26—Apr 4,21,sem_replay,ok,parcial
+384,5,Champions Tour Hong Kong & Taiwan Stage 2: Challengers 1,Mar 26—Apr 4,15,sem_replay,ok,parcial
+379,5,Champions Tour Indonesia Stage 2: Challengers 1,Mar 26—Apr 4,48,sem_mapas,ok,parcial
+373,5,Champions Tour Malaysia & Singapore Stage 2: Challengers 1,Mar 26—Apr 3,43,sem_replay,ok,parcial
+340,5,Champions Tour LATAM Stage 1: Masters,Mar 8—22,26,sem_replay,sem_replay,nao
+338,5,Champions Tour Brazil Stage 1: Masters,Mar 13—21,7,sem_replay,sem_replay,nao
+333,5,Champions Tour North America Stage 1: Masters,Mar 11—21,14,sem_replay,sem_replay,nao
+334,5,Champions Tour Europe Stage 1: Masters,Mar 12—21,13,sem_replay,sem_replay,nao
+342,5,Champions Tour Turkey Stage 1: Masters,Mar 12—21,13,sem_replay,sem_replay,nao
+344,5,Champions Tour CIS Stage 1: Masters,Mar 12—21,13,sem_replay,sem_replay,nao
+351,5,Champions Tour Korea Stage 1: Masters,Mar 12—21,13,sem_replay,sem_replay,nao
+347,5,Champions Tour SEA Stage 1: Masters,Mar 19—21,7,sem_replay,sem_replay,nao
+352,5,Champions Tour Japan Stage 1: Masters,Mar 13—21,14,sem_replay,sem_replay,nao
+297,5,Oceania Tour: Stage 01,Feb 10—Mar 21,63,sem_replay,sem_replay,nao
+391,5,Champions Tour CIS Stage 2: Challengers 2,Apr 10—Mar 18,67,ok,ok,sim
+348,5,Champions Tour Hong Kong and Taiwan Stage 1: Challengers 3,Mar 6—14,12,sem_replay,sem_replay,nao
+349,5,Champions Tour Thailand Stage 1: Challengers 3,Mar 5—14,22,sem_replay,sem_replay,nao
+296,5,Champions Tour Indonesia Stage 1: Challengers 3,Mar 5—14,71,sem_replay,sem_replay,nao
+294,5,Champions Tour Malaysia & Singapore Stage 1: Challengers 3,Mar 5—13,41,sem_replay,sem_replay,nao
+324,5,Champions Tour North America Stage 1: Challengers 3,Feb 25—Mar 8,138,sem_replay,sem_replay,nao
+326,5,Champions Tour Brazil Stage 1: Challengers 3,Feb 22—Mar 7,22,sem_replay,sem_replay,nao
+339,5,Champions Tour Turkey Stage 1: Challengers 3,Mar 2—7,32,sem_replay,sem_replay,nao
+328,5,Champions Tour Europe Stage 1: Challengers 3,Mar 2—7,127,sem_replay,sem_replay,nao
+343,5,Champions Tour CIS Stage 1: Challengers 3,Mar 2—7,64,sem_replay,sem_replay,nao
+350,5,Champions Tour Philippines Stage 1: Challengers 3,Feb 27—Mar 7,37,sem_replay,sem_replay,nao
+336,5,Champions Tour Korea Stage 1: Challengers 3,Feb 27—Mar 7,57,sem_replay,sem_replay,nao
+345,5,Champions Tour Japan Stage 1: Challengers 3,Mar 5—7,62,sem_replay,sem_replay,nao
+323,5,Champions Tour LATAM Stage 1: Challengers 3,Feb 17—28,57,sem_replay,sem_replay,nao
+327,5,Champions Tour Turkey Stage 1: Challengers 2,Feb 23—28,32,sem_replay,sem_replay,nao
+330,5,Champions Tour CIS Stage 1: Challengers 2,Feb 23—28,64,sem_replay,sem_replay,nao
+325,5,Champions Tour Hong Kong & Taiwan Stage 1: Challengers 2,Feb 19—28,12,sem_replay,sem_replay,nao
+295,5,Champions Tour Indonesia Stage 1: Challengers 2,Feb 19—28,61,sem_replay,sem_replay,nao
+331,5,Champions Tour Japan Stage 1: Challengers 2,Feb 26—28,90,sem_replay,sem_replay,nao
+293,5,Champions Tour Malaysia & Singapore Stage 1: Challengers 2,Feb 19—27,41,sem_replay,sem_replay,nao
+318,5,Champions Tour Thailand Stage 1: Challengers 2,Feb 18—27,21,sem_replay,sem_replay,nao
+306,5,Champions Tour North America Stage 1: Challengers 2,Feb 11—24,138,sem_replay,sem_replay,nao
+302,5,Champions Tour LATAM Stage 1: Challengers 2,Feb 2—22,58,sem_replay,sem_replay,nao
+301,5,Champions Tour Brazil Stage 1: Challengers 2,Feb 8—21,22,sem_replay,sem_replay,nao
+320,5,Champions Tour Europe Stage 1: Challengers 2,Feb 16—21,237,sem_replay,sem_replay,nao
+307,6,Champions Tour Korea Stage 1: Challengers 2,Feb 8—21,63,sem_replay,sem_replay,nao
+316,6,Champions Tour Japan Stage 1: Challengers 1,Feb 19—21,95,sem_replay,sem_replay,nao
+317,6,Champions Tour Philippines Stage 1: Challengers 2,Feb 13—21,35,sem_replay,sem_replay,nao
+311,6,Champions Tour Turkey Stage 1: Challengers 1,Feb 11—14,28,sem_replay,sem_replay,nao
+300,6,Champions Tour CIS Stage 1: Challengers 1,Feb 11—14,94,sem_replay,sem_replay,nao
+291,6,Champions Tour North America Stage 1: Challengers 1,Jan 27—Feb 8,141,sem_replay,sem_replay,nao
+292,6,Champions Tour Brazil Stage 1: Challengers 1,Jan 25—Feb 8,34,sem_replay,sem_replay,nao
+290,6,Champions Tour Europe Stage 1: Challengers 1,Feb 4—7,252,sem_replay,sem_replay,nao
+321,6,Champions Tour Hong Kong & Taiwan Stage 1: Challengers 1,Jan 30—Feb 7,16,sem_replay,sem_replay,nao
+298,6,Champions Tour Korea Stage 1: Challengers 1,Jan 30—Feb 7,65,sem_replay,sem_replay,nao
+287,6,Champions Tour Indonesia Stage 1: Challengers 1,Jan 30—Feb 7,32,sem_replay,sem_replay,nao
+304,6,Champions Tour Philippines Stage 1: Challengers 1,Feb 5—7,7,sem_replay,sem_replay,nao
+277,6,Champions Tour Malaysia & Singapore Stage 1: Challengers 1,Jan 29—Feb 6,40,sem_replay,sem_replay,nao
+303,6,Champions Tour Thailand Stage 1: Challengers 1,Jan 28—Feb 6,21,sem_mapas,sem_replay,nao
+285,6,Champions Tour LATAM Stage 1: Challengers 1,Jan 18—Feb 1,58,sem_replay,sem_replay,nao
