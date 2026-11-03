@@ -1,0 +1,7 @@
+event_id,match_id,game_id,map_order,map_name,played,n_rounds,status,status_detail,economia_status
+2766,754732,283271,1,Lotus,True,24,ok,,ok
+2766,754732,283272,2,Summit,True,20,ok,,ok
+2766,754732,283273,3,Abyss,False,0,nao_jogado,mapa não jogado (série decidida antes),
+3105,748619,282202,1,Summit,True,0,sem_replay,No 2D replay for this map,nao_usada
+3105,748619,282203,2,Haven,True,0,nao_baixado,rode 'coletar' novamente,
+3105,748619,282204,3,Sunset,False,0,nao_jogado,mapa não jogado (série decidida antes),

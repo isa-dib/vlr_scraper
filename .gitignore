@@ -1,4 +1,5 @@
-data/
+data/*
+!data/amostra/
 __pycache__/
 .pytest_cache/
 .venv/

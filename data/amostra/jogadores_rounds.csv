@@ -1,0 +1,441 @@
+game_id,round_number,team,player,agent,side,credits_left,spent,armor,weapon,event_id,match_id,map_name,map_order,map_status,economia_status,weapon_price,armor_price,item_sem_preco,loadout_value
+283271,1,1,keiko,Omen,def,0,800,,Bandit,2766,754732,Lotus,1,ok,ok,600,0.0,False,600.0
+283271,1,1,brawk,Vyse,def,0,800,,Sheriff,2766,754732,Lotus,1,ok,ok,800,0.0,False,800.0
+283271,1,1,Ethan,Fade,def,100,700,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,1,1,mada,Raze,def,0,800,,Ghost,2766,754732,Lotus,1,ok,ok,500,0.0,False,500.0
+283271,1,1,skuba,Viper,def,100,700,,Ghost,2766,754732,Lotus,1,ok,ok,500,0.0,False,500.0
+283271,1,2,Meteor,Chamber,atk,0,800,Light armor,Classic,2766,754732,Lotus,1,ok,ok,0,400.0,False,400.0
+283271,1,2,iZu,Fade,atk,50,750,,Ghost,2766,754732,Lotus,1,ok,ok,500,0.0,False,500.0
+283271,1,2,stax,Omen,atk,0,800,Light armor,Classic,2766,754732,Lotus,1,ok,ok,0,400.0,False,400.0
+283271,1,2,BuZz,Neon,atk,0,800,,Sheriff,2766,754732,Lotus,1,ok,ok,800,0.0,False,800.0
+283271,1,2,Munchkin,Viper,atk,100,700,,Ghost,2766,754732,Lotus,1,ok,ok,500,0.0,False,500.0
+283271,2,1,keiko,Omen,def,1900,0,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,2,1,brawk,Vyse,def,1600,500,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,2,1,Ethan,Fade,def,1700,700,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,2,1,mada,Raze,def,1500,400,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,2,1,skuba,Viper,def,1700,300,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,2,2,Meteor,Chamber,atk,1350,1950,Light armor,Marshal,2766,754732,Lotus,1,ok,ok,950,400.0,False,1350.0
+283271,2,2,iZu,Fade,atk,200,1700,Heavy armor,Ghost,2766,754732,Lotus,1,ok,ok,500,1000.0,False,1500.0
+283271,2,2,stax,Omen,atk,1700,3650,Heavy armor,Bulldog,2766,754732,Lotus,1,ok,ok,2050,1000.0,False,3050.0
+283271,2,2,BuZz,Neon,atk,150,3550,Heavy armor,Bulldog,2766,754732,Lotus,1,ok,ok,2050,1000.0,False,3050.0
+283271,2,2,Munchkin,Viper,atk,150,3250,Heavy armor,Bulldog,2766,754732,Lotus,1,ok,ok,2050,1000.0,False,3050.0
+283271,3,1,keiko,Omen,def,0,4300,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,3,1,brawk,Vyse,def,0,4200,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,3,1,Ethan,Fade,def,200,3900,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,3,1,mada,Raze,def,200,3900,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,3,1,skuba,Viper,def,50,4050,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,3,2,Meteor,Chamber,atk,1550,3300,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,3,2,iZu,Fade,atk,3450,450,Heavy armor,Bulldog,2766,754732,Lotus,1,ok,ok,2050,1000.0,False,3050.0
+283271,3,2,stax,Omen,atk,2650,2350,Heavy armor,Stinger,2766,754732,Lotus,1,ok,ok,1100,1000.0,False,2100.0
+283271,3,2,BuZz,Neon,atk,2850,600,Light armor,Bulldog,2766,754732,Lotus,1,ok,ok,2050,400.0,False,2450.0
+283271,3,2,Munchkin,Viper,atk,2350,1500,Heavy armor,Bulldog,2766,754732,Lotus,1,ok,ok,2050,1000.0,False,3050.0
+283271,4,1,keiko,Omen,def,2700,500,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,4,1,brawk,Vyse,def,2700,500,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,4,1,Ethan,Fade,def,2500,700,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,4,1,mada,Raze,def,200,700,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,4,1,skuba,Viper,def,2150,3800,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,4,2,Meteor,Chamber,atk,50,3700,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,4,2,iZu,Fade,atk,1050,4600,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,4,2,stax,Omen,atk,450,4400,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,4,2,BuZz,Neon,atk,850,4400,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,4,2,Munchkin,Viper,atk,450,4100,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,5,1,keiko,Omen,def,1050,3550,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,5,1,brawk,Vyse,def,300,500,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,5,1,Ethan,Fade,def,2400,1100,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,5,1,mada,Raze,def,1500,3500,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,5,1,skuba,Viper,def,2650,500,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,5,2,Meteor,Chamber,atk,2150,1200,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,5,2,iZu,Fade,atk,3650,700,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,5,2,stax,Omen,atk,3250,500,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,5,2,BuZz,Neon,atk,3850,300,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,5,2,Munchkin,Viper,atk,2650,1500,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,6,1,keiko,Omen,def,3750,500,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,6,1,brawk,Vyse,def,3100,800,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,6,1,Ethan,Fade,def,1600,4000,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,6,1,mada,Raze,def,500,5800,Light armor,Operator,2766,754732,Lotus,1,ok,ok,4700,400.0,False,5100.0
+283271,6,1,skuba,Viper,def,350,3500,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,6,2,Meteor,Chamber,atk,250,5900,Heavy armor,Operator,2766,754732,Lotus,1,ok,ok,4700,1000.0,False,5700.0
+283271,6,2,iZu,Fade,atk,1700,4150,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,6,2,stax,Omen,atk,1650,4400,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,6,2,BuZz,Neon,atk,350,3900,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,6,2,Munchkin,Viper,atk,450,4400,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,7,1,keiko,Omen,def,1950,3700,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,7,1,brawk,Vyse,def,1250,3750,Light armor,Odin,2766,754732,Lotus,1,ok,ok,3200,400.0,False,3600.0
+283271,7,1,Ethan,Fade,def,3050,450,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,7,1,mada,Raze,def,2000,600,,Bandit,2766,754732,Lotus,1,ok,ok,600,0.0,False,600.0
+283271,7,1,skuba,Viper,def,1550,900,,Bandit,2766,754732,Lotus,1,ok,ok,600,0.0,False,600.0
+283271,7,2,Meteor,Chamber,atk,2150,4300,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,7,2,iZu,Fade,atk,600,1500,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,7,2,stax,Omen,atk,1050,1600,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,7,2,BuZz,Neon,atk,1850,4700,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,7,2,Munchkin,Viper,atk,2350,1800,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,8,1,keiko,Omen,def,900,3450,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,8,1,brawk,Vyse,def,1350,900,Light armor,Odin,2766,754732,Lotus,1,ok,ok,3200,400.0,False,3600.0
+283271,8,1,Ethan,Fade,def,1700,3750,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,8,1,mada,Raze,def,1100,3300,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,8,1,skuba,Viper,def,150,3800,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,8,2,Meteor,Chamber,atk,5150,500,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,8,2,iZu,Fade,atk,2200,1700,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,8,2,stax,Omen,atk,2850,1500,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,8,2,BuZz,Neon,atk,3850,1500,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,8,2,Munchkin,Viper,atk,4550,1500,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,9,1,keiko,Omen,def,1250,650,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,9,1,brawk,Vyse,def,1450,900,Light armor,Odin,2766,754732,Lotus,1,ok,ok,3200,400.0,False,3600.0
+283271,9,1,Ethan,Fade,def,1050,3550,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,9,1,mada,Raze,def,700,3300,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,9,1,skuba,Viper,def,300,2950,Light armor,Bulldog,2766,754732,Lotus,1,ok,ok,2050,400.0,False,2450.0
+283271,9,2,Meteor,Chamber,atk,7650,1200,Heavy armor,Shorty,2766,754732,Lotus,1,ok,ok,300,1000.0,False,1300.0
+283271,9,2,iZu,Fade,atk,3800,1700,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,9,2,stax,Omen,atk,5900,250,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,9,2,BuZz,Neon,atk,6850,500,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,9,2,Munchkin,Viper,atk,6050,1800,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,10,1,keiko,Omen,def,3350,900,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,10,1,brawk,Vyse,def,2850,1800,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,10,1,Ethan,Fade,def,3550,1100,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,10,1,mada,Raze,def,2200,1700,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,10,1,skuba,Viper,def,2800,500,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,10,2,Meteor,Chamber,atk,3100,5900,Heavy armor,Operator,2766,754732,Lotus,1,ok,ok,4700,1000.0,False,5700.0
+283271,10,2,iZu,Fade,atk,1400,4600,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,10,2,stax,Omen,atk,3600,4500,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,10,2,BuZz,Neon,atk,4600,4400,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,10,2,Munchkin,Viper,atk,3550,4700,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,11,1,keiko,Omen,def,1550,3700,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,11,1,brawk,Vyse,def,1050,4100,Light armor,Odin,2766,754732,Lotus,1,ok,ok,3200,400.0,False,3600.0
+283271,11,1,Ethan,Fade,def,1450,4000,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,11,1,mada,Raze,def,100,4000,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,11,1,skuba,Viper,def,1150,3750,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,11,2,Meteor,Chamber,atk,5200,1600,Heavy armor,Operator,2766,754732,Lotus,1,ok,ok,4700,1000.0,False,5700.0
+283271,11,2,iZu,Fade,atk,2850,4750,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,11,2,stax,Omen,atk,2800,1400,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,11,2,BuZz,Neon,atk,3100,5000,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,11,2,Munchkin,Viper,atk,2050,5000,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,12,1,keiko,Omen,def,150,4600,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,12,1,brawk,Vyse,def,2250,1800,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,12,1,Ethan,Fade,def,2450,2000,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,12,1,mada,Raze,def,150,3850,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,12,1,skuba,Viper,def,2050,1800,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,12,2,Meteor,Chamber,atk,1100,6200,Heavy armor,Operator,2766,754732,Lotus,1,ok,ok,4700,1000.0,False,5700.0
+283271,12,2,iZu,Fade,atk,150,4600,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,12,2,stax,Omen,atk,750,4150,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,12,2,BuZz,Neon,atk,900,300,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,12,2,Munchkin,Viper,atk,2450,4400,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,13,1,keiko,Omen,atk,50,750,Light armor,Classic,2766,754732,Lotus,1,ok,ok,0,400.0,False,400.0
+283271,13,1,brawk,Vyse,atk,0,800,,Sheriff,2766,754732,Lotus,1,ok,ok,800,0.0,False,800.0
+283271,13,1,Ethan,Fade,atk,150,650,Light armor,Classic,2766,754732,Lotus,1,ok,ok,0,400.0,False,400.0
+283271,13,1,mada,Raze,atk,0,800,Light armor,Classic,2766,754732,Lotus,1,ok,ok,0,400.0,False,400.0
+283271,13,1,skuba,Viper,atk,100,700,Light armor,Classic,2766,754732,Lotus,1,ok,ok,0,400.0,False,400.0
+283271,13,2,Meteor,Chamber,def,0,800,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,13,2,iZu,Fade,def,50,750,,Ghost,2766,754732,Lotus,1,ok,ok,500,0.0,False,500.0
+283271,13,2,stax,Omen,def,0,800,Light armor,Classic,2766,754732,Lotus,1,ok,ok,0,400.0,False,400.0
+283271,13,2,BuZz,Neon,def,100,700,,Ghost,2766,754732,Lotus,1,ok,ok,500,0.0,False,500.0
+283271,13,2,Munchkin,Viper,def,100,700,,Ghost,2766,754732,Lotus,1,ok,ok,500,0.0,False,500.0
+283271,14,1,keiko,Omen,atk,2200,250,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,14,1,brawk,Vyse,atk,1900,300,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,14,1,Ethan,Fade,atk,1900,450,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,14,1,mada,Raze,atk,1700,700,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,14,1,skuba,Viper,atk,2000,300,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,14,2,Meteor,Chamber,def,350,2850,Heavy armor,Marshal,2766,754732,Lotus,1,ok,ok,950,1000.0,False,1950.0
+283271,14,2,iZu,Fade,def,1900,1350,Regen Shield,Sheriff,2766,754732,Lotus,1,ok,ok,800,650.0,False,1450.0
+283271,14,2,stax,Omen,def,0,3000,Heavy armor,Spectre,2766,754732,Lotus,1,ok,ok,1600,1000.0,False,2600.0
+283271,14,2,BuZz,Neon,def,250,3250,Heavy armor,Bulldog,2766,754732,Lotus,1,ok,ok,2050,1000.0,False,3050.0
+283271,14,2,Munchkin,Viper,def,50,3250,Heavy armor,Bulldog,2766,754732,Lotus,1,ok,ok,2050,1000.0,False,3050.0
+283271,15,1,keiko,Omen,atk,350,4250,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,15,1,brawk,Vyse,atk,100,4700,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,15,1,Ethan,Fade,atk,50,4250,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,15,1,mada,Raze,atk,100,3900,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,15,1,skuba,Viper,atk,600,3800,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,15,2,Meteor,Chamber,def,3350,200,Heavy armor,Marshal,2766,754732,Lotus,1,ok,ok,950,1000.0,False,1950.0
+283271,15,2,iZu,Fade,def,2850,1350,Regen Shield,Stinger,2766,754732,Lotus,1,ok,ok,1100,650.0,False,1750.0
+283271,15,2,stax,Omen,def,2250,1850,Light armor,Stinger,2766,754732,Lotus,1,ok,ok,1100,400.0,False,1500.0
+283271,15,2,BuZz,Neon,def,2950,500,Heavy armor,Bulldog,2766,754732,Lotus,1,ok,ok,2050,1000.0,False,3050.0
+283271,15,2,Munchkin,Viper,def,1750,1500,Heavy armor,Bulldog,2766,754732,Lotus,1,ok,ok,2050,1000.0,False,3050.0
+283271,16,1,keiko,Omen,atk,2050,1800,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,16,1,brawk,Vyse,atk,2900,500,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,16,1,Ethan,Fade,atk,2650,700,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,16,1,mada,Raze,atk,2100,1500,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,16,1,skuba,Viper,atk,3800,500,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,16,2,Meteor,Chamber,def,50,5200,Light armor,Operator,2766,754732,Lotus,1,ok,ok,4700,400.0,False,5100.0
+283271,16,2,iZu,Fade,def,600,4150,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,16,2,stax,Omen,def,200,3950,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,16,2,BuZz,Neon,def,450,4400,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,16,2,Munchkin,Viper,def,150,3500,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,17,1,keiko,Omen,atk,50,4200,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,17,1,brawk,Vyse,atk,1000,4100,Light armor,Odin,2766,754732,Lotus,1,ok,ok,3200,400.0,False,3600.0
+283271,17,1,Ethan,Fade,atk,1050,3800,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,17,1,mada,Raze,atk,500,3800,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,17,1,skuba,Viper,atk,2200,4400,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,17,2,Meteor,Chamber,def,1150,2100,Heavy armor,Operator,2766,754732,Lotus,1,ok,ok,4700,1000.0,False,5700.0
+283271,17,2,iZu,Fade,def,0,3800,Light armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,17,2,stax,Omen,def,1800,4300,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,17,2,BuZz,Neon,def,100,3750,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,17,2,Munchkin,Viper,def,250,200,Light armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,400.0,False,3300.0
+283271,18,1,keiko,Omen,atk,2200,4250,Regen Shield,Vandal,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,18,1,brawk,Vyse,atk,600,800,Light armor,Odin,2766,754732,Lotus,1,ok,ok,3200,400.0,False,3600.0
+283271,18,1,Ethan,Fade,atk,2850,4600,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,18,1,mada,Raze,atk,150,1350,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,18,1,skuba,Viper,atk,1400,4100,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,18,2,Meteor,Chamber,def,2850,400,Light armor,Classic,2766,754732,Lotus,1,ok,ok,0,400.0,False,400.0
+283271,18,2,iZu,Fade,def,1600,500,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,18,2,stax,Omen,def,1800,1900,Light armor,Stinger,2766,754732,Lotus,1,ok,ok,1100,400.0,False,1500.0
+283271,18,2,BuZz,Neon,def,1200,1000,Heavy armor,Classic,2766,754732,Lotus,1,ok,ok,0,1000.0,False,1000.0
+283271,18,2,Munchkin,Viper,def,1650,500,,Classic,2766,754732,Lotus,1,ok,ok,0,0.0,False,0.0
+283271,19,1,keiko,Omen,atk,5100,400,Regen Shield,Vandal,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,19,1,brawk,Vyse,atk,3400,500,Light armor,Odin,2766,754732,Lotus,1,ok,ok,3200,400.0,False,3600.0
+283271,19,1,Ethan,Fade,atk,5450,700,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,19,1,mada,Raze,atk,2950,500,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,19,1,skuba,Viper,atk,4100,800,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,19,2,Meteor,Chamber,def,350,4900,,Operator,2766,754732,Lotus,1,ok,ok,4700,0.0,False,4700.0
+283271,19,2,iZu,Fade,def,100,3900,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,19,2,stax,Omen,def,50,4150,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,19,2,BuZz,Neon,def,50,3550,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,19,2,Munchkin,Viper,def,300,3750,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,20,1,keiko,Omen,atk,4200,4600,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,20,1,brawk,Vyse,atk,5100,1800,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,20,1,Ethan,Fade,atk,4350,1700,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,20,1,mada,Raze,atk,4650,4500,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,20,1,skuba,Viper,atk,4700,2900,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,20,2,Meteor,Chamber,def,2250,1200,Heavy armor,Classic,2766,754732,Lotus,1,ok,ok,0,1000.0,False,1000.0
+283271,20,2,iZu,Fade,def,1700,1300,,Sheriff,2766,754732,Lotus,1,ok,ok,800,0.0,False,800.0
+283271,20,2,stax,Omen,def,1500,1650,Light armor,Stinger,2766,754732,Lotus,1,ok,ok,1100,400.0,False,1500.0
+283271,20,2,BuZz,Neon,def,1850,1300,Heavy armor,Classic,2766,754732,Lotus,1,ok,ok,0,1000.0,False,1000.0
+283271,20,2,Munchkin,Viper,def,1200,2000,Light armor,Stinger,2766,754732,Lotus,1,ok,ok,1100,400.0,False,1500.0
+283271,21,1,keiko,Omen,atk,6300,1600,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,21,1,brawk,Vyse,atk,8300,500,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,21,1,Ethan,Fade,atk,5950,1700,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,21,1,mada,Raze,atk,6650,1300,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,21,1,skuba,Viper,atk,7700,500,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,21,2,Meteor,Chamber,def,50,5100,Light armor,Operator,2766,754732,Lotus,1,ok,ok,4700,400.0,False,5100.0
+283271,21,2,iZu,Fade,def,450,4150,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,21,2,stax,Omen,def,0,4400,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,21,2,BuZz,Neon,def,650,4100,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,21,2,Munchkin,Viper,def,0,4100,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,22,1,keiko,Omen,atk,5600,500,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,22,1,brawk,Vyse,atk,7500,1500,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,22,1,Ethan,Fade,atk,7550,4350,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,22,1,mada,Raze,atk,7300,1700,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,22,1,skuba,Viper,atk,4300,4700,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,22,2,Meteor,Chamber,def,2250,700,Light armor,Classic,2766,754732,Lotus,1,ok,ok,0,400.0,False,400.0
+283271,22,2,iZu,Fade,def,2150,1200,Light armor,Sheriff,2766,754732,Lotus,1,ok,ok,800,400.0,False,1200.0
+283271,22,2,stax,Omen,def,1500,1600,Light armor,Sheriff,2766,754732,Lotus,1,ok,ok,800,400.0,False,1200.0
+283271,22,2,BuZz,Neon,def,1450,2100,Heavy armor,Stinger,2766,754732,Lotus,1,ok,ok,1100,1000.0,False,2100.0
+283271,22,2,Munchkin,Viper,def,1400,1700,Light armor,Stinger,2766,754732,Lotus,1,ok,ok,1100,400.0,False,1500.0
+283271,23,1,keiko,Omen,atk,4600,4400,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,23,1,brawk,Vyse,atk,4300,4700,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,23,1,Ethan,Fade,atk,4900,4100,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,23,1,mada,Raze,atk,4800,4200,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,23,1,skuba,Viper,atk,3100,4500,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,23,2,Meteor,Chamber,def,1150,4200,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,23,2,iZu,Fade,def,1350,3900,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,23,2,stax,Omen,def,150,4150,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,23,2,BuZz,Neon,def,300,4050,Regen Shield,Phantom,2766,754732,Lotus,1,ok,ok,2900,650.0,False,3550.0
+283271,23,2,Munchkin,Viper,def,100,4700,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,24,1,keiko,Omen,atk,1900,4800,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,24,1,brawk,Vyse,atk,1200,5000,Heavy armor,Odin,2766,754732,Lotus,1,ok,ok,3200,1000.0,False,4200.0
+283271,24,1,Ethan,Fade,atk,1900,4900,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,24,1,mada,Raze,atk,2000,4900,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,24,1,skuba,Viper,atk,500,4500,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,24,2,Meteor,Chamber,def,50,4100,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,24,2,iZu,Fade,def,150,2000,Heavy armor,Vandal,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,24,2,stax,Omen,def,1050,1800,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,24,2,BuZz,Neon,def,2100,1800,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283271,24,2,Munchkin,Viper,def,1300,4700,Heavy armor,Phantom,2766,754732,Lotus,1,ok,ok,2900,1000.0,False,3900.0
+283272,1,1,Ethan,Kayo,def,50,750,,Ghost,2766,754732,Summit,2,ok,ok,500,0.0,False,500.0
+283272,1,1,keiko,Brimstone,def,0,800,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,1,1,brawk,Sova,def,0,800,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,1,1,mada,Neon,def,0,800,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,1,1,skuba,Cypher,def,0,800,,Ghost,2766,754732,Summit,2,ok,ok,500,0.0,False,500.0
+283272,1,2,Meteor,Chamber,atk,0,800,,Classic,2766,754732,Summit,2,ok,ok,0,0.0,False,0.0
+283272,1,2,stax,Harbor,atk,0,800,,Ghost,2766,754732,Summit,2,ok,ok,500,0.0,False,500.0
+283272,1,2,Munchkin,Sage,atk,0,800,,Ghost,2766,754732,Summit,2,ok,ok,500,0.0,False,500.0
+283272,1,2,iZu,Fade,atk,50,750,,Ghost,2766,754732,Summit,2,ok,ok,500,0.0,False,500.0
+283272,1,2,BuZz,Neon,atk,100,700,Light armor,Classic,2766,754732,Summit,2,ok,ok,0,400.0,False,400.0
+283272,2,1,Ethan,Kayo,def,50,2000,Light armor,Spectre,2766,754732,Summit,2,ok,ok,1600,400.0,False,2000.0
+283272,2,1,keiko,Brimstone,def,100,2900,Light armor,Bulldog,2766,754732,Summit,2,ok,ok,2050,400.0,False,2450.0
+283272,2,1,brawk,Sova,def,100,4500,Heavy armor,Odin,2766,754732,Summit,2,ok,ok,3200,1000.0,False,4200.0
+283272,2,1,mada,Neon,def,200,3000,Light armor,Outlaw,2766,754732,Summit,2,ok,ok,2400,400.0,False,2800.0
+283272,2,1,skuba,Cypher,def,0,3200,Heavy armor,Spectre,2766,754732,Summit,2,ok,ok,1600,1000.0,False,2600.0
+283272,2,2,Meteor,Chamber,atk,1800,400,Light armor,Classic,2766,754732,Summit,2,ok,ok,0,400.0,False,400.0
+283272,2,2,stax,Harbor,atk,2200,0,,Classic,2766,754732,Summit,2,ok,ok,0,0.0,False,0.0
+283272,2,2,Munchkin,Sage,atk,1600,1000,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,2,2,iZu,Fade,atk,1800,450,,Classic,2766,754732,Summit,2,ok,ok,0,0.0,False,0.0
+283272,2,2,BuZz,Neon,atk,2100,200,,Classic,2766,754732,Summit,2,ok,ok,0,0.0,False,0.0
+283272,3,1,Ethan,Kayo,def,2600,450,Light armor,Spectre,2766,754732,Summit,2,ok,ok,1600,400.0,False,2000.0
+283272,3,1,keiko,Brimstone,def,2700,400,Light armor,Bulldog,2766,754732,Summit,2,ok,ok,2050,400.0,False,2450.0
+283272,3,1,brawk,Sova,def,3100,800,Light armor,Odin,2766,754732,Summit,2,ok,ok,3200,400.0,False,3600.0
+283272,3,1,mada,Neon,def,2900,300,Light armor,Outlaw,2766,754732,Summit,2,ok,ok,2400,400.0,False,2800.0
+283272,3,1,skuba,Cypher,def,2200,1000,Light armor,Spectre,2766,754732,Summit,2,ok,ok,1600,400.0,False,2000.0
+283272,3,2,Meteor,Chamber,atk,0,4500,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,3,2,stax,Harbor,atk,800,4100,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,3,2,Munchkin,Sage,atk,200,4100,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,3,2,iZu,Fade,atk,600,3900,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,3,2,BuZz,Neon,atk,700,4100,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,4,1,Ethan,Kayo,def,250,4250,Regen Shield,Phantom,2766,754732,Summit,2,ok,ok,2900,650.0,False,3550.0
+283272,4,1,keiko,Brimstone,def,200,4400,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,4,1,brawk,Sova,def,1200,4000,Light armor,Odin,2766,754732,Summit,2,ok,ok,3200,400.0,False,3600.0
+283272,4,1,mada,Neon,def,100,4700,,Operator,2766,754732,Summit,2,ok,ok,4700,0.0,False,4700.0
+283272,4,1,skuba,Cypher,def,200,3900,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,4,2,Meteor,Chamber,atk,2500,1400,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,4,2,stax,Harbor,atk,700,500,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,4,2,Munchkin,Sage,atk,2000,1700,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,4,2,iZu,Fade,atk,2200,1700,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,4,2,BuZz,Neon,atk,2400,4700,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,5,1,Ethan,Kayo,def,1850,800,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,5,1,keiko,Brimstone,def,1750,1250,,Bandit,2766,754732,Summit,2,ok,ok,600,0.0,False,600.0
+283272,5,1,brawk,Sova,def,2400,1200,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,5,1,mada,Neon,def,2000,500,,Classic,2766,754732,Summit,2,ok,ok,0,0.0,False,0.0
+283272,5,1,skuba,Cypher,def,1900,900,,Bandit,2766,754732,Summit,2,ok,ok,600,0.0,False,600.0
+283272,5,2,Meteor,Chamber,atk,2200,3600,Heavy armor,Outlaw,2766,754732,Summit,2,ok,ok,2400,1000.0,False,3400.0
+283272,5,2,stax,Harbor,atk,2500,1500,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,5,2,Munchkin,Sage,atk,4200,1700,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,5,2,iZu,Fade,atk,1100,4600,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,5,2,BuZz,Neon,atk,4700,1200,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,6,1,Ethan,Kayo,def,1450,3300,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,6,1,keiko,Brimstone,def,1050,3800,Light armor,Vandal,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,6,1,brawk,Sova,def,400,3600,Light armor,Odin,2766,754732,Summit,2,ok,ok,3200,400.0,False,3600.0
+283272,6,1,mada,Neon,def,1100,5300,Light armor,Operator,2766,754732,Summit,2,ok,ok,4700,400.0,False,5100.0
+283272,6,1,skuba,Cypher,def,1200,3600,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,6,2,Meteor,Chamber,atk,0,5900,Heavy armor,Operator,2766,754732,Summit,2,ok,ok,4700,1000.0,False,5700.0
+283272,6,2,stax,Harbor,atk,4500,1500,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,6,2,Munchkin,Sage,atk,6900,800,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,6,2,iZu,Fade,atk,3700,700,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,6,2,BuZz,Neon,atk,3800,4400,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,7,1,Ethan,Kayo,def,3750,1100,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,7,1,keiko,Brimstone,def,900,3550,Light armor,Vandal,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,7,1,brawk,Sova,def,2650,950,Light armor,Odin,2766,754732,Summit,2,ok,ok,3200,400.0,False,3600.0
+283272,7,1,mada,Neon,def,3400,700,Light armor,Operator,2766,754732,Summit,2,ok,ok,4700,400.0,False,5100.0
+283272,7,1,skuba,Cypher,def,300,3900,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,7,2,Meteor,Chamber,atk,1200,1200,Heavy armor,Classic,2766,754732,Summit,2,ok,ok,0,1000.0,False,1000.0
+283272,7,2,stax,Harbor,atk,2500,4200,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,7,2,Munchkin,Sage,atk,4100,4900,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,7,2,iZu,Fade,atk,1300,4600,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,7,2,BuZz,Neon,atk,2100,4100,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,8,1,Ethan,Kayo,def,2950,3800,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,8,1,keiko,Brimstone,def,2650,4550,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,8,1,brawk,Sova,def,1900,1250,Light armor,Odin,2766,754732,Summit,2,ok,ok,3200,400.0,False,3600.0
+283272,8,1,mada,Neon,def,2200,1500,Heavy armor,Operator,2766,754732,Summit,2,ok,ok,4700,1000.0,False,5700.0
+283272,8,1,skuba,Cypher,def,2300,3900,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,8,2,Meteor,Chamber,atk,0,5900,Heavy armor,Operator,2766,754732,Summit,2,ok,ok,4700,1000.0,False,5700.0
+283272,8,2,stax,Harbor,atk,800,4400,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,8,2,Munchkin,Sage,atk,400,4600,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,8,2,iZu,Fade,atk,200,4000,Light armor,Vandal,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,8,2,BuZz,Neon,atk,900,4100,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,9,1,Ethan,Kayo,def,1550,4600,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,9,1,keiko,Brimstone,def,1850,3800,Light armor,Vandal,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,9,1,brawk,Sova,def,4600,700,Light armor,Odin,2766,754732,Summit,2,ok,ok,3200,400.0,False,3600.0
+283272,9,1,mada,Neon,def,4400,800,Heavy armor,Operator,2766,754732,Summit,2,ok,ok,4700,1000.0,False,5700.0
+283272,9,1,skuba,Cypher,def,1800,3900,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,9,2,Meteor,Chamber,atk,2600,600,Light armor,Classic,2766,754732,Summit,2,ok,ok,0,400.0,False,400.0
+283272,9,2,stax,Harbor,atk,2300,1700,Light armor,Sheriff,2766,754732,Summit,2,ok,ok,800,400.0,False,1200.0
+283272,9,2,Munchkin,Sage,atk,2300,1500,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,9,2,iZu,Fade,atk,1700,1700,Light armor,Sheriff,2766,754732,Summit,2,ok,ok,800,400.0,False,1200.0
+283272,9,2,BuZz,Neon,atk,1550,2950,Light armor,Guardian,2766,754732,Summit,2,ok,ok,2250,400.0,False,2650.0
+283272,10,1,Ethan,Kayo,def,150,3300,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,10,1,keiko,Brimstone,def,200,3750,Light armor,Vandal,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,10,1,brawk,Sova,def,2400,4300,Light armor,Odin,2766,754732,Summit,2,ok,ok,3200,400.0,False,3600.0
+283272,10,1,mada,Neon,def,700,5600,Light armor,Operator,2766,754732,Summit,2,ok,ok,4700,400.0,False,5100.0
+283272,10,1,skuba,Cypher,def,2200,600,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,10,2,Meteor,Chamber,atk,4800,1700,Heavy armor,Operator,2766,754732,Summit,2,ok,ok,4700,1000.0,False,5700.0
+283272,10,2,stax,Harbor,atk,4100,1500,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,10,2,Munchkin,Sage,atk,3600,2000,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,10,2,iZu,Fade,atk,3250,1450,Heavy armor,Odin,2766,754732,Summit,2,ok,ok,3200,1000.0,False,4200.0
+283272,10,2,BuZz,Neon,atk,950,4400,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,11,1,Ethan,Kayo,def,2150,4100,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,11,1,keiko,Brimstone,def,1700,4400,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,11,1,brawk,Sova,def,1800,1100,Light armor,Odin,2766,754732,Summit,2,ok,ok,3200,400.0,False,3600.0
+283272,11,1,mada,Neon,def,2550,1150,Regen Shield,Operator,2766,754732,Summit,2,ok,ok,4700,650.0,False,5350.0
+283272,11,1,skuba,Cypher,def,1800,900,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,11,2,Meteor,Chamber,atk,800,5900,Heavy armor,Operator,2766,754732,Summit,2,ok,ok,4700,1000.0,False,5700.0
+283272,11,2,stax,Harbor,atk,1800,4200,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,11,2,Munchkin,Sage,atk,1400,4100,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,11,2,iZu,Fade,atk,1200,4150,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,11,2,BuZz,Neon,atk,200,2850,Heavy armor,Judge,2766,754732,Summit,2,ok,ok,1850,1000.0,False,2850.0
+283272,12,1,Ethan,Kayo,def,750,4600,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,12,1,keiko,Brimstone,def,1550,3350,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,12,1,brawk,Sova,def,3300,1700,Heavy armor,Odin,2766,754732,Summit,2,ok,ok,3200,1000.0,False,4200.0
+283272,12,1,mada,Neon,def,1050,4700,Heavy armor,Operator,2766,754732,Summit,2,ok,ok,4700,1000.0,False,5700.0
+283272,12,1,skuba,Cypher,def,200,4800,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,12,2,Meteor,Chamber,atk,150,1500,Heavy armor,Shorty,2766,754732,Summit,2,ok,ok,300,1000.0,False,1300.0
+283272,12,2,stax,Harbor,atk,0,4200,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,12,2,Munchkin,Sage,atk,0,3800,Light armor,Vandal,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,12,2,iZu,Fade,atk,0,3150,Light armor,Bulldog,2766,754732,Summit,2,ok,ok,2050,400.0,False,2450.0
+283272,12,2,BuZz,Neon,atk,500,4700,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,13,1,Ethan,Kayo,atk,0,800,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,13,1,keiko,Brimstone,atk,100,1000,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,13,1,brawk,Sova,atk,0,800,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,13,1,mada,Neon,atk,0,800,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,13,1,skuba,Cypher,atk,0,500,,Ghost,2766,754732,Summit,2,ok,ok,500,0.0,False,500.0
+283272,13,2,Meteor,Chamber,def,0,800,,Classic,2766,754732,Summit,2,ok,ok,0,0.0,False,0.0
+283272,13,2,stax,Harbor,def,0,800,,Ghost,2766,754732,Summit,2,ok,ok,500,0.0,False,500.0
+283272,13,2,Munchkin,Sage,def,100,700,,Classic,2766,754732,Summit,2,ok,ok,0,0.0,False,0.0
+283272,13,2,iZu,Fade,def,50,750,,Ghost,2766,754732,Summit,2,ok,ok,500,0.0,False,500.0
+283272,13,2,BuZz,Neon,def,0,800,,Sheriff,2766,754732,Summit,2,ok,ok,800,0.0,False,800.0
+283272,14,1,Ethan,Kayo,atk,1650,250,,Classic,2766,754732,Summit,2,ok,ok,0,0.0,False,0.0
+283272,14,1,keiko,Brimstone,atk,1700,700,,Bandit,2766,754732,Summit,2,ok,ok,600,0.0,False,600.0
+283272,14,1,brawk,Sova,atk,1800,300,,Classic,2766,754732,Summit,2,ok,ok,0,0.0,False,0.0
+283272,14,1,mada,Neon,atk,1400,500,,Classic,2766,754732,Summit,2,ok,ok,0,0.0,False,0.0
+283272,14,1,skuba,Cypher,atk,1800,100,,Classic,2766,754732,Summit,2,ok,ok,0,0.0,False,0.0
+283272,14,2,Meteor,Chamber,def,850,2150,Light armor,Marshal,2766,754732,Summit,2,ok,ok,950,400.0,False,1350.0
+283272,14,2,stax,Harbor,def,100,3100,Heavy armor,Spectre,2766,754732,Summit,2,ok,ok,1600,1000.0,False,2600.0
+283272,14,2,Munchkin,Sage,def,100,3000,Regen Shield,Bulldog,2766,754732,Summit,2,ok,ok,2050,650.0,False,2700.0
+283272,14,2,iZu,Fade,def,50,3400,Regen Shield,Bulldog,2766,754732,Summit,2,ok,ok,2050,650.0,False,2700.0
+283272,14,2,BuZz,Neon,def,150,3250,Heavy armor,Bulldog,2766,754732,Summit,2,ok,ok,2050,1000.0,False,3050.0
+283272,15,1,Ethan,Kayo,atk,300,4250,Regen Shield,Phantom,2766,754732,Summit,2,ok,ok,2900,650.0,False,3550.0
+283272,15,1,keiko,Brimstone,atk,50,4550,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,15,1,brawk,Sova,atk,500,4000,Light armor,Odin,2766,754732,Summit,2,ok,ok,3200,400.0,False,3600.0
+283272,15,1,mada,Neon,atk,250,4050,Regen Shield,Phantom,2766,754732,Summit,2,ok,ok,2900,650.0,False,3550.0
+283272,15,1,skuba,Cypher,atk,0,4500,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,15,2,Meteor,Chamber,def,3650,400,Light armor,Classic,2766,754732,Summit,2,ok,ok,0,400.0,False,400.0
+283272,15,2,stax,Harbor,def,2500,600,Light armor,Sheriff,2766,754732,Summit,2,ok,ok,800,400.0,False,1200.0
+283272,15,2,Munchkin,Sage,def,2000,1100,Light armor,Bulldog,2766,754732,Summit,2,ok,ok,2050,400.0,False,2450.0
+283272,15,2,iZu,Fade,def,2600,850,,Bandit,2766,754732,Summit,2,ok,ok,600,0.0,False,600.0
+283272,15,2,BuZz,Neon,def,2650,900,Light armor,Bulldog,2766,754732,Summit,2,ok,ok,2050,400.0,False,2450.0
+283272,16,1,Ethan,Kayo,atk,3100,700,Regen Shield,Phantom,2766,754732,Summit,2,ok,ok,2900,650.0,False,3550.0
+283272,16,1,keiko,Brimstone,atk,2400,950,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,16,1,brawk,Sova,atk,2500,1700,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,16,1,mada,Neon,atk,3450,500,Regen Shield,Phantom,2766,754732,Summit,2,ok,ok,2900,650.0,False,3550.0
+283272,16,1,skuba,Cypher,atk,2300,1000,Light armor,Odin,2766,754732,Summit,2,ok,ok,3200,400.0,False,3600.0
+283272,16,2,Meteor,Chamber,def,250,5300,Light armor,Operator,2766,754732,Summit,2,ok,ok,4700,400.0,False,5100.0
+283272,16,2,stax,Harbor,def,200,4200,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,16,2,Munchkin,Sage,def,100,3800,Light armor,Vandal,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,16,2,iZu,Fade,def,150,4350,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,16,2,BuZz,Neon,def,50,4500,Heavy armor,Odin,2766,754732,Summit,2,ok,ok,3200,1000.0,False,4200.0
+283272,17,1,Ethan,Kayo,atk,2600,4000,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,17,1,keiko,Brimstone,atk,4250,1650,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,17,1,brawk,Sova,atk,4100,1700,Heavy armor,Odin,2766,754732,Summit,2,ok,ok,3200,1000.0,False,4200.0
+283272,17,1,mada,Neon,atk,2550,4400,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,17,1,skuba,Cypher,atk,2300,3300,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,17,2,Meteor,Chamber,def,1050,200,Light armor,Operator,2766,754732,Summit,2,ok,ok,4700,400.0,False,5100.0
+283272,17,2,stax,Harbor,def,1900,900,,Bandit,2766,754732,Summit,2,ok,ok,600,0.0,False,600.0
+283272,17,2,Munchkin,Sage,def,1200,1300,,Bandit,2766,754732,Summit,2,ok,ok,600,0.0,False,600.0
+283272,17,2,iZu,Fade,def,900,250,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,17,2,BuZz,Neon,def,1850,600,Light armor,Classic,2766,754732,Summit,2,ok,ok,0,400.0,False,400.0
+283272,18,1,Ethan,Kayo,atk,5400,700,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,18,1,keiko,Brimstone,atk,6300,1650,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,18,1,brawk,Sova,atk,3950,550,Heavy armor,Odin,2766,754732,Summit,2,ok,ok,3200,1000.0,False,4200.0
+283272,18,1,mada,Neon,atk,4450,4500,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,18,1,skuba,Cypher,atk,5000,600,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,18,2,Meteor,Chamber,def,50,4100,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,18,2,stax,Harbor,def,700,4100,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,18,2,Munchkin,Sage,def,200,3900,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,18,2,iZu,Fade,def,250,3550,Regen Shield,Phantom,2766,754732,Summit,2,ok,ok,2900,650.0,False,3550.0
+283272,18,2,BuZz,Neon,def,550,4200,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,19,1,Ethan,Kayo,atk,5150,1450,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,19,1,keiko,Brimstone,atk,7350,1650,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,19,1,brawk,Sova,atk,5850,1400,Heavy armor,Odin,2766,754732,Summit,2,ok,ok,3200,1000.0,False,4200.0
+283272,19,1,mada,Neon,atk,6150,4000,Heavy armor,Outlaw,2766,754732,Summit,2,ok,ok,2400,1000.0,False,3400.0
+283272,19,1,skuba,Cypher,atk,7100,1400,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,19,2,Meteor,Chamber,def,50,3100,,Vandal,2766,754732,Summit,2,ok,ok,2900,0.0,False,2900.0
+283272,19,2,stax,Harbor,def,1400,300,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,19,2,Munchkin,Sage,def,150,2950,Light armor,Bulldog,2766,754732,Summit,2,ok,ok,2050,400.0,False,2450.0
+283272,19,2,iZu,Fade,def,250,2900,Regen Shield,Guardian,2766,754732,Summit,2,ok,ok,2250,650.0,False,2900.0
+283272,19,2,BuZz,Neon,def,150,3300,Light armor,Phantom,2766,754732,Summit,2,ok,ok,2900,400.0,False,3300.0
+283272,20,1,Ethan,Kayo,atk,8650,0,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,20,1,keiko,Brimstone,atk,4150,4850,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,20,1,brawk,Sova,atk,8600,400,Heavy armor,Odin,2766,754732,Summit,2,ok,ok,3200,1000.0,False,4200.0
+283272,20,1,mada,Neon,atk,7700,1300,Heavy armor,Vandal,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,20,1,skuba,Cypher,atk,8100,900,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,20,2,Meteor,Chamber,def,500,2450,Light armor,Judge,2766,754732,Summit,2,ok,ok,1850,400.0,False,2250.0
+283272,20,2,stax,Harbor,def,100,4200,Heavy armor,Phantom,2766,754732,Summit,2,ok,ok,2900,1000.0,False,3900.0
+283272,20,2,Munchkin,Sage,def,100,2950,Light armor,Bulldog,2766,754732,Summit,2,ok,ok,2050,400.0,False,2450.0
+283272,20,2,iZu,Fade,def,200,3150,Regen Shield,Guardian,2766,754732,Summit,2,ok,ok,2250,650.0,False,2900.0
+283272,20,2,BuZz,Neon,def,0,3050,Heavy armor,Judge,2766,754732,Summit,2,ok,ok,1850,1000.0,False,2850.0

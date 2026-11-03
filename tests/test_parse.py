@@ -10,6 +10,7 @@ import pytest
 
 from vlr import parse as P
 from vlr import crawl as C
+from vlr import storage as S
 from vlr.features import load_prices, team_round_table, player_loadout
 
 FX = Path(__file__).parent / "fixtures"
@@ -195,7 +196,7 @@ def test_economia_bate_com_replay(lotus):
 # o que a coleta extrai antes de rodar tudo (equivale a `python -m vlr.crawl amostra`).
 
 def test_amostra_gera_csvs():
-    out = C.SAMPLE_OUT
+    out = S.PROJECT_ROOT / "data" / "amostra"     # amostra do repositório, sempre em CSV
     res = C.build_sample(out)
 
     for name in ("partidas", "mapas", "rounds", "jogadores_rounds", "eventos_round", "cobertura_por_evento"):
@@ -225,3 +226,59 @@ def test_amostra_gera_csvs():
     assert cov.loc[2766, "pct_jogados_com_replay"] == 100.0
     assert cov.loc[2766, "nao_jogado"] == 1
     assert cov.loc[3105, "sem_replay"] == 1
+
+
+# ---------------------------------------------------------------- armazenamento (Drive/Colab)
+
+def test_raw_store_gzip_e_leitura_de_html_sem_compressao(tmp_path):
+    st = S.RawStore(tmp_path)
+    st.write("event_1/match_2/logs.html", LOTUS)
+    gz = tmp_path / "event_1/match_2/logs.html.gz"
+    assert gz.exists() and not (tmp_path / "event_1/match_2/logs.html").exists()
+    assert gz.stat().st_size < len(LOTUS.encode()) / 5          # bem menor que o HTML
+    assert st.read("event_1/match_2/logs.html") == LOTUS
+    (tmp_path / "event_9").mkdir()
+    (tmp_path / "event_9/antigo.html").write_text("ok", encoding="utf-8")
+    assert st.exists("event_9/antigo.html") and st.read("event_9/antigo.html") == "ok"
+
+
+def test_gravacao_atomica_nao_deixa_arquivo_parcial(tmp_path, monkeypatch):
+    st = S.RawStore(tmp_path)
+
+    def explode(*a, **k):
+        raise KeyboardInterrupt  # simula o Colab sendo interrompido no meio da gravação
+    monkeypatch.setattr(S.os, "replace", explode)
+    with pytest.raises(KeyboardInterrupt):
+        st.write("event_1/x.html", "conteudo")
+    assert not st.exists("event_1/x.html")              # nada com o nome final
+    assert not list(tmp_path.rglob(".tmp_*"))           # e o temporário foi limpo
+
+
+def test_processar_grava_parquet(tmp_path):
+    S.configurar(tmp_path / "dados")
+    st = S.RawStore(S.paths().raw)
+    for dest, src in C.SAMPLE_LAYOUT.items():
+        st.write(dest, (FX / src).read_text(encoding="utf-8"))
+    res = C.process()
+    proc = S.paths().processed
+    for name in ("partidas", "mapas", "rounds", "jogadores_rounds", "eventos_round", "cobertura_por_evento"):
+        assert (proc / f"{name}.parquet").exists(), name
+        assert not (proc / f"{name}.csv").exists()
+    R = pd.read_parquet(proc / "rounds.parquet")
+    assert len(R) == 44 and R.shape[1] == res["rounds"].shape[1]
+    assert R["t1_type_buy"].notna().all()
+
+
+def test_coleta_segue_quando_um_evento_falha(tmp_path, monkeypatch):
+    S.configurar(tmp_path / "dados")
+    f = C.Fetcher(0, 0)
+
+    def fake_event_matches(fetcher, eid):
+        if eid == 1:
+            raise RuntimeError("HTTP 500 simulado")
+        return []
+    monkeypatch.setattr(C, "_event_matches", fake_event_matches)
+    resumo = C.collect(f, [1, 2])
+    assert resumo["eventos_falha"] == 1 and resumo["eventos"] == 1
+    falhas = pd.read_parquet(S.paths().logs / "falhas.parquet")
+    assert list(falhas["event_id"]) == [1]

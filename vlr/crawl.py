@@ -1,42 +1,80 @@
-"""Coleta do vlr.gg (camada bruta) e processamento para CSV.
+"""Coleta do vlr.gg (camada bruta) e processamento para Parquet.
 
-Uso (a partir da pasta vlr_scraper/):
+Pode ser usado de duas formas:
 
-    # 1) ver os eventos concluídos do tier 60 (VCT)
-    python -m vlr.crawl listar-eventos --paginas 2
+* no Google Colab, pelo notebook `colab/coleta_vlr.ipynb` (que chama as funções
+  de `vlr.colab`), gravando tudo numa pasta do Google Drive;
+* pela linha de comando, em qualquer máquina:
 
-    # 2) checar rapidamente quais eventos têm 2D replay (1 partida por evento)
-    python -m vlr.crawl sondar --eventos 2766 2977 2776
+    python -m vlr.crawl --dados /caminho/da/pasta amostra
+    python -m vlr.crawl --dados /caminho/da/pasta listar-eventos
+    python -m vlr.crawl --dados /caminho/da/pasta sondar --eventos 2766 2977
+    python -m vlr.crawl --dados /caminho/da/pasta coletar --eventos 2766 --max-partidas 2
+    python -m vlr.crawl --dados /caminho/da/pasta processar
 
-    # 3) baixar tudo dos eventos escolhidos (fica em data/raw, com cache)
-    python -m vlr.crawl coletar --eventos 2766 2977 2776
+Sem --dados, usa a variável de ambiente VLR_DADOS ou a pasta data/ do projeto.
 
-    # 4) gerar os CSVs a partir do cache (pode rodar quantas vezes quiser)
-    python -m vlr.crawl processar
-
-A coleta é retomável: o que já está em data/raw não é baixado de novo.
+A coleta é retomável: cada página baixada vira um arquivo em <dados>/raw, e o que
+já existe lá não é baixado de novo.
 """
 from __future__ import annotations
 
 import argparse
 import logging
 import random
+import shutil
 import sys
+import tempfile
 import time
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
 import requests
 
 from . import parse as P
+from . import storage as S
 from .features import load_prices, team_round_table, player_loadout, DEFAULT_PRICES
 
 BASE = "https://www.vlr.gg"
-ROOT = Path(__file__).resolve().parent.parent
-RAW = ROOT / "data" / "raw"
-OUT = ROOT / "data" / "processed"
+ROOT = S.PROJECT_ROOT
 
 log = logging.getLogger("vlr")
+
+
+# ----------------------------------------------------------------------------
+# logging: terminal/célula do notebook + arquivo em <dados>/logs
+# ----------------------------------------------------------------------------
+
+def configurar_log(verbose: bool = False, arquivo: bool = True) -> Path | None:
+    log.setLevel(logging.DEBUG if verbose else logging.INFO)
+    log.propagate = False
+    for h in list(log.handlers):
+        log.removeHandler(h)
+        h.close()
+    fmt = logging.Formatter("%(asctime)s %(levelname)s %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+    sh = logging.StreamHandler(sys.stdout)
+    sh.setFormatter(fmt)
+    log.addHandler(sh)
+    if not arquivo:
+        return None
+    dest = S.paths().logs / f"coleta_{datetime.now():%Y%m%d_%H%M%S}.log"
+    fh = logging.FileHandler(dest, encoding="utf-8")
+    fh.setFormatter(fmt)
+    log.addHandler(fh)
+    return dest
+
+
+def _registrar_falha(etapa: str, event_id, match_id, erro: Exception | str):
+    """Grava a falha em <dados>/logs/falhas.parquet na hora (sobrevive à queda do Colab)."""
+    try:
+        S.anexar_tabela(
+            pd.DataFrame([{"quando": datetime.now().isoformat(timespec="seconds"), "etapa": etapa,
+                           "event_id": event_id, "match_id": match_id, "erro": str(erro)}]),
+            S.paths().logs, "falhas",
+        )
+    except Exception as e:  # o registro de falhas nunca pode derrubar a coleta
+        log.warning("não consegui gravar falhas.parquet: %s", e)
 
 
 # ----------------------------------------------------------------------------
@@ -44,12 +82,14 @@ log = logging.getLogger("vlr")
 # ----------------------------------------------------------------------------
 
 class Fetcher:
-    def __init__(self, min_delay: float = 3.0, max_delay: float = 6.0, user_agent: str | None = None):
+    def __init__(self, min_delay: float = 3.0, max_delay: float = 6.0, user_agent: str | None = None,
+                 store: S.RawStore | None = None):
         self.min_delay, self.max_delay = min_delay, max_delay
         self.s = requests.Session()
         self.s.headers["User-Agent"] = user_agent or (
             "Mozilla/5.0 (compatible; TCC-academic-scraper/1.0; coleta para pesquisa academica)"
         )
+        self.store = store or S.RawStore(S.paths().raw)
         self._last = 0.0
         self.n_requests = 0
 
@@ -59,9 +99,10 @@ class Fetcher:
         if elapsed < delay:
             time.sleep(delay - elapsed)
 
-    def get(self, path: str, cache: Path, refresh: bool = False) -> str:
-        if cache.exists() and not refresh:
-            return cache.read_text(encoding="utf-8")
+    def get(self, path: str, key: str, refresh: bool = False) -> str:
+        """Devolve a página `path`; usa o cache `key` se já existir."""
+        if not refresh and self.store.exists(key):
+            return self.store.read(key)
         url = path if path.startswith("http") else BASE + path
         for attempt in range(5):
             self._wait()
@@ -74,8 +115,7 @@ class Fetcher:
                 time.sleep(10 * (attempt + 1))
                 continue
             if r.status_code == 200:
-                cache.parent.mkdir(parents=True, exist_ok=True)
-                cache.write_text(r.text, encoding="utf-8")
+                self.store.write(key, r.text)   # gravação atômica (ver storage.py)
                 return r.text
             if r.status_code in (429, 500, 502, 503, 504):
                 wait = 30 * (attempt + 1)
@@ -87,19 +127,19 @@ class Fetcher:
 
 
 # ----------------------------------------------------------------------------
-# caminhos do cache
+# chaves do cache
 # ----------------------------------------------------------------------------
 
-def events_page_cache(page: int) -> Path:
-    return RAW / "eventos" / f"tier60_page_{page}.html"
+def events_page_key(page: int) -> str:
+    return f"eventos/tier60_page_{page}.html"
 
 
-def event_matches_cache(eid: int) -> Path:
-    return RAW / f"event_{eid}" / "matches.html"
+def event_matches_key(eid: int) -> str:
+    return f"event_{eid}/matches.html"
 
 
-def match_dir(eid: int, mid: int) -> Path:
-    return RAW / f"event_{eid}" / f"match_{mid}"
+def match_key(eid: int, mid: int, arquivo: str) -> str:
+    return f"event_{eid}/match_{mid}/{arquivo}"
 
 
 # ----------------------------------------------------------------------------
@@ -112,63 +152,82 @@ def list_events(f: Fetcher, pages: int | None = None, refresh: bool = False) -> 
     pages=None (padrão) lê TODAS as páginas: o número da última é lido da
     paginação da primeira página. Um inteiro limita a leitura às N primeiras.
     """
-    first = f.get("/events/?tier=60&page=1", events_page_cache(1), refresh=refresh)
+    first = f.get("/events/?tier=60&page=1", events_page_key(1), refresh=refresh)
     last = P.parse_events_last_page(first)
     if pages is not None:
         last = min(last, pages)
     log.info("lendo %d página(s) de eventos", last)
     rows = [dict(r, page=1) for r in P.parse_events_list(first)]
     for page in range(2, last + 1):
-        html = f.get(f"/events/?tier=60&page={page}", events_page_cache(page), refresh=refresh)
+        html = f.get(f"/events/?tier=60&page={page}", events_page_key(page), refresh=refresh)
         rows += [dict(r, page=page) for r in P.parse_events_list(html)]
     df = pd.DataFrame(rows).drop_duplicates("event_id")
     return df[df["status"] == "completed"].reset_index(drop=True)
 
 
 def _event_matches(f: Fetcher, eid: int) -> list[dict]:
-    html = f.get(f"/event/matches/{eid}/x/?series_id=all", event_matches_cache(eid))
+    html = f.get(f"/event/matches/{eid}/x/?series_id=all", event_matches_key(eid))
     return [m for m in P.parse_event_matches(html) if m["status"] == "completed"]
 
 
 def _fetch_match(f: Fetcher, eid: int, m: dict) -> dict:
-    """Baixa a aba 2D Replay de todos os mapas JOGADOS de uma partida."""
+    """Baixa a aba 2D Replay de todos os mapas JOGADOS e a aba Economy de uma partida."""
     mid = m["match_id"]
-    d = match_dir(eid, mid)
     base_path = m["match_url"].rstrip("/")
-    html = f.get(f"{base_path}/?tab=logs", d / "logs.html")
+    html = f.get(f"{base_path}/?tab=logs", match_key(eid, mid, "logs.html"))
     nav = P.parse_games_nav(html)
     active = P.active_game_id(html)
     fetched = 0
     if any(g["played"] for g in nav):
         # aba Economy: uma requisição traz loadout e tipo de compra de todos os mapas
-        if not (d / "economy.html").exists():
-            f.get(f"{base_path}/?tab=economy", d / "economy.html")
+        k = match_key(eid, mid, "economy.html")
+        if not f.store.exists(k):
+            f.get(f"{base_path}/?tab=economy", k)
             fetched += 1
     for g in nav:
         if not g["played"]:
             continue  # mapa não jogado: não existe replay a buscar
-        cache = d / f"game_{g['game_id']}.html"
-        if g["game_id"] == active and not cache.exists():
-            cache.write_text(html, encoding="utf-8")  # a página base já traz o 1º mapa
+        k = match_key(eid, mid, f"game_{g['game_id']}.html")
+        if f.store.exists(k):
             continue
-        if not cache.exists():
-            f.get(f"{base_path}/?game={g['game_id']}&tab=logs", cache)
-            fetched += 1
+        if g["game_id"] == active:
+            f.store.write(k, html)  # a página base já traz o 1º mapa
+            continue
+        f.get(f"{base_path}/?game={g['game_id']}&tab=logs", k)
+        fetched += 1
     return {"match_id": mid, "maps": len(nav), "fetched": fetched}
 
 
-def collect(f: Fetcher, event_ids: list[int], max_matches: int | None = None):
-    for eid in event_ids:
-        matches = _event_matches(f, eid)
+def collect(f: Fetcher, event_ids: list[int], max_matches: int | None = None) -> dict:
+    """Baixa os eventos. Uma falha (de evento ou de partida) é registrada e a coleta segue."""
+    n = f.store.limpar_temporarios()
+    if n:
+        log.info("removidos %d arquivos temporários de uma execução interrompida", n)
+    resumo = {"eventos": 0, "partidas_ok": 0, "partidas_falha": 0, "eventos_falha": 0}
+    for ei, eid in enumerate(event_ids, 1):
+        try:
+            matches = _event_matches(f, eid)
+        except Exception as e:
+            log.error("evento %s (%d/%d): lista de partidas falhou: %s", eid, ei, len(event_ids), e)
+            _registrar_falha("lista_partidas", eid, None, e)
+            resumo["eventos_falha"] += 1
+            continue
         if max_matches:
             matches = matches[:max_matches]
-        log.info("evento %s: %d partidas concluídas", eid, len(matches))
+        resumo["eventos"] += 1
+        log.info("evento %s (%d/%d): %d partidas concluídas", eid, ei, len(event_ids), len(matches))
         for i, m in enumerate(matches, 1):
             try:
                 info = _fetch_match(f, eid, m)
-                log.info("  [%d/%d] partida %s ok (%d mapas listados)", i, len(matches), m["match_id"], info["maps"])
+                resumo["partidas_ok"] += 1
+                log.info("  [%d/%d] partida %s ok (%d mapas listados, %d requisições)",
+                         i, len(matches), m["match_id"], info["maps"], info["fetched"])
             except Exception as e:  # não derruba a coleta inteira
+                resumo["partidas_falha"] += 1
                 log.error("  [%d/%d] partida %s falhou: %s", i, len(matches), m["match_id"], e)
+                _registrar_falha("partida", eid, m["match_id"], e)
+    log.info("coleta encerrada: %s | requisições: %d", resumo, f.n_requests)
+    return resumo
 
 
 def _probe_status(html: str) -> str:
@@ -191,7 +250,7 @@ def probe(f: Fetcher, events: list[int] | pd.DataFrame) -> pd.DataFrame:
     else:
         info, ids = {}, list(events)
     rows = []
-    for eid in ids:
+    for n, eid in enumerate(ids, 1):
         meta = info.get(eid, {})
         base = {"event_id": eid, "pagina": meta.get("page"), "evento": meta.get("event_name"),
                 "datas": meta.get("dates")}
@@ -202,14 +261,17 @@ def probe(f: Fetcher, events: list[int] | pd.DataFrame) -> pd.DataFrame:
                 continue
             res = []
             for m in (matches[0], matches[-1]):
-                html = f.get(f"{m['match_url'].rstrip('/')}/?tab=logs", match_dir(eid, m["match_id"]) / "logs.html")
+                html = f.get(f"{m['match_url'].rstrip('/')}/?tab=logs",
+                             match_key(eid, m["match_id"], "logs.html"))
                 if base["evento"] is None:
                     base["evento"] = P.parse_match_header(html)["event_name"]
                 res.append(_probe_status(html))
             rows.append({**base, "partidas_concluidas": len(matches),
                          "primeira_partida_mapa1": res[0], "ultima_partida_mapa1": res[1]})
+            log.info("sondagem %d/%d: evento %s -> %s / %s", n, len(ids), eid, res[0], res[1])
         except Exception as e:
             log.error("evento %s falhou na sondagem: %s", eid, e)
+            _registrar_falha("sondagem", eid, None, e)
             rows.append({**base, "erro": str(e)})
     df = pd.DataFrame(rows)
     if len(df) and "primeira_partida_mapa1" in df:
@@ -239,25 +301,31 @@ def _economy_status(log_rounds: list, eco_rounds: list, eco_downloaded: bool) ->
 
 
 def process(prices_path: Path = DEFAULT_PRICES, raw_dir: Path | None = None,
-            out_dir: Path | None = None) -> dict[str, pd.DataFrame]:
-    """Lê o cache bruto (raw_dir, padrão data/raw) e grava os CSVs (out_dir, padrão data/processed)."""
-    raw_dir = RAW if raw_dir is None else raw_dir
-    out_dir = OUT if out_dir is None else out_dir
+            out_dir: Path | None = None, formato: str = "parquet") -> dict[str, pd.DataFrame]:
+    """Lê o cache bruto e grava as tabelas finais.
+
+    raw_dir: padrão <dados>/raw · out_dir: padrão <dados>/processed · formato: parquet ou csv.
+    """
+    store = S.RawStore(S.paths().raw if raw_dir is None else raw_dir)
+    out_dir = S.paths().processed if out_dir is None else Path(out_dir)
     prices = load_prices(prices_path)
     matches_rows, maps_rows = [], []
     rounds_all, players_all, events_all = [], [], []
 
-    for ev_dir in sorted(raw_dir.glob("event_*")):
+    ev_dirs = store.event_dirs()
+    for n_ev, ev_dir in enumerate(ev_dirs, 1):
         eid = int(ev_dir.name.split("_")[1])
-        for md in sorted(ev_dir.glob("match_*")):
-            logs = md / "logs.html"
-            if not logs.exists():
+        mdirs = store.match_dirs(ev_dir)
+        log.debug("processando evento %s (%d/%d, %d partidas)", eid, n_ev, len(ev_dirs), len(mdirs))
+        for md in mdirs:
+            mkey = store.key_of(md)
+            if not store.exists(f"{mkey}/logs.html"):
                 continue
-            html = logs.read_text(encoding="utf-8")
+            html = store.read(f"{mkey}/logs.html")
             hdr = P.parse_match_header(html)
             nav = P.parse_games_nav(html)
-            eco_file = md / "economy.html"
-            economy = P.parse_economy(eco_file.read_text(encoding="utf-8")) if eco_file.exists() else {}
+            eco_ok = store.exists(f"{mkey}/economy.html")
+            economy = P.parse_economy(store.read(f"{mkey}/economy.html")) if eco_ok else {}
             mid = hdr["match_id"] or int(md.name.split("_")[1])
             matches_rows.append({"event_id": eid, **hdr, "match_id": mid,
                                  "mapas_listados": len(nav),
@@ -273,15 +341,15 @@ def process(prices_path: Path = DEFAULT_PRICES, raw_dir: Path | None = None,
                                status_detail="mapa não jogado (série decidida antes)")
                     maps_rows.append(row)
                     continue
-                gf = md / f"game_{g['game_id']}.html"
-                if not gf.exists():
+                gkey = f"{mkey}/game_{g['game_id']}.html"
+                if not store.exists(gkey):
                     row.update(status="nao_baixado", status_detail="rode 'coletar' novamente")
                     maps_rows.append(row)
                     continue
-                gl = P.parse_game_logs(gf.read_text(encoding="utf-8"), g["game_id"])
+                gl = P.parse_game_logs(store.read(gkey), g["game_id"])
                 eco_rounds = economy.get(g["game_id"], [])
                 row.update(status=gl.status, status_detail=gl.status_detail, n_rounds=len(gl.rounds),
-                           economia_status=_economy_status(gl.rounds, eco_rounds, eco_file.exists()))
+                           economia_status=_economy_status(gl.rounds, eco_rounds, eco_ok))
                 maps_rows.append(row)
                 if gl.rounds:
                     meta = {"event_id": eid, "match_id": mid, "map_name": g["map_name"],
@@ -334,9 +402,8 @@ def process(prices_path: Path = DEFAULT_PRICES, raw_dir: Path | None = None,
         cov = cov.merge(names, on="event_id", how="left").merge(n_part, on="event_id", how="left")
         out["cobertura_por_evento"] = cov
 
-    out_dir.mkdir(parents=True, exist_ok=True)
     for name, df in out.items():
-        df.to_csv(out_dir / f"{name}.csv", index=False, encoding="utf-8")
+        S.salvar_tabela(df, out_dir, name, formato)
     return out
 
 
@@ -345,7 +412,6 @@ def process(prices_path: Path = DEFAULT_PRICES, raw_dir: Path | None = None,
 # ----------------------------------------------------------------------------
 
 FIXTURES = ROOT / "tests" / "fixtures"
-SAMPLE_OUT = ROOT / "data" / "amostra"
 
 # como cada página salva entra no cache simulado (evento/partida/arquivo)
 SAMPLE_LAYOUT = {
@@ -358,24 +424,22 @@ SAMPLE_LAYOUT = {
 }
 
 
-def build_sample(out_dir: Path = SAMPLE_OUT, prices_path: Path = DEFAULT_PRICES) -> dict[str, pd.DataFrame]:
-    """Gera os mesmos CSVs da coleta real, sem acessar o site.
+def build_sample(out_dir: Path | None = None, prices_path: Path = DEFAULT_PRICES) -> dict[str, pd.DataFrame]:
+    """Gera as mesmas tabelas da coleta real, em CSV, sem acessar o site.
 
     Usa duas partidas reais salvas em tests/fixtures:
     * NRG vs T1 (Champions 2026): Lotus e Summit com replay; Abyss não jogado.
     * BLG vs XLG (China Evolution Series): Summit jogado SEM replay; Haven não
       baixado de propósito (aparece como 'nao_baixado'); Sunset não jogado.
     """
-    import shutil
-    import tempfile
-
+    out_dir = S.paths().amostra if out_dir is None else Path(out_dir)
     with tempfile.TemporaryDirectory() as tmp:
         raw = Path(tmp)
         for dest, src in SAMPLE_LAYOUT.items():
             p = raw / dest
             p.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(FIXTURES / src, p)
-        return process(prices_path, raw_dir=raw, out_dir=out_dir)
+        return process(prices_path, raw_dir=raw, out_dir=out_dir, formato="csv")
 
 
 # ----------------------------------------------------------------------------
@@ -385,6 +449,8 @@ def build_sample(out_dir: Path = SAMPLE_OUT, prices_path: Path = DEFAULT_PRICES)
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="python -m vlr.crawl", description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--dados", type=Path, default=None,
+                    help="pasta-base das saídas (padrão: $VLR_DADOS ou data/ do projeto)")
     ap.add_argument("--min-delay", type=float, default=3.0, help="intervalo mínimo entre requisições (s)")
     ap.add_argument("--max-delay", type=float, default=6.0, help="intervalo máximo entre requisições (s)")
     ap.add_argument("-v", "--verbose", action="store_true")
@@ -400,51 +466,52 @@ def main(argv=None):
                     help="IDs dos eventos (padrão: todos os concluídos, de todas as páginas)")
     s2.add_argument("--paginas", type=int, default=None, help="sem --eventos: limita às N primeiras páginas")
 
-    s3 = sub.add_parser("coletar", help="baixa partidas e mapas dos eventos e gera os CSVs")
+    s3 = sub.add_parser("coletar", help="baixa partidas e mapas dos eventos e gera as tabelas")
     s3.add_argument("--eventos", type=int, nargs="+", required=True)
     s3.add_argument("--max-partidas", type=int, default=None, help="limite por evento (para teste)")
-    s3.add_argument("--sem-processar", action="store_true", help="só baixa; não gera os CSVs ao final")
+    s3.add_argument("--sem-processar", action="store_true", help="só baixa; não gera as tabelas ao final")
     s3.add_argument("--precos", type=Path, default=DEFAULT_PRICES)
 
-    s4 = sub.add_parser("processar", help="gera os CSVs a partir do cache")
+    s4 = sub.add_parser("processar", help="gera as tabelas (Parquet) a partir do cache")
     s4.add_argument("--precos", type=Path, default=DEFAULT_PRICES)
 
     s5 = sub.add_parser("amostra", help="gera CSVs de exemplo a partir das páginas salvas em tests/fixtures (sem rede)")
     s5.add_argument("--precos", type=Path, default=DEFAULT_PRICES)
 
     a = ap.parse_args(argv)
-    logging.basicConfig(level=logging.DEBUG if a.verbose else logging.INFO, format="%(asctime)s %(message)s",
-                        datefmt="%H:%M:%S")
-    f = Fetcher(a.min_delay, a.max_delay)
+    pth = S.configurar(a.dados)
+    configurar_log(a.verbose, arquivo=a.cmd in ("coletar", "sondar", "processar"))
+    log.info("pasta de dados: %s", pth.base)
 
+    if a.cmd == "amostra":
+        _print_summary(build_sample(prices_path=a.precos), pth.amostra, "csv")
+        return
+    if a.cmd == "processar":
+        _print_summary(process(a.precos), pth.processed, "parquet")
+        return
+
+    f = Fetcher(a.min_delay, a.max_delay)
     if a.cmd == "listar-eventos":
         df = list_events(f, a.paginas, a.atualizar)
-        OUT.mkdir(parents=True, exist_ok=True)
-        df.to_csv(OUT / "eventos_concluidos.csv", index=False)
+        S.salvar_tabela(df, pth.processed, "eventos_concluidos")
         with pd.option_context("display.max_rows", None, "display.width", 200):
-            print(df[["event_id", "event_name", "dates", "region"]].to_string(index=False))
+            print(df[["event_id", "event_name", "dates", "region", "page"]].to_string(index=False))
     elif a.cmd == "sondar":
         events = a.eventos if a.eventos else list_events(f, a.paginas)
         df = probe(f, events)
-        OUT.mkdir(parents=True, exist_ok=True)
-        df.to_csv(OUT / "sondagem_replay.csv", index=False, encoding="utf-8")
+        dest = S.salvar_tabela(df, pth.processed, "sondagem_replay")
         with pd.option_context("display.max_rows", None, "display.width", 200):
             print(df.to_string(index=False))
-        print(f"\n-> data/processed/sondagem_replay.csv ({f.n_requests} requisições)")
+        print(f"\n-> {dest} ({f.n_requests} requisições)")
     elif a.cmd == "coletar":
         collect(f, a.eventos, a.max_partidas)
-        log.info("requisições feitas: %d", f.n_requests)
         if not a.sem_processar:
-            _print_summary(process(a.precos), "data/processed")
-    elif a.cmd == "processar":
-        _print_summary(process(a.precos), "data/processed")
-    elif a.cmd == "amostra":
-        _print_summary(build_sample(prices_path=a.precos), "data/amostra")
+            _print_summary(process(a.precos), pth.processed, "parquet")
 
 
-def _print_summary(out: dict[str, pd.DataFrame], folder: str):
+def _print_summary(out: dict[str, pd.DataFrame], pasta: Path, ext: str):
     for name, df in out.items():
-        print(f"{name:24s} {len(df):7d} linhas -> {folder}/{name}.csv")
+        print(f"{name:24s} {len(df):7d} linhas -> {pasta / f'{name}.{ext}'}")
     if "cobertura_por_evento" in out:
         with pd.option_context("display.width", 200):
             print(out["cobertura_por_evento"].to_string(index=False))

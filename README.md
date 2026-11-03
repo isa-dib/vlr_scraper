@@ -4,10 +4,14 @@ Scraper das abas **2D Replay** e **Economy** do vlr.gg. Gera uma tabela round a 
 com economia, tipo de compra, kills, lado e resultado dos dois times, além de um
 relatório de cobertura que separa **mapa não jogado** de **mapa sem replay**.
 
+Feito para rodar no **Google Colab**, gravando tudo numa pasta do **Google Drive**
+(as tabelas finais em **Parquet**; as de amostra em CSV). Também roda localmente
+pela linha de comando.
+
 ## Sumário
 
-1. [Instalação](#instalação)
-2. [Uso](#uso)
+1. [Uso no Google Colab](#uso-no-google-colab)
+2. [Uso local (linha de comando)](#uso-local-linha-de-comando)
 3. [Arquivos gerados](#arquivos-gerados)
 4. [Detalhes técnicos](#detalhes-técnicos)
 5. [Decisões de arquitetura](#decisões-de-arquitetura)
@@ -19,49 +23,59 @@ relatório de cobertura que separa **mapa não jogado** de **mapa sem replay**.
 
 ---
 
-## Instalação
+## Uso no Google Colab
 
-```bash
-cd vlr_scraper
-python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-python -m pytest -q tests                              # 22 testes com páginas reais
+1. Envie a pasta `vlr_scraper` (ou o arquivo `vlr_scraper.zip`) para `MyDrive/TCC/` no Google Drive.
+2. Abra `colab/coleta_vlr.ipynb` no Colab (no Drive: clique duas vezes no arquivo → *Abrir com
+   Google Colaboratory*).
+3. Rode as células em ordem. O notebook:
+   - monta o Drive e copia o código para o disco local do Colab (`/content`);
+   - instala as dependências e, opcionalmente, roda os testes;
+   - grava todas as saídas em `MyDrive/TCC/vlr_dados/`.
+
+Para mudar as pastas, edite `PASTA_CODIGO` e `PASTA_DADOS` na primeira célula.
+
+### Pasta de dados no Drive
+
+```
+MyDrive/TCC/vlr_dados/
+├── raw/          páginas baixadas, comprimidas (.html.gz) — cache que permite retomar a coleta
+├── processed/    tabelas finais em Parquet: rounds, mapas, partidas, jogadores_rounds,
+│                 eventos_round, cobertura_por_evento, eventos_concluidos, sondagem_replay
+├── amostra/      as mesmas tabelas em CSV, geradas a partir de 2 partidas salvas no projeto
+└── logs/         coleta_<data>_<hora>.log (um por execução) e falhas.parquet
 ```
 
-Os testes também geram os **CSVs de amostra** em `data/amostra/` (ver abaixo).
+### Funções disponíveis no notebook (`from vlr import colab`)
 
-Requer Python 3.10 ou superior (testado com 3.13).
+| Função | O que faz |
+|---|---|
+| `colab.preparar(pasta, min_delay=3, max_delay=6)` | monta o Drive, cria as subpastas e define o intervalo entre requisições |
+| `colab.amostra()` | gera os CSVs de amostra em `amostra/`, sem acessar o site |
+| `colab.listar_eventos(paginas=None)` | eventos concluídos do tier 60 (todas as páginas) → `eventos_concluidos.parquet` |
+| `colab.sondar(eventos=None)` | sondagem de 2D replay → `sondagem_replay.parquet` |
+| `colab.coletar(eventos, max_partidas=None)` | baixa os eventos para `raw/` e gera os Parquet ao final |
+| `colab.processar()` | regera os Parquet a partir de `raw/`, sem baixar nada |
+| `colab.ler("rounds")` | lê uma tabela de `processed/` como DataFrame |
+| `colab.falhas()` | lista o que falhou nas coletas (`logs/falhas.parquet`) |
+| `colab.uso_de_espaco()` | tamanho e número de arquivos de cada subpasta |
+| `colab.finalizar()` | sincroniza e desmonta o Drive antes de fechar |
 
-## Uso
+### Se o Colab desconectar
 
-```bash
-# 0) ver o que é extraído, sem acessar o site -> data/amostra/*.csv
-python -m vlr.crawl amostra
+Sessões do Colab caem por inatividade (cerca de 90 min sem interação no plano gratuito) ou
+pelo limite de duração (até ~12 h). Nada se perde:
 
-# 1) eventos concluídos do tier 60, TODAS as páginas -> data/processed/eventos_concluidos.csv
-python -m vlr.crawl listar-eventos
-#    só as N primeiras páginas:  --paginas N
+1. Rode de novo as células 1, 2 e 4 (Drive, código e `preparar`).
+2. Rode de novo a célula de coleta, com a mesma lista de eventos.
 
-# 2) sondagem de 2D replay (1ª e última partida de cada evento) -> data/processed/sondagem_replay.csv
-python -m vlr.crawl sondar                              # todos os eventos concluídos
-python -m vlr.crawl sondar --eventos 2766 2977          # só os escolhidos
-
-# 3) coleta + processamento (retomável: o que já está em data/raw não é baixado de novo)
-python -m vlr.crawl coletar --eventos 2766 --max-partidas 2    # teste curto, já gera os CSVs
-python -m vlr.crawl coletar --eventos 2766 2977 2976 2776      # coleta completa
-#    só baixar, sem gerar os CSVs:  --sem-processar
-
-# 4) regerar os CSVs a partir do cache (ex.: após trocar a tabela de preços)
-python -m vlr.crawl processar --precos config/outra_tabela.csv
-```
-
-Opções globais: `--min-delay` e `--max-delay` (intervalo entre requisições, padrão 3 a 6 s)
-e `-v` (log detalhado).
+O que já está em `raw/` não é baixado de novo. Arquivos temporários de uma gravação
+interrompida são apagados automaticamente no início da coleta.
 
 ### Antes de rodar tudo: amostra e teste curto
 
-1. **`amostra`** (ou `pytest`) processa duas partidas reais salvas em `tests/fixtures/` e grava
-   em `data/amostra/` exatamente os mesmos CSVs da coleta real:
+1. **`colab.amostra()`** (ou `pytest`) processa duas partidas reais salvas em `tests/fixtures/`
+   e grava, em CSV, exatamente as mesmas tabelas da coleta real:
    - **NRG vs T1** (Champions 2026, 2:0): Lotus (24 rounds) e Summit (20 rounds) com replay;
      Abyss aparece como `nao_jogado`.
    - **BLG vs XLG** (China Evolution Series 2026): Summit jogado `sem_replay`; Haven
@@ -69,9 +83,34 @@ e `-v` (log detalhado).
 
    Resultado: 44 linhas em `rounds.csv` (64 colunas), 440 em `jogadores_rounds.csv`,
    339 em `eventos_round.csv` e 6 em `mapas.csv`.
-2. **`coletar --max-partidas 2`** faz uma coleta real e curta e, ao terminar, já grava os CSVs em
-   `data/processed/`. Assim dá para conferir o resultado com dados recém-baixados antes da
-   coleta completa.
+2. **`colab.coletar([2766], max_partidas=2)`** faz uma coleta real e curta e já grava os Parquet
+   em `processed/`, para conferir o resultado com dados recém-baixados.
+
+## Uso local (linha de comando)
+
+```bash
+cd vlr_scraper
+python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+python -m pytest -q tests                              # 26 testes com páginas reais
+```
+
+Os testes também regeram os CSVs de amostra do repositório em `data/amostra/`. Eles nunca
+gravam na pasta de dados real. Requer Python 3.10 ou superior (testado com 3.13).
+
+```bash
+D=/caminho/da/pasta/de/dados        # sem --dados: usa $VLR_DADOS ou data/ do projeto
+
+python -m vlr.crawl --dados $D amostra                                  # CSVs de exemplo, sem rede
+python -m vlr.crawl --dados $D listar-eventos                           # todas as páginas (--paginas N limita)
+python -m vlr.crawl --dados $D sondar                                   # todos os eventos (--eventos ... escolhe)
+python -m vlr.crawl --dados $D coletar --eventos 2766 --max-partidas 2  # teste curto
+python -m vlr.crawl --dados $D coletar --eventos 2766 2977 2976 2776    # coleta completa
+python -m vlr.crawl --dados $D processar --precos config/outra_tabela.csv
+```
+
+Opções globais: `--dados`, `--min-delay` e `--max-delay` (intervalo entre requisições, padrão
+3 a 6 s) e `-v` (log detalhado). `coletar --sem-processar` só baixa, sem gerar as tabelas.
 
 ### Sondagem de replay
 
@@ -83,7 +122,11 @@ replay), `parcial` (só uma) ou `nao`. O resumo está em
 
 ## Arquivos gerados
 
-### `rounds.csv` — uma linha por (mapa, round)
+As tabelas da coleta ficam em `<dados>/processed/` como **Parquet** (`rounds.parquet`,
+`mapas.parquet`...); as de amostra, em `<dados>/amostra/` como **CSV**, com os mesmos nomes e
+colunas. Para ler no notebook: `colab.ler("rounds")` ou `pd.read_parquet(".../rounds.parquet")`.
+
+### `rounds` — uma linha por (mapa, round)
 
 As colunas `t1_*` se referem ao time da esquerda no vlr.gg (`team1`), e as `t2_*` ao da direita.
 
@@ -110,7 +153,7 @@ As colunas `t1_*` se referem ao time da esquerda no vlr.gg (`team1`), e as `t2_*
 | `winner_eco`, `economia_status` | vencedor segundo a aba Economy e resultado da conferência com o replay |
 | `patch`, `tabela_precos` | patch da partida e arquivo de preços usado |
 
-### `mapas.csv` — um mapa por linha, com `status`
+### `mapas` — um mapa por linha, com `status`
 
 | status | significado | entra no denominador de cobertura? |
 |---|---|---|
@@ -128,14 +171,15 @@ A coluna `economia_status` diz se a aba Economy daquele mapa foi lida e bate com
 
 | Arquivo | Conteúdo |
 |---|---|
-| `cobertura_por_evento.csv` | contagem por status e `pct_jogados_com_replay = ok / mapas_jogados` (mapas não jogados ficam de fora) |
-| `jogadores_rounds.csv` | economia por jogador e round, com preço de arma, armadura e loadout (auditoria) |
-| `eventos_round.csv` | kills, plants e defuses com tempo, autor, vítima, arma e tipo de morte |
-| `partidas.csv` | metadados da partida: data UTC, patch, times, veto, placar da série |
-| `eventos_concluidos.csv` | saída do comando `listar-eventos` (com a página de origem) |
-| `sondagem_replay.csv` | saída do comando `sondar` |
+| `cobertura_por_evento` | contagem por status e `pct_jogados_com_replay = ok / mapas_jogados` (mapas não jogados ficam de fora) |
+| `jogadores_rounds` | economia por jogador e round, com preço de arma, armadura e loadout (auditoria) |
+| `eventos_round` | kills, plants e defuses com tempo, autor, vítima, arma e tipo de morte |
+| `partidas` | metadados da partida: data UTC, patch, times, veto, placar da série |
+| `eventos_concluidos` | saída do comando `listar-eventos` (com a página de origem) |
+| `sondagem_replay` | saída do comando `sondar` |
+| `logs/falhas.parquet` | eventos e partidas que falharam, com data, etapa e erro |
+| `logs/coleta_*.log` | log completo de cada execução |
 
-Os CSVs da coleta real ficam em `data/processed/`; os da amostra, em `data/amostra/`.
 
 ---
 
@@ -148,11 +192,14 @@ Os CSVs da coleta real ficam em `data/processed/`; os da amostra, em `data/amost
 | [requests](https://requests.readthedocs.io/) | 2.34 | requisições HTTP com `Session` (reaproveita conexão e cabeçalhos) |
 | [beautifulsoup4](https://www.crummy.com/software/BeautifulSoup/) | 4.15 | navegação no HTML por seletores CSS (`select`, `select_one`) |
 | [lxml](https://lxml.de/) | 6.1 | parser HTML usado pelo BeautifulSoup (mais rápido e tolerante; cai para `html.parser` se não estiver instalado) |
-| [pandas](https://pandas.pydata.org/) | 3.0 | agregação por time, junção de tabelas e exportação para CSV |
+| [pandas](https://pandas.pydata.org/) | 3.0 | agregação por time, junção de tabelas e exportação |
+| [pyarrow](https://arrow.apache.org/docs/python/) | 26.0 | gravação e leitura de Parquet (compressão zstd) |
 | [pytest](https://docs.pytest.org/) | 9.1 | testes automatizados com páginas reais salvas |
 
 Bibliotecas da própria linguagem: `json` (dados embutidos no HTML), `re` (números e títulos),
-`dataclasses` (registros tipados), `argparse` (linha de comando), `logging`, `pathlib` e `csv`.
+`gzip` (cache comprimido), `tempfile` e `os.replace` (gravação atômica), `dataclasses`
+(registros tipados), `argparse` (linha de comando), `logging`, `pathlib` e `csv`. No Colab,
+`google.colab.drive` monta o Google Drive.
 
 ### Estrutura do código
 
@@ -161,7 +208,11 @@ vlr_scraper/
 ├── vlr/
 │   ├── parse.py       HTML -> registros (funções puras, sem rede)
 │   ├── features.py    registros -> tabela por time e round (pandas)
-│   └── crawl.py       HTTP, cache em disco e linha de comando
+│   ├── storage.py     pasta de dados, cache .html.gz, gravação atômica, Parquet/CSV
+│   ├── crawl.py       HTTP, coleta, processamento e linha de comando
+│   └── colab.py       funções de alto nível para o notebook
+├── colab/
+│   └── coleta_vlr.ipynb      notebook do Google Colab
 ├── config/
 │   ├── precos_itens.csv      preço de armas e armaduras
 │   └── regras_economia.csv   renda por vitória, derrota, kill, plant...
@@ -173,13 +224,11 @@ vlr_scraper/
 │   │   ├── match_754732_game_283272_logs.html   NRG vs T1, Summit (2D Replay)
 │   │   ├── match_754732_economy.html            NRG vs T1, aba Economy
 │   │   └── match_748619_noreplay_logs.html      BLG vs XLG, mapa sem replay
+│   ├── conftest.py    garante que os testes não gravam na pasta de dados real
 │   └── test_parse.py
 ├── docs/
 │   └── sondagem_replay.csv   sondagem de todos os eventos concluídos do tier 60
-└── data/              (criada na execução; fora do git)
-    ├── raw/           HTML bruto
-    ├── processed/     CSVs da coleta real
-    └── amostra/       CSVs gerados a partir de tests/fixtures
+└── data/amostra/      CSVs de amostra do repositório (regenerados pelos testes)
 ```
 
 ### Fluxo de dados
@@ -190,7 +239,7 @@ vlr_scraper/
 /<partida>/?tab=logs         -> cabeçalho + lista de mapas (parse_match_header, parse_games_nav)
 /<partida>/?game=<id>&tab=logs -> rounds do mapa           (parse_game_logs)
 /<partida>/?tab=economy      -> loadout e tipo de compra de todos os mapas (parse_economy)
-                                  └─ junção por (game_id, round) + features.team_round_table -> rounds.csv
+                                  └─ junção por (game_id, round) + features.team_round_table -> rounds.parquet
 ```
 
 ### Onde cada dado está na página
@@ -259,8 +308,9 @@ próprio site publica (decisão 11).
 
 **10. Coleta educada e retomável.**
 Há um intervalo aleatório entre requisições, novas tentativas com espera crescente em HTTP
-429/5xx, um User-Agent identificado e cache por arquivo. Uma partida que falha é registrada no
-log e não interrompe o evento. O `robots.txt` do vlr.gg (out/2026) bloqueia apenas
+429/5xx, um User-Agent identificado e cache por arquivo. Uma partida ou um evento que falha é
+registrado em `logs/falhas.parquet` e no log da execução, e a coleta segue para o próximo; ao
+rodar de novo, o que faltou é baixado. O `robots.txt` do vlr.gg (out/2026) bloqueia apenas
 `/search/auto` e `/rr/`, que não são usados. Custo: 1 requisição por evento; por partida,
 1 da aba 2D Replay e 1 da aba Economy; e mais 1 por mapa jogado além do primeiro (a página da
 partida já traz o 1º mapa, e a aba Economy traz todos os mapas de uma vez).
@@ -270,9 +320,37 @@ A aba Economy publica, para cada round e time, o valor de loadout e a classe de 
 essa classificação mantém a variável igual à da fonte dos dados e evita aplicar os limiares do
 site a um valor calculado de outro jeito: o `tN_loadout_value` (arma + armadura) fica, em média,
 cerca de 3.200 créditos abaixo do `tN_loadout_vlr` na partida de exemplo, e reclassificar por ele
-mudaria a classe em 7 de 48 rounds-time. O cálculo próprio continua no CSV como alternativa e
+mudaria a classe em 7 de 48 rounds-time. O cálculo próprio continua na tabela como alternativa e
 para auditoria. A junção com o replay é conferida pelo vencedor de cada round e pelo banco do
 time (`economia_status` e `banco_confere`).
+
+**12. Uma única pasta de dados, configurável (Drive no Colab, disco local fora dele).**
+Todo caminho de saída vem de `vlr/storage.py`, a partir de uma pasta-base definida por
+`colab.preparar(...)`, `--dados` ou pela variável `VLR_DADOS`. O código não conhece o Drive: no
+Colab, a pasta-base simplesmente fica dentro de `/content/drive/MyDrive`. Assim o mesmo código
+roda nos dois ambientes, e os testes usam uma pasta temporária (`tests/conftest.py`). O código é
+copiado para o disco local do Colab, e só os dados vão para o Drive, porque importar módulos e
+rodar testes direto do Drive é lento.
+
+**13. Cache bruto comprimido (.html.gz).**
+Cada página do vlr.gg tem de 300 a 850 KB, e uma coleta grande passa de dezenas de milhares de
+páginas. Em gzip, elas ficam cerca de 8 a 10 vezes menores (as páginas de amostra caem de ~1,1 MB
+para ~110 KB), o que cabe na cota do Drive e reduz o tráfego pelo Drive montado. A leitura aceita
+também `.html` sem compressão (usada pela amostra).
+
+**14. Gravação atômica.**
+Todo arquivo (HTML, Parquet ou CSV) é escrito primeiro num temporário `.tmp_*` na mesma pasta e só
+depois renomeado para o nome final (`os.replace`). Como a retomada considera "existe = já baixado",
+um arquivo pela metade com o nome final faria a página nunca ser refeita. Com a renomeação, uma
+queda do Colab no meio da gravação deixa no máximo um `.tmp_*`, que é apagado no início da
+próxima coleta.
+
+**15. Tabelas em Parquet; amostras em CSV.**
+O Parquet (compressão zstd) é colunar e guarda os tipos (inteiros, booleanos, texto), então a
+leitura é mais rápida e não exige reconverter colunas. Em tabelas grandes, fica várias vezes menor
+que o CSV equivalente (em tabelas minúsculas, como a amostra, o cabeçalho do formato pesa mais e
+o CSV acaba menor). As amostras ficam em CSV porque servem para inspeção a olho, no Sheets ou no
+Excel.
 
 ---
 
@@ -389,7 +467,15 @@ todos os jogadores. O teste `test_pistol_creditos_iniciais` confirma isso na par
 - **Mudanças no HTML do vlr.gg** quebram primeiro os testes em `tests/`. Os seletores estão
   documentados no topo de `vlr/parse.py` e na tabela acima.
 - A sondagem testa só o 1º mapa da primeira e da última partida de cada evento. A cobertura real
-  sai de `cobertura_por_evento.csv` depois da coleta.
+  sai de `cobertura_por_evento.parquet` depois da coleta.
+- **Sessões do Colab têm limite** (desconexão por inatividade e duração máxima). A coleta
+  retoma de onde parou, mas não continua sozinha: é preciso reabrir o notebook e rodar as células
+  de novo. Para coletas de muitas horas, divida os eventos em lotes.
+- **O Drive montado é mais lento que um disco local.** O `processar` lê todos os arquivos de
+  `raw/`; com dezenas de milhares de páginas, isso pode levar de vários minutos a algumas dezenas
+  de minutos. Mesmo assim, ele só precisa rodar uma vez por coleta.
+- **Gravações no Drive podem levar alguns segundos para sincronizar.** Rode `colab.finalizar()`
+  antes de fechar o notebook.
 
 ---
 
