@@ -282,3 +282,38 @@ def test_coleta_segue_quando_um_evento_falha(tmp_path, monkeypatch):
     assert resumo["eventos_falha"] == 1 and resumo["eventos"] == 1
     falhas = pd.read_parquet(S.paths().logs / "falhas.parquet")
     assert list(falhas["event_id"]) == [1]
+
+
+def test_coleta_nao_grava_copia_do_mapa_ativo(tmp_path, monkeypatch):
+    """O 1º mapa vem em logs.html: só os demais mapas viram game_<id>.html."""
+    S.configurar(tmp_path / "dados")
+    f = C.Fetcher(0, 0)
+    pages = {"game=283272": (FX / "match_754732_game_283272_logs.html").read_text(encoding="utf-8"),
+             "tab=economy": ECONOMY, "tab=logs": LOTUS}   # ordem importa: "game=" antes de "tab=logs"
+    pedidos = []
+
+    def fake_get(path, key, refresh=False):
+        pedidos.append(path)
+        html = next(v for k, v in pages.items() if k in path)
+        f.store.write(key, html)
+        return html
+    monkeypatch.setattr(f, "get", fake_get)
+    C._fetch_match(f, 2766, {"match_id": 754732, "match_url": "/754732/nrg-vs-t1/"})
+    files = sorted(p.name for p in (S.paths().raw / "event_2766" / "match_754732").iterdir())
+    assert files == ["economy.html.gz", "game_283272.html.gz", "logs.html.gz"]
+    assert not any("game=283271" in p for p in pedidos)   # Lotus não é baixado de novo
+    assert not any("game=283273" in p for p in pedidos)   # Abyss não jogado
+    res = C.process()
+    st = res["mapas"].set_index("game_id")["status"].to_dict()
+    assert st[283271] == "ok" and st[283272] == "ok"
+
+
+def test_remover_copias_duplicadas_de_cache_antigo(tmp_path):
+    S.configurar(tmp_path / "dados")
+    st = S.RawStore(S.paths().raw)
+    st.write("event_2766/match_754732/logs.html", LOTUS)
+    st.write("event_2766/match_754732/game_283271.html", LOTUS)   # cópia gravada pela versão antiga
+    st.write("event_2766/match_754732/economy.html", ECONOMY)
+    assert C.remover_copias_duplicadas()["removidas"] == 1
+    assert not st.exists("event_2766/match_754732/game_283271.html")
+    assert C.process()["mapas"].set_index("game_id").loc[283271, "status"] == "ok"

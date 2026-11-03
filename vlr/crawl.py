@@ -187,15 +187,52 @@ def _fetch_match(f: Fetcher, eid: int, m: dict) -> dict:
     for g in nav:
         if not g["played"]:
             continue  # mapa não jogado: não existe replay a buscar
+        if g["game_id"] == active:
+            continue  # o mapa já vem renderizado em logs.html: não grava cópia (ver game_html)
         k = match_key(eid, mid, f"game_{g['game_id']}.html")
         if f.store.exists(k):
-            continue
-        if g["game_id"] == active:
-            f.store.write(k, html)  # a página base já traz o 1º mapa
             continue
         f.get(f"{base_path}/?game={g['game_id']}&tab=logs", k)
         fetched += 1
     return {"match_id": mid, "maps": len(nav), "fetched": fetched}
+
+
+def game_html(store: S.RawStore, mkey: str, game_id: int, logs_html: str, active: int | None) -> str | None:
+    """HTML da aba 2D Replay de um mapa.
+
+    O mapa que vem renderizado na página da partida (o 'ativo', normalmente o 1º) é lido
+    direto de logs.html; os demais, de game_<id>.html. Caches antigos, que guardavam uma
+    cópia em game_<id>.html também para o mapa ativo, continuam funcionando.
+    """
+    gkey = f"{mkey}/game_{game_id}.html"
+    if store.exists(gkey):
+        return store.read(gkey)
+    if game_id == active:
+        return logs_html
+    return None
+
+
+def remover_copias_duplicadas(store: S.RawStore | None = None) -> dict:
+    """Apaga game_<id>.html idênticos a logs.html (cópias gravadas por versões anteriores)."""
+    store = store or S.RawStore(S.paths().raw)
+    n, liberado = 0, 0
+    for ev in store.event_dirs():
+        for md in store.match_dirs(ev):
+            mkey = store.key_of(md)
+            if not store.exists(f"{mkey}/logs.html"):
+                continue
+            logs = store.read(f"{mkey}/logs.html")
+            active = P.active_game_id(logs)
+            if active is None:
+                continue
+            for p in (md / f"game_{active}.html.gz", md / f"game_{active}.html"):
+                if p.exists() and store.read(f"{mkey}/game_{active}.html") == logs:
+                    liberado += p.stat().st_size
+                    p.unlink()
+                    n += 1
+                    break
+    log.info("cópias removidas: %d (%.1f MB liberados)", n, liberado / 1e6)
+    return {"removidas": n, "mb_liberados": round(liberado / 1e6, 1)}
 
 
 def collect(f: Fetcher, event_ids: list[int], max_matches: int | None = None) -> dict:
@@ -324,6 +361,7 @@ def process(prices_path: Path = DEFAULT_PRICES, raw_dir: Path | None = None,
             html = store.read(f"{mkey}/logs.html")
             hdr = P.parse_match_header(html)
             nav = P.parse_games_nav(html)
+            active = P.active_game_id(html)
             eco_ok = store.exists(f"{mkey}/economy.html")
             economy = P.parse_economy(store.read(f"{mkey}/economy.html")) if eco_ok else {}
             mid = hdr["match_id"] or int(md.name.split("_")[1])
@@ -341,12 +379,12 @@ def process(prices_path: Path = DEFAULT_PRICES, raw_dir: Path | None = None,
                                status_detail="mapa não jogado (série decidida antes)")
                     maps_rows.append(row)
                     continue
-                gkey = f"{mkey}/game_{g['game_id']}.html"
-                if not store.exists(gkey):
+                ghtml = game_html(store, mkey, g["game_id"], html, active)
+                if ghtml is None:
                     row.update(status="nao_baixado", status_detail="rode 'coletar' novamente")
                     maps_rows.append(row)
                     continue
-                gl = P.parse_game_logs(store.read(gkey), g["game_id"])
+                gl = P.parse_game_logs(ghtml, g["game_id"])
                 eco_rounds = economy.get(g["game_id"], [])
                 row.update(status=gl.status, status_detail=gl.status_detail, n_rounds=len(gl.rounds),
                            economia_status=_economy_status(gl.rounds, eco_rounds, eco_ok))
@@ -415,12 +453,10 @@ FIXTURES = ROOT / "tests" / "fixtures"
 
 # como cada página salva entra no cache simulado (evento/partida/arquivo)
 SAMPLE_LAYOUT = {
-    "event_2766/match_754732/logs.html": "match_754732_game_283271_logs.html",
-    "event_2766/match_754732/game_283271.html": "match_754732_game_283271_logs.html",
+    "event_2766/match_754732/logs.html": "match_754732_game_283271_logs.html",   # já traz Lotus
     "event_2766/match_754732/game_283272.html": "match_754732_game_283272_logs.html",
     "event_2766/match_754732/economy.html": "match_754732_economy.html",
-    "event_3105/match_748619/logs.html": "match_748619_noreplay_logs.html",
-    "event_3105/match_748619/game_282202.html": "match_748619_noreplay_logs.html",
+    "event_3105/match_748619/logs.html": "match_748619_noreplay_logs.html",      # já traz Summit
 }
 
 

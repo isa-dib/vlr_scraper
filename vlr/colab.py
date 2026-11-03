@@ -107,6 +107,11 @@ def processar(prices_path: Path = DEFAULT_PRICES) -> dict[str, pd.DataFrame]:
     return out
 
 
+def remover_copias_duplicadas() -> dict:
+    """Libera espaço em caches de versões anteriores, que gravavam o 1º mapa duas vezes."""
+    return C.remover_copias_duplicadas()
+
+
 def ler(nome: str) -> pd.DataFrame:
     """Lê uma tabela de <dados>/processed (ex.: 'rounds', 'mapas', 'cobertura_por_evento')."""
     return S.ler_tabela(nome)

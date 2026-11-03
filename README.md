@@ -59,6 +59,7 @@ MyDrive/TCC/vlr_dados/
 | `colab.ler("rounds")` | lê uma tabela de `processed/` como DataFrame |
 | `colab.falhas()` | lista o que falhou nas coletas (`logs/falhas.parquet`) |
 | `colab.uso_de_espaco()` | tamanho e número de arquivos de cada subpasta |
+| `colab.remover_copias_duplicadas()` | libera espaço em caches de versões anteriores (ver decisão 13) |
 | `colab.finalizar()` | sincroniza e desmonta o Drive antes de fechar |
 
 ### Se o Colab desconectar
@@ -92,7 +93,7 @@ interrompida são apagados automaticamente no início da coleta.
 cd vlr_scraper
 python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-python -m pytest -q tests                              # 26 testes com páginas reais
+python -m pytest -q tests                              # 28 testes com páginas reais
 ```
 
 Os testes também regeram os CSVs de amostra do repositório em `data/amostra/`. Eles nunca
@@ -337,6 +338,11 @@ Cada página do vlr.gg tem de 300 a 850 KB, e uma coleta grande passa de dezenas
 páginas. Em gzip, elas ficam cerca de 8 a 10 vezes menores (as páginas de amostra caem de ~1,1 MB
 para ~110 KB), o que cabe na cota do Drive e reduz o tráfego pelo Drive montado. A leitura aceita
 também `.html` sem compressão (usada pela amostra).
+
+Além disso, o mapa que já vem renderizado na página da partida (normalmente o 1º) não é gravado
+de novo como `game_<id>.html`: o processamento o lê direto de `logs.html`. Isso corta cerca de
+um quarto do volume de `raw/`. Caches criados por versões anteriores, que tinham essa cópia,
+continuam funcionando, e `colab.remover_copias_duplicadas()` apaga as cópias para liberar espaço.
 
 **14. Gravação atômica.**
 Todo arquivo (HTML, Parquet ou CSV) é escrito primeiro num temporário `.tmp_*` na mesma pasta e só
