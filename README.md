@@ -13,6 +13,7 @@ pela linha de comando.
 1. [Uso no Google Colab](#uso-no-google-colab)
 2. [Uso local (linha de comando)](#uso-local-linha-de-comando)
 3. [Arquivos gerados](#arquivos-gerados)
+   - [Análise e limpeza (etapa de transformação)](#análise-e-limpeza-etapa-de-transformação)
 4. [Detalhes técnicos](#detalhes-técnicos)
 5. [Decisões de arquitetura](#decisões-de-arquitetura)
 6. [Sondagem de cobertura](#sondagem-de-cobertura)
@@ -181,6 +182,26 @@ A coluna `economia_status` diz se a aba Economy daquele mapa foi lida e bate com
 | `logs/falhas.parquet` | eventos e partidas que falharam, com data, etapa e erro |
 | `logs/coleta_*.log` | log completo de cada execução |
 
+
+### Análise e limpeza (etapa de transformação)
+
+O notebook `analise/analise_descritiva.ipynb` é independente do código de coleta: ele só lê
+`rounds`, `mapas` e `partidas` de `<dados>/processed/`. Com `FONTE = "amostra"`, lê os CSVs de
+amostra direto do GitHub, para testar sem a coleta. Ele:
+
+1. mostra o inventário da base coletada;
+2. aplica regras explícitas de validade (nível mapa e nível round) e mostra o **funil de limpeza**:
+   antes da limpeza, inválidos por regra e válidos, em mapas e em rounds;
+3. faz a análise descritiva e cria as variáveis processadas (`win_count`, `loss_count`,
+   `score_diff`, `streak`, `loss_streak`, resultado do round anterior, tendência de kills,
+   diferenças de loadout e créditos), todas calculadas só com o que se sabe antes do round;
+4. faz a análise estatística ligada às hipóteses H1 a H3 (lado, tipo de compra, diferença de
+   loadout, momentum controlado pela economia, conversão pós-pistol, tamanho do histórico e
+   correlações), com IC 95% por bootstrap de mapas.
+
+Saídas em `<dados>/transformed/` (Parquet): `rounds_validos`, `rounds_time` (formato por time,
+com as variáveis processadas), `mapas_limpeza`, `funil_mapas`, `funil_rounds`, `regras_round`,
+`resumo_limpeza` e as figuras em `figuras/`.
 
 ---
 
