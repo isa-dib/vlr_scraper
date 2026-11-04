@@ -26,15 +26,19 @@ pela linha de comando.
 
 ## Uso no Google Colab
 
-1. Envie a pasta `vlr_scraper` (ou o arquivo `vlr_scraper.zip`) para `MyDrive/TCC/` no Google Drive.
-2. Abra `colab/coleta_vlr.ipynb` no Colab (no Drive: clique duas vezes no arquivo → *Abrir com
-   Google Colaboratory*).
-3. Rode as células em ordem. O notebook:
-   - monta o Drive e copia o código para o disco local do Colab (`/content`);
-   - instala as dependências e, opcionalmente, roda os testes;
+1. Abra `colab/coleta_vlr.ipynb` no Colab: em *Arquivo → Abrir notebook → GitHub*, procure
+   `isa-dib/vlr_scraper` e escolha o arquivo.
+2. Rode as células em ordem. O notebook:
+   - monta o Drive;
+   - baixa o código do GitHub para o disco local do Colab (`/content/codigo_vlr`), instala as
+     dependências e confere que o pacote `vlr` importa;
+   - opcionalmente, roda os testes;
    - grava todas as saídas em `MyDrive/TCC/vlr_dados/`.
 
-Para mudar as pastas, edite `PASTA_CODIGO` e `PASTA_DADOS` na primeira célula.
+Para usar uma cópia do código que está no Drive (por exemplo, com alterações locais), mude
+`FONTE_CODIGO` para `"drive"` na célula 2 e coloque a pasta do projeto (ou um `.zip`) em
+`MyDrive/TCC/vlr_scraper`. Pastas aninhadas e zips baixados do GitHub (`vlr_scraper-main/`)
+são reconhecidos. Para mudar a pasta de saída, edite `PASTA_DADOS` na célula 1.
 
 ### Pasta de dados no Drive
 
