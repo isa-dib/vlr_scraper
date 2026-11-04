@@ -134,26 +134,30 @@ colunas. Para ler no notebook: `colab.ler("rounds")` ou `pd.read_parquet(".../ro
 
 ### `rounds` — uma linha por (mapa, round)
 
-As colunas `t1_*` se referem ao time da esquerda no vlr.gg (`team1`), e as `t2_*` ao da direita.
+As colunas `team_a_*` se referem ao time da esquerda no vlr.gg (`team_a`), e as `team_b_*` ao da
+direita. Os nomes `team_a`/`team_b` evitam confusão com a equipe T1, que existe de verdade. Nas
+colunas de código (`winner`, `atk_team`, `winner_eco` e `team`/`actor_team`/`victim_team` em
+`jogadores_rounds` e `eventos_round`), **1 = `team_a`** e **2 = `team_b`**. Na tabela abaixo,
+`team_X_` vale para os dois times.
 
 | Coluna | Descrição |
 |---|---|
 | `round_number`, `half`, `is_pistol_round`, `is_overtime` | posição do round (pistol = 1 e 13; overtime > 24) |
-| `atk_team`, `t1_side`, `t2_side` | quem atacou no round |
-| `winner`, `outcome_t1` | vencedor (1/2) e Win/Loss do ponto de vista do `team1` |
+| `atk_team`, `team_a_side`, `team_b_side` | quem atacou no round |
+| `winner`, `outcome_team_a` | vencedor (1 = `team_a`, 2 = `team_b`) e Win/Loss do ponto de vista do `team_a` |
 | `win_type` | `eliminacao`, `spike_detonada`, `spike_defusada`, `tempo` |
-| `team1_score_after`, `team2_score_after` | placar **após** o round (não usar como entrada do mesmo round) |
+| `team_a_score_after`, `team_b_score_after` | placar **após** o round (não usar como entrada do mesmo round) |
 | `planted`, `plant_site`, `defused` | eventos de spike |
-| `tN_kills` | kills feitas por jogadores do time N (sem fogo amigo, sem spike) |
-| `tN_deaths`, `tN_spike_deaths`, `tN_teamkills` | mortes sofridas, mortes pela explosão da spike, fogo amigo |
-| `tN_credits_left` | soma dos créditos restantes **após a fase de compra** |
-| `tN_spent` | soma do gasto na fase de compra (inclui habilidades) |
-| `tN_loadout_value` | soma do preço de arma e armadura dos 5 jogadores (calculado com `config/precos_itens.csv`) |
-| `tN_loadout_vlr` | valor de loadout do time **calculado pelo vlr.gg** (aba Economy, arredondado a 100) |
-| `tN_type_buy` | `Pistol`, `Eco`, `Half-buy` ou `Fullbuy`, conforme a classificação do vlr.gg |
-| `tN_bank_vlr` | banco do time na aba Economy (arredondado a 100; usado para conferência) |
-| `tN_n_heavy`, `tN_n_light`, `tN_n_regen`, `tN_n_no_armor` | composição de armadura |
-| `tN_n_itens_sem_preco` | itens que não estão na tabela de preços (deve ser 0) |
+| `team_X_kills` | kills feitas por jogadores do time (sem fogo amigo, sem spike) |
+| `team_X_deaths`, `team_X_spike_deaths`, `team_X_teamkills` | mortes sofridas, mortes pela explosão da spike, fogo amigo |
+| `team_X_credits_left` | soma dos créditos restantes **após a fase de compra** |
+| `team_X_spent` | soma do gasto na fase de compra (inclui habilidades) |
+| `team_X_loadout_value` | soma do preço de arma e armadura dos 5 jogadores (calculado com `config/precos_itens.csv`) |
+| `team_X_loadout_vlr` | valor de loadout do time **calculado pelo vlr.gg** (aba Economy, arredondado a 100) |
+| `team_X_type_buy` | `Pistol`, `Eco`, `Half-buy` ou `Fullbuy`, conforme a classificação do vlr.gg |
+| `team_X_bank_vlr` | banco do time na aba Economy (arredondado a 100; usado para conferência) |
+| `team_X_n_heavy`, `team_X_n_light`, `team_X_n_regen`, `team_X_n_no_armor` | composição de armadura |
+| `team_X_n_itens_sem_preco` | itens que não estão na tabela de preços (deve ser 0) |
 | `winner_check_ok` | o vencedor pelo placar bate com o vencedor pela faixa de rounds |
 | `banco_confere` | o banco da aba Economy bate com a soma exata dos créditos dos jogadores (±50) |
 | `winner_eco`, `economia_status` | vencedor segundo a aba Economy e resultado da conferência com o replay |
@@ -318,7 +322,7 @@ cálculo de cobertura. A mensagem da aba "All Maps" é ignorada, porque não se 
 O time de cada jogador vem de `players` no JSON; a posição esquerda/direita é só o plano B.
 Isso evita erro quando os lados trocam no round 13.
 
-**7. Formato largo (`t1_*` / `t2_*`) na saída.**
+**7. Formato largo (`team_a_*` / `team_b_*`) na saída.**
 Uma linha por round com os dois times lado a lado facilita calcular diferenças (`loadout_diff`,
 `credits_diff`) e escolher a perspectiva do modelo na etapa de transformação.
 
@@ -344,8 +348,8 @@ partida já traz o 1º mapa, e a aba Economy traz todos os mapas de uma vez).
 **11. Tipo de compra e loadout vindos do vlr.gg, não de uma tabela própria.**
 A aba Economy publica, para cada round e time, o valor de loadout e a classe de compra. Usar
 essa classificação mantém a variável igual à da fonte dos dados e evita aplicar os limiares do
-site a um valor calculado de outro jeito: o `tN_loadout_value` (arma + armadura) fica, em média,
-cerca de 3.200 créditos abaixo do `tN_loadout_vlr` na partida de exemplo, e reclassificar por ele
+site a um valor calculado de outro jeito: o `team_X_loadout_value` (arma + armadura) fica, em média,
+cerca de 3.200 créditos abaixo do `team_X_loadout_vlr` na partida de exemplo, e reclassificar por ele
 mudaria a classe em 7 de 48 rounds-time. O cálculo próprio continua na tabela como alternativa e
 para auditoria. A junção com o replay é conferida pelo vencedor de cada round e pelo banco do
 time (`economia_status` e `banco_confere`).
@@ -421,8 +425,8 @@ em diante). Com o intervalo padrão de 3 a 6 s, cada partida leva de 15 a 25 s p
 
 ## Classificação do tipo de compra
 
-A variável `tN_type_buy` segue a legenda da aba Economy do vlr.gg [3], aplicada ao valor de
-loadout do time calculado pelo site (`tN_loadout_vlr`):
+A variável `team_X_type_buy` segue a legenda da aba Economy do vlr.gg [3], aplicada ao valor de
+loadout do time calculado pelo site (`team_X_loadout_vlr`):
 
 | Tipo de compra | Loadout do time | Regra |
 |---|---|---|
@@ -482,11 +486,11 @@ todos os jogadores. O teste `test_pistol_creditos_iniciais` confirma isso na par
 
 ## Limitações conhecidas
 
-- **Habilidades não aparecem na aba 2D Replay**, então `tN_loadout_value` soma apenas arma e
+- **Habilidades não aparecem na aba 2D Replay**, então `team_X_loadout_value` soma apenas arma e
   armadura. `spent` inclui habilidades, mas não inclui armas mantidas do round anterior.
-- **O `tN_loadout_vlr` é arredondado a 100 créditos** (o site exibe "21.6k") e o vlr.gg não
+- **O `team_X_loadout_vlr` é arredondado a 100 créditos** (o site exibe "21.6k") e o vlr.gg não
   documenta exatamente o que entra no cálculo. Na partida de exemplo ele fica acima de arma +
-  armadura, o que sugere que inclui habilidades. A classe de compra (`tN_type_buy`) vem pronta
+  armadura, o que sugere que inclui habilidades. A classe de compra (`team_X_type_buy`) vem pronta
   do site, então o arredondamento não a afeta.
 - **Partidas sem aba Economy** (mensagem "Stats from this map are not available yet", comum nos
   eventos sem replay) ficam com `economia_status = ausente`, e as colunas `_vlr` e `type_buy`

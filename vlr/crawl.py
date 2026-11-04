@@ -411,13 +411,13 @@ def process(prices_path: Path = DEFAULT_PRICES, raw_dir: Path | None = None,
         E = pd.concat(events_all, ignore_index=True)
         meta_cols = ["event_id", "match_id", "map_name", "map_order", "map_status"]
         T = team_round_table(R, Pl.drop(columns=meta_cols), E.drop(columns=meta_cols), prices)
-        cols_match = ["match_id", "event_name", "event_series", "date_utc", "patch", "team1", "team2"]
+        cols_match = ["match_id", "event_name", "event_series", "date_utc", "patch", "team_a", "team_b"]
         T = T.merge(partidas[cols_match], on="match_id", how="left")
         T["tabela_precos"] = Path(prices_path).name
         lead = ["event_id", "event_name", "event_series", "match_id", "date_utc", "patch", "game_id",
-                "map_order", "map_name", "map_status", "team1", "team2", "round_number", "half",
-                "is_pistol_round", "is_overtime", "atk_team", "t1_side", "t2_side", "winner",
-                "outcome_t1", "win_type", "team1_score_after", "team2_score_after"]
+                "map_order", "map_name", "map_status", "team_a", "team_b", "round_number", "half",
+                "is_pistol_round", "is_overtime", "atk_team", "team_a_side", "team_b_side", "winner",
+                "outcome_team_a", "win_type", "team_a_score_after", "team_b_score_after"]
         T = T[lead + [c for c in T.columns if c not in lead]]
         out["rounds"] = T
         out["jogadores_rounds"] = player_loadout(Pl, prices)

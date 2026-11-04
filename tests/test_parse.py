@@ -53,7 +53,7 @@ def test_mapa_lazy_nao_e_sem_replay():
 def test_cabecalho():
     h = P.parse_match_header(LOTUS)
     assert h["match_id"] == 754732
-    assert (h["team1"], h["team2"]) == ("NRG", "T1")
+    assert (h["team_a"], h["team_b"]) == ("NRG", "T1")
     assert h["patch"] == "13.05"
     assert h["series_score"] == "2:0"
     assert h["event_name"] == "Valorant Champions 2026"
@@ -65,7 +65,7 @@ def test_rounds_e_placar_final(lotus):
     assert lotus.status == P.MAP_STATUS_OK, lotus.status_detail
     assert len(lotus.rounds) == 24
     last = lotus.rounds[-1]
-    assert (last.team1_score_after, last.team2_score_after) == (13, 11)
+    assert (last.team_a_score_after, last.team_b_score_after) == (13, 11)
     assert all(r.winner_check_ok for r in lotus.rounds)
 
 
@@ -111,12 +111,12 @@ def test_tabela_por_time(lotus):
     E = pd.DataFrame(P.as_dicts(lotus.events))
     T = team_round_table(R, Pl, E, load_prices()).set_index("round_number")
     # round 1: NRG com Bandit, Sheriff, Classic, Ghost, Ghost, sem armadura
-    assert T.loc[1, "t1_loadout_value"] == 600 + 800 + 0 + 500 + 500
-    assert (T.loc[1, "t1_kills"], T.loc[1, "t2_kills"]) == (3, 5)
-    assert (T.loc[18, "t1_kills"], T.loc[18, "t2_spike_deaths"]) == (1, 4)
-    assert T.loc[18, "outcome_t1"] == "Win"
-    assert T["t1_credits_left"].max() <= 45000
-    assert (T["t1_n_itens_sem_preco"] + T["t2_n_itens_sem_preco"]).sum() == 0
+    assert T.loc[1, "team_a_loadout_value"] == 600 + 800 + 0 + 500 + 500
+    assert (T.loc[1, "team_a_kills"], T.loc[1, "team_b_kills"]) == (3, 5)
+    assert (T.loc[18, "team_a_kills"], T.loc[18, "team_b_spike_deaths"]) == (1, 4)
+    assert T.loc[18, "outcome_team_a"] == "Win"
+    assert T["team_a_credits_left"].max() <= 45000
+    assert (T["team_a_n_itens_sem_preco"] + T["team_b_n_itens_sem_preco"]).sum() == 0
 
 
 def test_tabela_de_precos_conforme_fontes():
@@ -164,19 +164,19 @@ def test_economia_traz_os_dois_mapas_jogados():
 
 def test_economia_valores_e_tipo_de_compra():
     r = {x.round_number: x for x in P.parse_economy(ECONOMY)[283271]}
-    assert (r[1].t1_type_buy, r[1].t2_type_buy) == ("Pistol", "Pistol")
-    assert (r[2].t1_loadout_vlr, r[2].t1_type_buy) == (2300, "Eco")
-    assert (r[2].t2_loadout_vlr, r[2].t2_type_buy) == (15100, "Half-buy")
-    assert (r[3].t1_loadout_vlr, r[3].t1_type_buy) == (21600, "Fullbuy")
-    assert (r[13].t1_type_buy, r[13].t2_type_buy) == ("Pistol", "Pistol")
-    assert r[1].t1_bank_vlr == 200
+    assert (r[1].team_a_type_buy, r[1].team_b_type_buy) == ("Pistol", "Pistol")
+    assert (r[2].team_a_loadout_vlr, r[2].team_a_type_buy) == (2300, "Eco")
+    assert (r[2].team_b_loadout_vlr, r[2].team_b_type_buy) == (15100, "Half-buy")
+    assert (r[3].team_a_loadout_vlr, r[3].team_a_type_buy) == (21600, "Fullbuy")
+    assert (r[13].team_a_type_buy, r[13].team_b_type_buy) == ("Pistol", "Pistol")
+    assert r[1].team_a_bank_vlr == 200
 
 
 def test_economia_respeita_limiares_da_legenda():
     """Eco < 10k, Half buy 10–18k, Full buy 18k+ (tolerância de 100 pelo arredondamento)."""
     for rounds in P.parse_economy(ECONOMY).values():
         for x in rounds:
-            for v, b in ((x.t1_loadout_vlr, x.t1_type_buy), (x.t2_loadout_vlr, x.t2_type_buy)):
+            for v, b in ((x.team_a_loadout_vlr, x.team_a_type_buy), (x.team_b_loadout_vlr, x.team_b_type_buy)):
                 if b == "Eco":
                     assert v <= 10000
                 elif b == "Half-buy":
@@ -215,9 +215,9 @@ def test_amostra_gera_csvs():
     assert R["banco_confere"].all()
     assert R["winner_check_ok"].all()
     lotus = R[R.game_id == 283271].set_index("round_number")
-    assert (lotus.loc[3, "t1_type_buy"], lotus.loc[3, "t1_loadout_vlr"]) == ("Fullbuy", 21600)
+    assert (lotus.loc[3, "team_a_type_buy"], lotus.loc[3, "team_a_loadout_vlr"]) == ("Fullbuy", 21600)
     summit = R[R.game_id == 283272]
-    assert (summit.team1_score_after.iloc[-1], summit.team2_score_after.iloc[-1]) == (13, 7)
+    assert (summit.team_a_score_after.iloc[-1], summit.team_b_score_after.iloc[-1]) == (13, 7)
     assert set(res["mapas"].dropna(subset=["economia_status"]).query("status == 'ok'")["economia_status"]) == {"ok"}
 
     cov = res["cobertura_por_evento"].set_index("event_id")
@@ -266,7 +266,7 @@ def test_processar_grava_parquet(tmp_path):
         assert not (proc / f"{name}.csv").exists()
     R = pd.read_parquet(proc / "rounds.parquet")
     assert len(R) == 44 and R.shape[1] == res["rounds"].shape[1]
-    assert R["t1_type_buy"].notna().all()
+    assert R["team_a_type_buy"].notna().all()
 
 
 def test_coleta_segue_quando_um_evento_falha(tmp_path, monkeypatch):

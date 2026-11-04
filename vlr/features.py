@@ -1,7 +1,7 @@
 """Agregação round a round por time (camada 'silver' do pipeline).
 
 Recebe as linhas de jogador e de eventos produzidas por vlr.parse e monta
-UMA linha por (mapa, round), com colunas t1_* e t2_* para os dois times.
+UMA linha por (mapa, round), com colunas team_a_* e team_b_* para os dois times.
 
 O tipo de compra (tN_type_buy) e o loadout do vlr.gg (tN_loadout_vlr) chegam
 prontos da aba Economy e só são repassados aqui.
@@ -97,19 +97,19 @@ def team_round_table(rounds: pd.DataFrame, players: pd.DataFrame, events: pd.Dat
 
     wide = None
     for t in (1, 2):
-        part = eco[eco["team"] == t].drop(columns="team").set_index(key).add_prefix(f"t{t}_")
+        part = eco[eco["team"] == t].drop(columns="team").set_index(key).add_prefix(f"team_{'a' if t == 1 else 'b'}_")
         wide = part if wide is None else wide.join(part, how="outer")
     wide = wide.reset_index()
 
     out = rounds.merge(wide, on=key, how="left")
-    out["t1_side"] = out["atk_team"].map({1: "atk", 2: "def"})
-    out["t2_side"] = out["atk_team"].map({1: "def", 2: "atk"})
-    out["outcome_t1"] = out["winner"].map({1: "Win", 2: "Loss"})
+    out["team_a_side"] = out["atk_team"].map({1: "atk", 2: "def"})
+    out["team_b_side"] = out["atk_team"].map({1: "def", 2: "atk"})
+    out["outcome_team_a"] = out["winner"].map({1: "Win", 2: "Loss"})
     # conferência: banco da aba Economy (arredondado a 100) x soma exata dos jogadores
-    if "t1_bank_vlr" in out:
+    if "team_a_bank_vlr" in out:
         out["banco_confere"] = (
-            (out["t1_bank_vlr"] - out["t1_credits_left"]).abs().le(50)
-            & (out["t2_bank_vlr"] - out["t2_credits_left"]).abs().le(50)
+            (out["team_a_bank_vlr"] - out["team_a_credits_left"]).abs().le(50)
+            & (out["team_b_bank_vlr"] - out["team_b_credits_left"]).abs().le(50)
         )
     out["is_overtime"] = out["round_number"] > 24
     out["is_pistol_round"] = out["round_number"].isin([1, 13])

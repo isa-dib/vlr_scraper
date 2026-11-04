@@ -121,10 +121,10 @@ def parse_event_matches(html: str) -> list[dict]:
                 "match_id": _href_id(href),
                 "match_url": href,
                 "status": _txt(a.select_one(".ml-status")).lower(),
-                "team1": teams[0] if teams else None,
-                "team2": teams[1] if len(teams) > 1 else None,
-                "score1": scores[0] if scores else None,
-                "score2": scores[1] if len(scores) > 1 else None,
+                "team_a": teams[0] if teams else None,
+                "team_b": teams[1] if len(teams) > 1 else None,
+                "score_a": scores[0] if scores else None,
+                "score_b": scores[1] if len(scores) > 1 else None,
                 "round_label": _txt(a.select_one(".match-item-event")) or None,
             }
         )
@@ -162,8 +162,8 @@ def parse_match_header(html: str) -> dict:
         "event_href": (hdr.select_one("a.match-header-event") or {}).get("href") if hdr else None,
         "date_utc": date_el.get("data-utc-ts") if date_el else None,
         "patch": patch,
-        "team1": names[0] if names else None,
-        "team2": names[1] if len(names) > 1 else None,
+        "team_a": names[0] if names else None,
+        "team_b": names[1] if len(names) > 1 else None,
         "series_score": f"{score_w}:{score_l}" if score_w and score_l else None,
         "best_of": next((n for n in notes if re.fullmatch(r"Bo\d", n)), None),
         "veto": _txt(s.select_one(".match-header-note")) or None,
@@ -212,7 +212,7 @@ WIN_TYPE_BY_ICON = {"elim": "eliminacao", "boom": "spike_detonada", "defuse": "s
 class PlayerRound:
     game_id: int
     round_number: int
-    team: int                 # 1 = time da esquerda (team1 do cabeçalho), 2 = direita
+    team: int                 # 1 = time da esquerda (team_a do cabeçalho), 2 = direita
     player: str
     agent: Optional[str]
     side: Optional[str]       # atk / def
@@ -242,8 +242,8 @@ class RoundEvent:
 class RoundRecord:
     game_id: int
     round_number: int
-    team1_score_after: Optional[int]
-    team2_score_after: Optional[int]
+    team_a_score_after: Optional[int]
+    team_b_score_after: Optional[int]
     winner: Optional[int]                 # 1 ou 2
     win_type: Optional[str]
     atk_team: Optional[int]               # qual time (1/2) atacou neste round
@@ -362,8 +362,8 @@ def parse_game_logs(html: str, game_id: int) -> GameLogs:
         rec = RoundRecord(
             game_id=game_id,
             round_number=rn,
-            team1_score_after=s1,
-            team2_score_after=s2,
+            team_a_score_after=s1,
+            team_b_score_after=s2,
             winner=winner,
             win_type=st.get("win_type"),
             atk_team=atk_team,
@@ -487,12 +487,12 @@ def _k_to_credits(text: str | None) -> Optional[int]:
 class EconomyRound:
     game_id: int
     round_number: int
-    t1_bank_vlr: Optional[int]       # créditos restantes do time após a compra (arredondado a 100)
-    t2_bank_vlr: Optional[int]
-    t1_loadout_vlr: Optional[int]    # valor de loadout do time calculado pelo vlr.gg (arredondado a 100)
-    t2_loadout_vlr: Optional[int]
-    t1_type_buy: Optional[str]       # Pistol / Eco / Half-buy / Fullbuy (classificação do vlr.gg)
-    t2_type_buy: Optional[str]
+    team_a_bank_vlr: Optional[int]       # créditos restantes do time após a compra (arredondado a 100)
+    team_b_bank_vlr: Optional[int]
+    team_a_loadout_vlr: Optional[int]    # valor de loadout do time calculado pelo vlr.gg (arredondado a 100)
+    team_b_loadout_vlr: Optional[int]
+    team_a_type_buy: Optional[str]       # Pistol / Eco / Half-buy / Fullbuy (classificação do vlr.gg)
+    team_b_type_buy: Optional[str]
     winner_eco: Optional[int]        # vencedor segundo a aba Economy (para conferência)
 
 
@@ -536,12 +536,12 @@ def parse_economy(html: str) -> dict[int, list[EconomyRound]]:
                 EconomyRound(
                     game_id=int(gid),
                     round_number=rn,
-                    t1_bank_vlr=banks.get(1),
-                    t2_bank_vlr=banks.get(2),
-                    t1_loadout_vlr=cells.get(1, {}).get("loadout"),
-                    t2_loadout_vlr=cells.get(2, {}).get("loadout"),
-                    t1_type_buy=cells.get(1, {}).get("buy"),
-                    t2_type_buy=cells.get(2, {}).get("buy"),
+                    team_a_bank_vlr=banks.get(1),
+                    team_b_bank_vlr=banks.get(2),
+                    team_a_loadout_vlr=cells.get(1, {}).get("loadout"),
+                    team_b_loadout_vlr=cells.get(2, {}).get("loadout"),
+                    team_a_type_buy=cells.get(1, {}).get("buy"),
+                    team_b_type_buy=cells.get(2, {}).get("buy"),
                     winner_eco=win[0] if len(win) == 1 else None,
                 )
             )
