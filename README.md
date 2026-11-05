@@ -198,17 +198,19 @@ O notebook `analise/analise_descritiva.ipynb` é independente do código de cole
 amostra direto do GitHub, para testar sem a coleta. Ele:
 
 1. mostra o inventário da base coletada;
-2. aplica regras explícitas de validade (nível mapa e nível round) e mostra o **funil de limpeza**:
-   antes da limpeza, inválidos por regra e válidos, em mapas e em rounds;
-3. faz a análise descritiva e cria as variáveis processadas (`win_count`, `loss_count`,
+2. tira as partidas **fora do escopo** do estudo: showmatches, open qualifiers e séries Bo1
+   (cada exclusão pode ser desligada na configuração; as qualificatórias fechadas continuam);
+3. aplica regras explícitas de validade (nível mapa e nível round) e mostra o **funil de limpeza**:
+   antes da limpeza, fora do escopo, inválidos por regra e válidos, em mapas e em rounds;
+4. faz a análise descritiva e cria as variáveis processadas (`win_count`, `loss_count`,
    `score_diff`, `streak`, `loss_streak`, resultado do round anterior, tendência de kills,
    diferenças de loadout e créditos), todas calculadas só com o que se sabe antes do round;
-4. faz a análise estatística ligada às hipóteses H1 a H3 (lado, tipo de compra, diferença de
+5. faz a análise estatística ligada às hipóteses H1 a H3 (lado, tipo de compra, diferença de
    loadout, momentum controlado pela economia, conversão pós-pistol, tamanho do histórico e
    correlações), com IC 95% por bootstrap de mapas.
 
 Saídas em `<dados>/transformed/` (Parquet): `rounds_validos`, `rounds_time` (formato por time,
-com as variáveis processadas), `mapas_limpeza`, `funil_mapas`, `funil_rounds`, `regras_round`,
+com as variáveis processadas), `mapas_limpeza`, `partidas_escopo`, `funil_mapas`, `funil_rounds`, `regras_round`,
 `resumo_limpeza` e as figuras em `figuras/`.
 
 ---
