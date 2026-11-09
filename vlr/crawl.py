@@ -540,9 +540,13 @@ def main(argv=None):
             print(df.to_string(index=False))
         print(f"\n-> {dest} ({f.n_requests} requisições)")
     elif a.cmd == "coletar":
-        collect(f, a.eventos, a.max_partidas)
-        if not a.sem_processar:
-            _print_summary(process(a.precos), pth.processed, "parquet")
+        try:
+            collect(f, a.eventos, a.max_partidas)
+        except KeyboardInterrupt:
+            log.warning("coleta interrompida; gerando as tabelas com o que já está em raw/")
+        finally:
+            if not a.sem_processar:
+                _print_summary(process(a.precos), pth.processed, "parquet")
 
 
 def _print_summary(out: dict[str, pd.DataFrame], pasta: Path, ext: str):

@@ -93,11 +93,26 @@ def sondar(eventos: list[int] | None = None, paginas: int | None = None) -> pd.D
 
 def coletar(eventos: list[int], max_partidas: int | None = None, processar_ao_final: bool = True,
             prices_path: Path = DEFAULT_PRICES) -> dict:
-    """Baixa os eventos para <dados>/raw (retomável) e, ao final, gera os Parquet."""
+    """Baixa os eventos para <dados>/raw (retomável) e, ao final, gera os Parquet em <dados>/processed.
+
+    As tabelas são geradas mesmo se a coleta for interrompida (botão de parar) ou terminar com
+    erro: nesse caso, com o que já estiver em raw/. Mapas ainda não baixados aparecem como
+    'nao_baixado'. Uma queda do Colab (desconexão) mata o processo antes disso; aí basta rodar
+    colab.processar() ao voltar, ou a coleta de novo.
+    """
     _com_log_em_arquivo()
-    resumo = C.collect(_fetcher(), list(eventos), max_partidas)
-    if processar_ao_final:
-        processar(prices_path)
+    resumo, interrompida = {}, False
+    try:
+        resumo = C.collect(_fetcher(), list(eventos), max_partidas)
+    except KeyboardInterrupt:
+        interrompida = True
+        print("\ncoleta interrompida: o que já foi baixado está salvo em raw/")
+    finally:
+        if processar_ao_final:
+            print("gerando as tabelas em processed/ com o que já está em raw/...")
+            processar(prices_path)
+    if interrompida:
+        print("para continuar a coleta, rode esta célula de novo (o que já está em raw/ não é baixado outra vez)")
     return resumo
 
 

@@ -78,6 +78,12 @@ pelo limite de duração (até ~12 h). Nada se perde:
 O que já está em `raw/` não é baixado de novo. Arquivos temporários de uma gravação
 interrompida são apagados automaticamente no início da coleta.
 
+**As tabelas de `processed/` só são geradas no fim da célula de coleta.** Se você parar a
+célula pelo botão de parar, ou se a coleta terminar com erro, elas são geradas mesmo assim com o
+que já foi baixado. Se o Colab cair antes disso, as páginas ficam em `raw/`, mas `processed/`
+fica vazio ou desatualizado. Nesse caso, rode `colab.processar()`, que gera as tabelas sem baixar
+nada. O notebook de análise lê `processed/` e avisa quando isso acontecer.
+
 ### Antes de rodar tudo: amostra e teste curto
 
 1. **`colab.amostra()`** (ou `pytest`) processa duas partidas reais salvas em `tests/fixtures/`

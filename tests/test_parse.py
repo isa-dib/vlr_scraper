@@ -317,3 +317,19 @@ def test_remover_copias_duplicadas_de_cache_antigo(tmp_path):
     assert C.remover_copias_duplicadas()["removidas"] == 1
     assert not st.exists("event_2766/match_754732/game_283271.html")
     assert C.process()["mapas"].set_index("game_id").loc[283271, "status"] == "ok"
+
+
+def test_coletar_interrompida_ainda_gera_as_tabelas(tmp_path, monkeypatch):
+    """Parar a célula de coleta não pode deixar processed/ vazio."""
+    from vlr import colab
+    colab.preparar(tmp_path / "dados", montar=False)
+    st = S.RawStore(S.paths().raw)
+    for dest, src in C.SAMPLE_LAYOUT.items():
+        st.write(dest, (FX / src).read_text(encoding="utf-8"))
+
+    def interrompe(*a, **k):
+        raise KeyboardInterrupt
+    monkeypatch.setattr(C, "collect", interrompe)
+    colab.coletar([2766])
+    assert (S.paths().processed / "rounds.parquet").exists()
+    assert len(pd.read_parquet(S.paths().processed / "rounds.parquet")) == 44
