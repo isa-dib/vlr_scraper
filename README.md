@@ -12,6 +12,7 @@ pela linha de comando.
 
 1. [Uso no Google Colab](#uso-no-google-colab)
 2. [Uso local (linha de comando)](#uso-local-linha-de-comando)
+   - [VS Code com dados já coletados](#vs-code-com-dados-já-coletados)
 3. [Arquivos gerados](#arquivos-gerados)
    - [Análise e limpeza (etapa de transformação)](#análise-e-limpeza-etapa-de-transformação)
 4. [Detalhes técnicos](#detalhes-técnicos)
@@ -123,6 +124,51 @@ python -m vlr.crawl --dados $D processar --precos config/outra_tabela.csv
 
 Opções globais: `--dados`, `--min-delay` e `--max-delay` (intervalo entre requisições, padrão
 3 a 6 s) e `-v` (log detalhado). `coletar --sem-processar` só baixa, sem gerar as tabelas.
+
+### VS Code com dados já coletados
+
+Nenhuma mudança no código é necessária: o mesmo código roda no Colab e no computador. Só muda a
+pasta de dados. Para reaproveitar o que já está em `raw/` sem coletar de novo:
+
+**1. Deixe a pasta `vlr_dados` acessível no computador** (escolha uma opção):
+- **Google Drive para computador** (recomendado): a pasta aparece, por exemplo, como
+  `G:\Meu Drive\TCC\vlr_dados` no Windows ou `~/Library/CloudStorage/GoogleDrive-…/Meu Drive/TCC/vlr_dados`
+  no macOS. Antes de processar, clique com o botão direito em `vlr_dados` → *Disponibilizar
+  off-line*. Ler milhares de arquivos sob demanda do Drive é bem mais lento.
+- **Download:** em drive.google.com, clique com o botão direito em `vlr_dados` → *Fazer download*.
+  O Drive divide pastas grandes em vários `.zip`; extraia todos na mesma pasta.
+
+O que importa é a estrutura `vlr_dados/raw/event_*/match_*/*.html.gz`.
+
+**2. Prepare o projeto no VS Code:**
+
+```bash
+git clone https://github.com/isa-dib/vlr_scraper
+cd vlr_scraper
+python -m venv .venv
+.venv\Scripts\activate            # Windows (PowerShell);  macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt   # inclui as bibliotecas do notebook de análise
+python -m pytest -q tests
+```
+
+No VS Code, abra a pasta `vlr_scraper` e escolha o interpretador `.venv` (*Ctrl+Shift+P →
+Python: Select Interpreter*). As extensões *Python* e *Jupyter* precisam estar instaladas.
+
+**3. Gere as tabelas a partir de `raw/`, sem acessar o site:**
+
+```bash
+python -m vlr.crawl --dados "G:\Meu Drive\TCC\vlr_dados" processar
+```
+
+Use o caminho da sua pasta, entre aspas. O comando mostra o progresso evento a evento e grava os
+Parquet em `vlr_dados/processed/`. Se a pasta for a do Google Drive para computador, eles também
+sincronizam com o Drive. Com o mesmo `--dados`, os comandos `coletar` e `sondar` também funcionam
+localmente, se um dia você quiser completar a coleta pelo computador.
+
+**4. Rode a análise:** abra `analise/analise_descritiva.ipynb`, escolha o kernel `.venv` e, na
+célula de configuração, deixe `FONTE = "drive"` e aponte `PASTA_DADOS` para a sua pasta, por
+exemplo `PASTA_DADOS = r"G:\Meu Drive\TCC\vlr_dados"`. As saídas vão para
+`vlr_dados/transformed/`.
 
 ### Sondagem de replay
 

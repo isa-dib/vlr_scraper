@@ -353,7 +353,7 @@ def process(prices_path: Path = DEFAULT_PRICES, raw_dir: Path | None = None,
     for n_ev, ev_dir in enumerate(ev_dirs, 1):
         eid = int(ev_dir.name.split("_")[1])
         mdirs = store.match_dirs(ev_dir)
-        log.debug("processando evento %s (%d/%d, %d partidas)", eid, n_ev, len(ev_dirs), len(mdirs))
+        log.info("processando evento %s (%d/%d, %d partidas)", eid, n_ev, len(ev_dirs), len(mdirs))
         for md in mdirs:
             mkey = store.key_of(md)
             if not store.exists(f"{mkey}/logs.html"):
