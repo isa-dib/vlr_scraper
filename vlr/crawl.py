@@ -21,11 +21,14 @@ from __future__ import annotations
 
 import argparse
 import logging
+import multiprocessing
+import os
 import random
 import shutil
 import sys
 import tempfile
 import time
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
 
@@ -197,7 +200,7 @@ def _fetch_match(f: Fetcher, eid: int, m: dict) -> dict:
     return {"match_id": mid, "maps": len(nav), "fetched": fetched}
 
 
-def game_html(store: S.RawStore, mkey: str, game_id: int, logs_html: str, active: int | None) -> str | None:
+def game_html(store: S.RawStore, mkey: str, game_id: int, logs_html, active: int | None):
     """HTML da aba 2D Replay de um mapa.
 
     O mapa que vem renderizado na página da partida (o 'ativo', normalmente o 1º) é lido
@@ -337,69 +340,119 @@ def _economy_status(log_rounds: list, eco_rounds: list, eco_downloaded: bool) ->
     return "ok"
 
 
+def _processar_evento(raw_root: str, ev_name: str) -> dict:
+    """Lê todas as partidas de um evento do cache. Função de topo para rodar em outro processo."""
+    store = S.RawStore(Path(raw_root))
+    ev_dir = store.root / ev_name
+    eid = int(ev_name.split("_")[1])
+    matches_rows, maps_rows = [], []
+    rounds_all, players_all, events_all = [], [], []
+    for md in store.match_dirs(ev_dir):
+        mkey = store.key_of(md)
+        if not store.exists(f"{mkey}/logs.html"):
+            continue
+        soup = P.soup_of(store.read(f"{mkey}/logs.html"))   # lido UMA vez e reaproveitado
+        hdr = P.parse_match_header(soup)
+        nav = P.parse_games_nav(soup)
+        active = P.active_game_id(soup)
+        eco_ok = store.exists(f"{mkey}/economy.html")
+        economy = P.parse_economy(store.read(f"{mkey}/economy.html")) if eco_ok else {}
+        mid = hdr["match_id"] or int(md.name.split("_")[1])
+        matches_rows.append({"event_id": eid, **hdr, "match_id": mid,
+                             "mapas_listados": len(nav),
+                             "mapas_jogados": sum(g["played"] for g in nav)})
+        if not nav:
+            maps_rows.append({"event_id": eid, "match_id": mid, "game_id": None, "map_order": None,
+                              "map_name": None, "played": None, "status": "sem_mapas",
+                              "status_detail": "partida sem lista de mapas (W.O.?)", "n_rounds": 0})
+        for g in nav:
+            row = {"event_id": eid, "match_id": mid, **g, "n_rounds": 0}
+            if not g["played"]:
+                row.update(status=P.MAP_STATUS_NOT_PLAYED,
+                           status_detail="mapa não jogado (série decidida antes)")
+                maps_rows.append(row)
+                continue
+            ghtml = game_html(store, mkey, g["game_id"], soup, active)
+            if ghtml is None:
+                row.update(status="nao_baixado", status_detail="rode 'coletar' novamente")
+                maps_rows.append(row)
+                continue
+            gl = P.parse_game_logs(ghtml, g["game_id"])
+            eco_rounds = economy.get(g["game_id"], [])
+            row.update(status=gl.status, status_detail=gl.status_detail, n_rounds=len(gl.rounds),
+                       economia_status=_economy_status(gl.rounds, eco_rounds, eco_ok))
+            maps_rows.append(row)
+            if gl.rounds:
+                meta = {"event_id": eid, "match_id": mid, "map_name": g["map_name"],
+                        "map_order": g["map_order"], "map_status": gl.status,
+                        "economia_status": row["economia_status"]}
+                rdf = pd.DataFrame(P.as_dicts(gl.rounds))
+                if eco_rounds:
+                    rdf = rdf.merge(pd.DataFrame(P.as_dicts(eco_rounds)),
+                                    on=["game_id", "round_number"], how="left")
+                rounds_all.append(rdf.assign(**meta))
+                players_all.append(pd.DataFrame(P.as_dicts(gl.players)).assign(**meta))
+                events_all.append(pd.DataFrame(P.as_dicts(gl.events)).assign(**meta))
+
+    def juntar(parts):
+        return pd.concat(parts, ignore_index=True) if parts else None
+    return {"event_id": eid, "partidas": len(matches_rows), "matches_rows": matches_rows, "maps_rows": maps_rows,
+            "rounds": juntar(rounds_all), "players": juntar(players_all), "events": juntar(events_all)}
+
+
+def _n_processos(pedido: int | None, n_eventos: int) -> int:
+    if pedido is not None:
+        return max(1, min(pedido, max(n_eventos, 1)))
+    return max(1, min(os.cpu_count() or 1, n_eventos, 8))
+
+
 def process(prices_path: Path = DEFAULT_PRICES, raw_dir: Path | None = None,
-            out_dir: Path | None = None, formato: str = "parquet") -> dict[str, pd.DataFrame]:
+            out_dir: Path | None = None, formato: str = "parquet",
+            processos: int | None = None) -> dict[str, pd.DataFrame]:
     """Lê o cache bruto e grava as tabelas finais.
 
     raw_dir: padrão <dados>/raw · out_dir: padrão <dados>/processed · formato: parquet ou csv.
+    processos: quantos eventos ler em paralelo (padrão: nº de núcleos, até 8; 1 = sem paralelismo).
+    O resultado não depende do número de processos: os eventos são juntados sempre na mesma ordem.
     """
     store = S.RawStore(S.paths().raw if raw_dir is None else raw_dir)
     out_dir = S.paths().processed if out_dir is None else Path(out_dir)
     prices = load_prices(prices_path)
+    ev_names = [d.name for d in store.event_dirs()]
+    n_proc = _n_processos(processos, len(ev_names))
+    log.info("processando %d eventos com %d processo(s)", len(ev_names), n_proc)
+
+    t0 = time.time()
+    resultados, n_part = {}, 0
+
+    def registrar(res, k):
+        nonlocal n_part
+        resultados[res["event_id"]] = res
+        n_part += res["partidas"]
+        dt = time.time() - t0
+        log.info("evento %s pronto (%d/%d) | %d partidas até agora | %.0f s (%.2f s/partida)",
+                 res["event_id"], k, len(ev_names), n_part, dt, dt / max(n_part, 1))
+
+    if n_proc == 1:
+        for k, name in enumerate(ev_names, 1):
+            registrar(_processar_evento(str(store.root), name), k)
+    else:
+        # "spawn" em todos os sistemas: o Jupyter/Colab roda com várias threads, e "fork" nesse
+        # caso pode travar o processo filho (e é o que o Windows já usa por padrão)
+        with ProcessPoolExecutor(max_workers=n_proc, mp_context=multiprocessing.get_context("spawn")) as ex:
+            futs = [ex.submit(_processar_evento, str(store.root), name) for name in ev_names]
+            for k, fut in enumerate(as_completed(futs), 1):
+                registrar(fut.result(), k)
+
     matches_rows, maps_rows = [], []
     rounds_all, players_all, events_all = [], [], []
-
-    ev_dirs = store.event_dirs()
-    for n_ev, ev_dir in enumerate(ev_dirs, 1):
-        eid = int(ev_dir.name.split("_")[1])
-        mdirs = store.match_dirs(ev_dir)
-        log.info("processando evento %s (%d/%d, %d partidas)", eid, n_ev, len(ev_dirs), len(mdirs))
-        for md in mdirs:
-            mkey = store.key_of(md)
-            if not store.exists(f"{mkey}/logs.html"):
-                continue
-            html = store.read(f"{mkey}/logs.html")
-            hdr = P.parse_match_header(html)
-            nav = P.parse_games_nav(html)
-            active = P.active_game_id(html)
-            eco_ok = store.exists(f"{mkey}/economy.html")
-            economy = P.parse_economy(store.read(f"{mkey}/economy.html")) if eco_ok else {}
-            mid = hdr["match_id"] or int(md.name.split("_")[1])
-            matches_rows.append({"event_id": eid, **hdr, "match_id": mid,
-                                 "mapas_listados": len(nav),
-                                 "mapas_jogados": sum(g["played"] for g in nav)})
-            if not nav:
-                maps_rows.append({"event_id": eid, "match_id": mid, "game_id": None, "map_order": None,
-                                  "map_name": None, "played": None, "status": "sem_mapas",
-                                  "status_detail": "partida sem lista de mapas (W.O.?)", "n_rounds": 0})
-            for g in nav:
-                row = {"event_id": eid, "match_id": mid, **g, "n_rounds": 0}
-                if not g["played"]:
-                    row.update(status=P.MAP_STATUS_NOT_PLAYED,
-                               status_detail="mapa não jogado (série decidida antes)")
-                    maps_rows.append(row)
-                    continue
-                ghtml = game_html(store, mkey, g["game_id"], html, active)
-                if ghtml is None:
-                    row.update(status="nao_baixado", status_detail="rode 'coletar' novamente")
-                    maps_rows.append(row)
-                    continue
-                gl = P.parse_game_logs(ghtml, g["game_id"])
-                eco_rounds = economy.get(g["game_id"], [])
-                row.update(status=gl.status, status_detail=gl.status_detail, n_rounds=len(gl.rounds),
-                           economia_status=_economy_status(gl.rounds, eco_rounds, eco_ok))
-                maps_rows.append(row)
-                if gl.rounds:
-                    meta = {"event_id": eid, "match_id": mid, "map_name": g["map_name"],
-                            "map_order": g["map_order"], "map_status": gl.status,
-                            "economia_status": row["economia_status"]}
-                    rdf = pd.DataFrame(P.as_dicts(gl.rounds))
-                    if eco_rounds:
-                        rdf = rdf.merge(pd.DataFrame(P.as_dicts(eco_rounds)),
-                                        on=["game_id", "round_number"], how="left")
-                    rounds_all.append(rdf.assign(**meta))
-                    players_all.append(pd.DataFrame(P.as_dicts(gl.players)).assign(**meta))
-                    events_all.append(pd.DataFrame(P.as_dicts(gl.events)).assign(**meta))
+    for eid in sorted(resultados):            # ordem fixa, independente de qual processo terminou antes
+        res = resultados[eid]
+        matches_rows += res["matches_rows"]
+        maps_rows += res["maps_rows"]
+        for key, dest in (("rounds", rounds_all), ("players", players_all), ("events", events_all)):
+            if res[key] is not None:
+                dest.append(res[key])
 
     partidas = pd.DataFrame(matches_rows)
     mapas = pd.DataFrame(maps_rows)
@@ -510,6 +563,8 @@ def main(argv=None):
 
     s4 = sub.add_parser("processar", help="gera as tabelas (Parquet) a partir do cache")
     s4.add_argument("--precos", type=Path, default=DEFAULT_PRICES)
+    s4.add_argument("--processos", type=int, default=None,
+                    help="eventos lidos em paralelo (padrão: nº de núcleos, até 8; 1 = sem paralelismo)")
 
     s5 = sub.add_parser("amostra", help="gera CSVs de exemplo a partir das páginas salvas em tests/fixtures (sem rede)")
     s5.add_argument("--precos", type=Path, default=DEFAULT_PRICES)
@@ -523,7 +578,7 @@ def main(argv=None):
         _print_summary(build_sample(prices_path=a.precos), pth.amostra, "csv")
         return
     if a.cmd == "processar":
-        _print_summary(process(a.precos), pth.processed, "parquet")
+        _print_summary(process(a.precos, processos=a.processos), pth.processed, "parquet")
         return
 
     f = Fetcher(a.min_delay, a.max_delay)

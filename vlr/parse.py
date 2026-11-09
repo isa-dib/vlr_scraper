@@ -41,7 +41,14 @@ from bs4 import BeautifulSoup
 _DIGITS = re.compile(r"\d+")
 
 
-def soup_of(html: str) -> BeautifulSoup:
+def soup_of(html) -> BeautifulSoup:
+    """HTML (str) -> BeautifulSoup. Se já for um BeautifulSoup, devolve o mesmo objeto.
+
+    Todas as funções parse_* aceitam qualquer um dos dois. Passar o objeto já lido evita ler o
+    mesmo HTML várias vezes (a página da partida é usada por cabeçalho, mapas e mapa ativo).
+    """
+    if isinstance(html, BeautifulSoup):
+        return html
     try:
         return BeautifulSoup(html, "lxml")
     except Exception:  # lxml ausente
@@ -135,7 +142,7 @@ def parse_event_matches(html: str) -> list[dict]:
 # cabeçalho e navegação de mapas de uma partida
 # ----------------------------------------------------------------------------
 
-def parse_match_header(html: str) -> dict:
+def parse_match_header(html: str | BeautifulSoup) -> dict:
     s = soup_of(html)
     hdr = s.select_one(".match-header")
     names = [_txt(x) for x in s.select(".match-header-link-name .wf-title-med")]
@@ -170,7 +177,7 @@ def parse_match_header(html: str) -> dict:
     }
 
 
-def parse_games_nav(html: str) -> list[dict]:
+def parse_games_nav(html: str | BeautifulSoup) -> list[dict]:
     """Lista de mapas da série, na ordem, com o status de 'jogado'.
 
     data-disabled="1" significa que o mapa NÃO foi jogado (série acabou antes).
@@ -267,7 +274,7 @@ def _game_container(s: BeautifulSoup, game_id: int):
     return s.select_one(f'.vm-stats-game[data-game-id="{game_id}"]')
 
 
-def active_game_id(html: str) -> Optional[int]:
+def active_game_id(html: str | BeautifulSoup) -> Optional[int]:
     s = soup_of(html)
     g = s.select_one(".vm-stats-game.mod-active")
     if g is None:
@@ -276,7 +283,7 @@ def active_game_id(html: str) -> Optional[int]:
     return int(gid) if gid and gid.isdigit() else None
 
 
-def parse_game_logs(html: str, game_id: int) -> GameLogs:
+def parse_game_logs(html: str | BeautifulSoup, game_id: int) -> GameLogs:
     s = soup_of(html)
     g = _game_container(s, game_id)
     if g is None:
@@ -496,7 +503,7 @@ class EconomyRound:
     winner_eco: Optional[int]        # vencedor segundo a aba Economy (para conferência)
 
 
-def parse_economy(html: str) -> dict[int, list[EconomyRound]]:
+def parse_economy(html: str | BeautifulSoup) -> dict[int, list[EconomyRound]]:
     """Rounds por mapa a partir da aba Economy.
 
     A faixa sempre tem 24 colunas; rounds não disputados vêm vazios (sem title)

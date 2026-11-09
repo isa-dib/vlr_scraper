@@ -333,3 +333,14 @@ def test_coletar_interrompida_ainda_gera_as_tabelas(tmp_path, monkeypatch):
     colab.coletar([2766])
     assert (S.paths().processed / "rounds.parquet").exists()
     assert len(pd.read_parquet(S.paths().processed / "rounds.parquet")) == 44
+
+
+def test_processar_em_paralelo_da_o_mesmo_resultado(tmp_path):
+    S.configurar(tmp_path / "dados")
+    st = S.RawStore(S.paths().raw)
+    for dest, src in C.SAMPLE_LAYOUT.items():
+        st.write(dest, (FX / src).read_text(encoding="utf-8"))
+    seq = C.process(out_dir=tmp_path / "seq", processos=1)
+    par = C.process(out_dir=tmp_path / "par", processos=2)
+    for nome in ("partidas", "mapas", "rounds", "jogadores_rounds", "eventos_round", "cobertura_por_evento"):
+        pd.testing.assert_frame_equal(seq[nome], par[nome], check_dtype=False)

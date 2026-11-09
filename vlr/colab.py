@@ -116,8 +116,12 @@ def coletar(eventos: list[int], max_partidas: int | None = None, processar_ao_fi
     return resumo
 
 
-def processar(prices_path: Path = DEFAULT_PRICES) -> dict[str, pd.DataFrame]:
-    out = C.process(prices_path)
+def processar(prices_path: Path = DEFAULT_PRICES, processos: int | None = None) -> dict[str, pd.DataFrame]:
+    """Gera os Parquet de <dados>/processed a partir de <dados>/raw, sem acessar o site.
+
+    processos: eventos lidos em paralelo (padrão: nº de núcleos, até 8; 1 = sem paralelismo).
+    """
+    out = C.process(prices_path, processos=processos)
     C._print_summary(out, S.paths().processed, "parquet")
     return out
 

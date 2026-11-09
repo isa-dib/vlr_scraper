@@ -160,8 +160,10 @@ Python: Select Interpreter*). As extensões *Python* e *Jupyter* precisam estar 
 python -m vlr.crawl --dados "G:\Meu Drive\TCC\vlr_dados" processar
 ```
 
-Use o caminho da sua pasta, entre aspas. O comando mostra o progresso evento a evento e grava os
-Parquet em `vlr_dados/processed/`. Se a pasta for a do Google Drive para computador, eles também
+Use o caminho da sua pasta, entre aspas. O comando lê vários eventos em paralelo (um por núcleo do
+processador, até 8; `--processos N` escolhe outro número e `--processos 1` desliga), mostra o
+progresso evento a evento, com o tempo médio por partida, e grava os Parquet em
+`vlr_dados/processed/`. Se a pasta for a do Google Drive para computador, eles também
 sincronizam com o Drive. Com o mesmo `--dados`, os comandos `coletar` e `sondar` também funcionam
 localmente, se um dia você quiser completar a coleta pelo computador.
 
@@ -440,6 +442,16 @@ leitura é mais rápida e não exige reconverter colunas. Em tabelas grandes, fi
 que o CSV equivalente (em tabelas minúsculas, como a amostra, o cabeçalho do formato pesa mais e
 o CSV acaba menor). As amostras ficam em CSV porque servem para inspeção a olho, no Sheets ou no
 Excel.
+
+**16. Processamento em paralelo e leitura única da página da partida.**
+Quase todo o tempo do `processar` é leitura de HTML (as páginas têm de 500 a 850 KB). A página da
+partida é lida uma única vez e reaproveitada para o cabeçalho, a lista de mapas e o mapa ativo
+(antes, ela era lida três vezes). Os eventos são processados em paralelo, um por núcleo, e
+juntados sempre na mesma ordem, então o resultado não depende do número de processos (há um teste
+que compara 1 e 2 processos). Os processos usam o modo `spawn`, porque `fork` pode travar dentro do
+Jupyter/Colab. Medição com 36 partidas numa máquina de 2 núcleos: 1,18 s/partida antes; 0,81 s
+com a leitura única; 0,42 s com 2 processos. Com mais núcleos, o ganho cresce quase na mesma
+proporção.
 
 ---
 
