@@ -235,6 +235,7 @@ A coluna `economia_status` diz se a aba Economy daquele mapa foi lida e bate com
 
 | Arquivo | Conteúdo |
 |---|---|
+| `eventos_tier60` | eventos da lista do tier 60 salva em `raw/eventos/` (para a verificação de escopo na análise) |
 | `cobertura_por_evento` | contagem por status e `pct_jogados_com_replay = ok / mapas_jogados` (mapas não jogados ficam de fora) |
 | `jogadores_rounds` | economia por jogador e round, com preço de arma, armadura e loadout (auditoria) |
 | `eventos_round` | kills, plants e defuses com tempo, autor, vítima, arma e tipo de morte |
@@ -252,8 +253,10 @@ O notebook `analise/analise_descritiva.ipynb` é independente do código de cole
 amostra direto do GitHub, para testar sem a coleta. Ele:
 
 1. mostra o inventário da base coletada;
-2. tira as partidas **fora do escopo** do estudo: showmatches, open qualifiers e séries Bo1
-   (cada exclusão pode ser desligada na configuração; as qualificatórias fechadas continuam);
+2. tira as partidas **fora do escopo** do estudo: eventos fora do tier 60, showmatches, open
+   qualifiers e séries Bo1 (cada exclusão pode ser desligada na configuração; as qualificatórias
+   fechadas continuam). A verificação do tier 60 usa `eventos_tier60` e só é aplicada se a lista
+   estiver completa (ver abaixo);
 3. aplica regras explícitas de validade (nível mapa e nível round) e mostra o **funil de limpeza**:
    antes da limpeza, fora do escopo, inválidos por regra e válidos, em mapas e em rounds;
 4. faz a análise descritiva e cria as variáveis processadas (`win_count`, `loss_count`,
@@ -266,6 +269,14 @@ amostra direto do GitHub, para testar sem a coleta. Ele:
 Saídas em `<dados>/transformed/` (Parquet): `rounds_validos`, `rounds_time` (formato por time,
 com as variáveis processadas), `mapas_limpeza`, `partidas_escopo`, `funil_mapas`, `funil_rounds`, `regras_round`,
 `resumo_limpeza` e as figuras em `figuras/`.
+
+**Lista de eventos do tier 60.** O `processar` gera `processed/eventos_tier60.parquet` a partir
+das páginas de `/events/?tier=60` já salvas em `raw/eventos/`, sem acessar o site. A tabela registra
+quantas páginas da lista estão no cache (`paginas_lidas`, `paginas_total` e `lista_completa`). Para
+a lista ficar completa e atualizada, rode `colab.listar_eventos(atualizar=True)` (ou
+`python -m vlr.crawl listar-eventos --atualizar`) e depois `processar`. Com a lista incompleta, o
+notebook de análise avisa e não aplica a verificação, para não excluir por engano eventos das
+páginas que faltam.
 
 ---
 

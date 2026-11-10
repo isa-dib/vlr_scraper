@@ -24,6 +24,7 @@ import logging
 import multiprocessing
 import os
 import random
+import re
 import shutil
 import sys
 import tempfile
@@ -493,9 +494,42 @@ def process(prices_path: Path = DEFAULT_PRICES, raw_dir: Path | None = None,
         cov = cov.merge(names, on="event_id", how="left").merge(n_part, on="event_id", how="left")
         out["cobertura_por_evento"] = cov
 
+    ev = eventos_tier60(store)
+    if ev is not None:
+        out["eventos_tier60"] = ev
+    else:
+        log.warning("raw/eventos/ não tem a lista de eventos do tier 60: eventos_tier60 não foi gerada "
+                    "(rode listar-eventos / colab.listar_eventos() para baixá-la)")
+
     for name, df in out.items():
         S.salvar_tabela(df, out_dir, name, formato)
     return out
+
+
+def eventos_tier60(store: S.RawStore) -> pd.DataFrame | None:
+    """Lista de eventos do tier 60 a partir das páginas já salvas em raw/eventos/ (sem acessar o site).
+
+    Inclui eventos de qualquer status (concluído, em andamento, futuro) e registra quantas páginas
+    da lista estão no cache (paginas_lidas) e quantas existiam (paginas_total), para o notebook de
+    análise saber se a lista está completa.
+    """
+    pasta = store.root / "eventos"
+    paginas = {}
+    for p in pasta.glob("tier60_page_*.html*"):
+        m = re.match(r"tier60_page_(\d+)\.html", p.name)
+        if m:
+            paginas[int(m.group(1))] = events_page_key(int(m.group(1)))
+    if not paginas:
+        return None
+    total = P.parse_events_last_page(store.read(paginas[min(paginas)]))
+    rows = []
+    for n in sorted(paginas):
+        rows += [dict(r, pagina=n) for r in P.parse_events_list(store.read(paginas[n]))]
+    df = pd.DataFrame(rows).drop_duplicates("event_id")
+    df["paginas_lidas"] = ",".join(str(n) for n in sorted(paginas))
+    df["paginas_total"] = max(total, max(paginas))
+    df["lista_completa"] = set(range(1, int(df["paginas_total"].iloc[0]) + 1)) <= set(paginas)
+    return df.reset_index(drop=True)
 
 
 # ----------------------------------------------------------------------------
@@ -510,6 +544,7 @@ SAMPLE_LAYOUT = {
     "event_2766/match_754732/game_283272.html": "match_754732_game_283272_logs.html",
     "event_2766/match_754732/economy.html": "match_754732_economy.html",
     "event_3105/match_748619/logs.html": "match_748619_noreplay_logs.html",      # já traz Summit
+    "eventos/tier60_page_1.html": "events_tier60.html",                          # só a 1ª das 6 páginas
 }
 
 

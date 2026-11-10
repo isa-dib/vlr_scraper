@@ -344,3 +344,21 @@ def test_processar_em_paralelo_da_o_mesmo_resultado(tmp_path):
     par = C.process(out_dir=tmp_path / "par", processos=2)
     for nome in ("partidas", "mapas", "rounds", "jogadores_rounds", "eventos_round", "cobertura_por_evento"):
         pd.testing.assert_frame_equal(seq[nome], par[nome], check_dtype=False)
+
+
+def test_processar_gera_lista_do_tier60_a_partir_do_cache(tmp_path):
+    S.configurar(tmp_path / "dados")
+    st = S.RawStore(S.paths().raw)
+    for dest, src in C.SAMPLE_LAYOUT.items():
+        st.write(dest, (FX / src).read_text(encoding="utf-8"))
+    ev = C.process()["eventos_tier60"]
+    assert {2766, 3105} <= set(ev["event_id"])
+    assert (ev["paginas_total"] == 6).all() and not ev["lista_completa"].any()   # só a página 1 no cache
+    assert (S.paths().processed / "eventos_tier60.parquet").exists()
+
+
+def test_sem_paginas_de_eventos_nao_gera_a_lista(tmp_path):
+    S.configurar(tmp_path / "dados")
+    st = S.RawStore(S.paths().raw)
+    st.write("event_2766/match_754732/logs.html", LOTUS)
+    assert "eventos_tier60" not in C.process()
