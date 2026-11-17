@@ -259,16 +259,20 @@ amostra direto do GitHub, para testar sem a coleta. Ele:
    estiver completa (ver abaixo);
 3. aplica regras explícitas de validade (nível mapa e nível round) e mostra o **funil de limpeza**:
    antes da limpeza, fora do escopo, inválidos por regra e válidos, em mapas e em rounds;
-4. faz a análise descritiva e cria as variáveis processadas (`win_count`, `loss_count`,
+4. mostra a visão quantitativa da base, coletada e válida: torneios, partidas, mapas, rounds,
+   jogadores e times distintos, mortes, abates, médias de rounds por partida e K/D médio por
+   jogador por partida, também por torneio. As assistências e o KDA não estão disponíveis, porque
+   o 2D Replay não registra assistências;
+5. faz a análise descritiva e cria as variáveis processadas (`win_count`, `loss_count`,
    `score_diff`, `streak`, `loss_streak`, resultado do round anterior, tendência de kills,
    diferenças de loadout e créditos), todas calculadas só com o que se sabe antes do round;
-5. faz a análise estatística ligada às hipóteses H1 a H3 (lado, tipo de compra, diferença de
+6. faz a análise estatística ligada às hipóteses H1 a H3 (lado, tipo de compra, diferença de
    loadout, momentum controlado pela economia, conversão pós-pistol, tamanho do histórico e
    correlações), com IC 95% por bootstrap de mapas.
 
 Saídas em `<dados>/transformed/` (Parquet): `rounds_validos`, `rounds_time` (formato por time,
 com as variáveis processadas), `mapas_limpeza`, `partidas_escopo`, `funil_mapas`, `funil_rounds`, `regras_round`,
-`resumo_limpeza` e as figuras em `figuras/`.
+`resumo_limpeza`, `visao_quantitativa` e as figuras em `figuras/`.
 
 **Lista de eventos do tier 60.** O `processar` gera `processed/eventos_tier60.parquet` a partir
 das páginas de `/events/?tier=60` já salvas em `raw/eventos/`, sem acessar o site. A tabela registra
