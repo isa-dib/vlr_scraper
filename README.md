@@ -58,7 +58,7 @@ MyDrive/TCC/vlr_dados/
 |---|---|
 | `colab.preparar(pasta, min_delay=3, max_delay=6)` | monta o Drive, cria as subpastas e define o intervalo entre requisições |
 | `colab.amostra()` | gera os CSVs de amostra em `amostra/`, sem acessar o site |
-| `colab.listar_eventos(paginas=None)` | eventos concluídos do tier 60 (todas as páginas) → `eventos_concluidos.parquet` |
+| `colab.listar_eventos(paginas=None, atualizar=False)` | lista de eventos do tier 60 (todas as páginas); devolve e grava `eventos_tier60.parquet` (usada na análise) e `eventos_concluidos.parquet` |
 | `colab.sondar(eventos=None)` | sondagem de 2D replay → `sondagem_replay.parquet` |
 | `colab.coletar(eventos, max_partidas=None)` | baixa os eventos para `raw/` e gera os Parquet ao final |
 | `colab.processar()` | regera os Parquet a partir de `raw/`, sem baixar nada |
@@ -278,7 +278,8 @@ com as variáveis processadas), `mapas_limpeza`, `partidas_escopo`, `funil_mapas
 das páginas de `/events/?tier=60` já salvas em `raw/eventos/`, sem acessar o site. A tabela registra
 quantas páginas da lista estão no cache (`paginas_lidas`, `paginas_total` e `lista_completa`). Para
 a lista ficar completa e atualizada, rode `colab.listar_eventos(atualizar=True)` (ou
-`python -m vlr.crawl listar-eventos --atualizar`) e depois `processar`. Com a lista incompleta, o
+`python -m vlr.crawl listar-eventos --atualizar`): ele já grava `eventos_tier60.parquet`, sem
+precisar rodar `processar` de novo. Com a lista incompleta, o
 notebook de análise avisa e não aplica a verificação, para não excluir por engano eventos das
 páginas que faltam.
 

@@ -620,6 +620,7 @@ def main(argv=None):
     if a.cmd == "listar-eventos":
         df = list_events(f, a.paginas, a.atualizar)
         S.salvar_tabela(df, pth.processed, "eventos_concluidos")
+        S.salvar_tabela(eventos_tier60(f.store), pth.processed, "eventos_tier60")
         with pd.option_context("display.max_rows", None, "display.width", 200):
             print(df[["event_id", "event_name", "dates", "region", "page"]].to_string(index=False))
     elif a.cmd == "sondar":

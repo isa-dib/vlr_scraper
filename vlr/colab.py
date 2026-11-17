@@ -73,10 +73,25 @@ def amostra(prices_path: Path = DEFAULT_PRICES) -> dict[str, pd.DataFrame]:
 
 
 def listar_eventos(paginas: int | None = None, atualizar: bool = False) -> pd.DataFrame:
-    df = C.list_events(_fetcher(), paginas, atualizar)
-    dest = S.salvar_tabela(df, S.paths().processed, "eventos_concluidos")
-    print(f"{len(df)} eventos concluídos -> {dest}")
-    return df
+    """Baixa a lista de eventos do tier 60 e devolve a tabela eventos_tier60.
+
+    Grava em <dados>/processed:
+    * eventos_tier60.parquet: todos os eventos da lista (qualquer status), com pagina,
+      paginas_lidas, paginas_total e lista_completa. É a tabela que o notebook de análise usa
+      para verificar o tier 60, então não é preciso rodar processar() depois.
+    * eventos_concluidos.parquet: só os concluídos (os candidatos à coleta).
+
+    atualizar=True baixa as páginas de novo (6 requisições), mesmo que já estejam em raw/eventos/.
+    """
+    f = _fetcher()
+    concluidos = C.list_events(f, paginas, atualizar)
+    S.salvar_tabela(concluidos, S.paths().processed, "eventos_concluidos")
+    eventos = C.eventos_tier60(f.store)
+    dest = S.salvar_tabela(eventos, S.paths().processed, "eventos_tier60")
+    print(f"{len(eventos)} eventos no tier 60 ({len(concluidos)} concluídos) -> {dest}")
+    print(f"lista completa: {bool(eventos['lista_completa'].iloc[0])} "
+          f"(páginas {eventos['paginas_lidas'].iloc[0]} de {int(eventos['paginas_total'].iloc[0])})")
+    return eventos
 
 
 def sondar(eventos: list[int] | None = None, paginas: int | None = None) -> pd.DataFrame:

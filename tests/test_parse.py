@@ -362,3 +362,19 @@ def test_sem_paginas_de_eventos_nao_gera_a_lista(tmp_path):
     st = S.RawStore(S.paths().raw)
     st.write("event_2766/match_754732/logs.html", LOTUS)
     assert "eventos_tier60" not in C.process()
+
+
+def test_listar_eventos_devolve_e_grava_eventos_tier60(tmp_path, monkeypatch):
+    from vlr import colab
+    colab.preparar(tmp_path / "dados", montar=False)
+    pagina = (FX / "events_tier60.html").read_text(encoding="utf-8")
+
+    def fake_get(self, path, key, refresh=False):
+        self.store.write(key, pagina)              # mesma página para as 6 (só para o teste)
+        return pagina
+    monkeypatch.setattr(C.Fetcher, "get", fake_get)
+    eventos = colab.listar_eventos(atualizar=True)
+    assert {"event_id", "status", "pagina", "lista_completa"} <= set(eventos.columns)
+    assert bool(eventos["lista_completa"].iloc[0])
+    assert (S.paths().processed / "eventos_tier60.parquet").exists()
+    assert (S.paths().processed / "eventos_concluidos.parquet").exists()
